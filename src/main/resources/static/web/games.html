@@ -16,14 +16,17 @@
                     <th>Player</th>
                     <th>Score</th>
                     <th>Win</th>
-                    <th>Loss</th>
                     <th>Tie</th>
+                    <th>Loss</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="name in players">
-                    <th > {{name}} </th>
-                    <td></td>
+                    <th >{{name.user}} </th>
+                    <td>{{name.score}}</td>
+                    <td>{{name.win}}</td>
+                    <td>{{name.tie}}</td>
+                    <td>{{name.loss}}</td>
                 </tr>
             </tbody>
         </table>

@@ -29,8 +29,6 @@ public class SalvoApplication {
 			repository.save(player3);
 			Player player4 = new Player( "t.almeida@ctu.gov");
 			repository.save(player4);
-			Player player5 = new Player ( "N/A");
-			repository.save (player5);
 
 			Ship ship1 = new Ship ( "Destroyer", Arrays.asList ( "H2", "H3", "H4" ));
 			Ship ship2 = new Ship ( "Submarine", Arrays.asList ( "E1", "F1", "G1" ));
@@ -170,13 +168,9 @@ public class SalvoApplication {
 			gamePlayer11.addShip ( ship22);
 			gamePlayer11.addShip ( ship23);
 			gamePlayerRepository.save( gamePlayer11);
-			GamePlayer gamePlayer12 = new GamePlayer( player5, game6);
-			gamePlayerRepository.save( gamePlayer12);
 
 			GamePlayer gamePlayer13 = new GamePlayer( player4, game7);
 			gamePlayerRepository.save( gamePlayer13);
-			GamePlayer gamePlayer14 = new GamePlayer (player5, game7);
-			gamePlayerRepository.save( gamePlayer14);
 
 			GamePlayer gamePlayer15 = new GamePlayer( player3, game8);
 			gamePlayer15.addShip ( ship24);

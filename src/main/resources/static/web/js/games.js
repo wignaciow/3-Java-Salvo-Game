@@ -3,7 +3,8 @@ var vue = new Vue({
     data: {
         gamesInfo: [],
         gamePlayersInfo: [],
-        players: [];
+        gameFinish: [],
+        players: [],
    },
     methods: {
         gamesData: function () {
@@ -15,22 +16,40 @@ var vue = new Vue({
         },
         gamesPlayerData: function () {
             vue.gamesInfo.forEach(gg => {
-            vue.gamePlayersInfo.push(gg.gamePlayers);
+                gg.gamePlayers.forEach(gp => {
+                if (gp.scores != null)
+                    vue.gamePlayersInfo.push(gp)
+                })
             })
         },
         playerData: function () {
-            var allPlayers = {
-                   userName: "";
-                   score: 0;
-                   win: 0;
-                   tie: 0;
-                   loss: 0;
-                 }
             for (var i = 0; i < vue.gamePlayersInfo.length; i++ ) {
-                var index =  scores.findIndex(scorePlayer => scorePlayer.player === gamePlayers[j].player.userName);
-            }
+                var index =  vue.players.findIndex(allPlayers => allPlayers.user === vue.gamePlayersInfo[i].player.userName);
+                if (index == -1) {
+                    var allPlayers = {
+                        user: vue.gamePlayersInfo[i].player.userName,
+                        score: 0,
+                        loss: 0,
+                        tie: 0,
+                        win: 0,
+                    };
+                    if (vue.gamePlayersInfo[i].scores.score == 0.0) {allPlayers.loss ++}
+                    else if (vue.gamePlayersInfo[i].scores.score == 0.5) {allPlayers.tie ++}
+                    else if (vue.gamePlayersInfo[i].scores.score == 1.0) {allPlayers.win ++};
 
+                    allPlayers.score += vue.gamePlayersInfo[i].scores.score;
+                    vue.players.push(allPlayers);
+
+                } else {
+                    if (vue.gamePlayersInfo[i].scores.score == 0.0) {vue.players[index].loss ++}
+                    else if (vue.gamePlayersInfo[i].scores.score == 0.5) {vue.players[index].tie ++}
+                    else if (vue.gamePlayersInfo[i].scores.score == 1.0) {vue.players[index].win ++};
+
+                    vue.players[index].score += vue.gamePlayersInfo[i].scores.score;
+
+                }
+            }
         }
-     }
+    }
 })
 vue.gamesData();
