@@ -9,7 +9,7 @@ var vue = new Vue({
     methods: {
         gamesData: function () {
         $.getJSON("/api/games", function (data) {
-            vue.gamesInfo = data;
+            vue.gamesInfo = data.games;
             vue.gamesPlayerData();
             vue.playerData();
         })

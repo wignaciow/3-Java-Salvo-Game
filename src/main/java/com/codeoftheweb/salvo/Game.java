@@ -43,7 +43,6 @@ public class Game {
         return dto;
     }
 
-
     public Set<GamePlayer> getGamePlayers() { return gamePlayers; }
 
     public void setGamePlayers(Set<GamePlayer> gamePlayers) { this.gamePlayers = gamePlayers; }

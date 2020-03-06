@@ -21,6 +21,8 @@ public class Player {
 
     private String userName;
 
+    private String password;
+
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
@@ -31,8 +33,9 @@ public class Player {
     public Player() {
     }
 
-    public Player(String user) {
+    public Player(String user, String password) {
         this.userName = user;
+        this.password = password;
     }
 
     public Map<String, Object> toDTO() {
@@ -60,5 +63,13 @@ public class Player {
 
     public Score getScore(Game game) {
         return this.scores.stream().filter (sc -> sc.getGame().getId() == game.getId()).findFirst ().orElse (null);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
