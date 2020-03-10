@@ -2,11 +2,15 @@ var vue = new Vue({
     el: '#app',
     data: {
         gamesInfo: [],
+        users: { userName: [], password: []  },
         gamePlayersInfo: [],
         gameFinish: [],
         players: [],
    },
     methods: {
+        logIn: function () {
+            
+        }
         gamesData: function () {
         $.getJSON("/api/games", function (data) {
             vue.gamesInfo = data.games;
