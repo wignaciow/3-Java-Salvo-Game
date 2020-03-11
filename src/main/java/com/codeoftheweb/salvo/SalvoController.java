@@ -71,7 +71,7 @@ public class SalvoController {
         if (player != null) {
             return new ResponseEntity<>(makeMap("error", "Username already exists"), HttpStatus.CONFLICT);
         }
-        Player newPlayer = playerRepository.save(new Player(userName, password));
+        Player newPlayer = playerRepository.save(new Player(userName, passwordEncoder.encode(password)));
         return new ResponseEntity<>(makeMap("id", newPlayer.getId()), HttpStatus.CREATED);
     }
 

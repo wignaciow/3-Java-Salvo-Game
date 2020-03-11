@@ -2,15 +2,50 @@ var vue = new Vue({
     el: '#app',
     data: {
         gamesInfo: [],
-        users: { userName: [], password: []  },
         gamePlayersInfo: [],
         gameFinish: [],
         players: [],
-   },
+        user: "",
+        userName: [],
+        password: [],
+    },
     methods: {
         logIn: function () {
-            
-        }
+            if (vue.userName == "" || vue.password == "") {
+                alert ("Please complete all fields");
+            } else {
+                $.post("/api/login", { userName: vue.userName, password: vue.password}).done(function() {
+                   location.reload();
+                   alert ("Log in successful");
+                })
+                .fail(function(){
+                    alert ("Wrong user name or password, Please try again or Sign up");
+                    location.reload();
+                })
+            }
+        },
+        signUp: function(){
+            $.post("/api/players", { userName: vue.userName, password: vue.password})
+            .done(function() {
+            alert ("Sign up successful!");
+                        vue.logIn();
+            })
+
+         },
+        actualUser: function () {
+            $.getJSON("/api/games", function (data) {
+                if ( data.playerLogged !== null) {
+                vue.user = data.playerLogged.userName;
+                } else {
+                vue.user = null;
+                }
+            })
+        },
+        logOut: function(){
+            $.post("/api/logout").done(function()
+                { location.reload();
+            })
+        },
         gamesData: function () {
         $.getJSON("/api/games", function (data) {
             vue.gamesInfo = data.games;
@@ -57,3 +92,4 @@ var vue = new Vue({
     }
 })
 vue.gamesData();
+vue.actualUser();

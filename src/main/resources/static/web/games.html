@@ -10,17 +10,21 @@
     <div id="app">
         <h1>SALVO APPLICATION</h1>
 
-        <form class="form-group">
-            <legend>Log In / Sign Up</legend>
+        <legend>Welcome<h3 v-if="user !== null " > {{user}}!</h3></legend>
+        <form class="form-group" v-if="user == null">
+                <label for="inputEmail" >User Name</label>
+                <input type="mail" class="form-inline" id="inputEmail" aria-describedby="emailHelp" v-model="userName">
             <br>
-                <label for="exampleInputEmail1">User Name</label>
-                <input type="mail" class="form-inline" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label for="inputPassword" >Password</label>
+                <input type="password" class="form-inline" id="inputPassword" v-model="password">
             <br>
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-inline" id="exampleInputPassword1">
-            <br>
-                <button type="submit" class="btn btn-primary">Log In</button>
+            <button type="button" class="btn btn-success" v-on:click="logIn">Log In</button>
+            <button type="button" class="btn btn-primary" v-on:click="signUp">Sign Up</button>
+
         </form>
+
+
+        <button type="button" class="btn btn-dark" v-on:click="logOut" v-if="user !== null ">Log out</button>
 
         <h2>LEADERBOARD</h2>
         <table class="col-6 table ">
