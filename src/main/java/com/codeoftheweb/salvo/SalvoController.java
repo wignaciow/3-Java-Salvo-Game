@@ -9,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -37,11 +34,8 @@ public class SalvoController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public SalvoController() {
-    }
-
     @RequestMapping("/games")
-    public Map<String, Object> Games(Authentication authentication) {
+    public Map<String, Object> Player(Authentication authentication) {
         Map<String, Object> dto = new LinkedHashMap<>();
         if(isGuest(authentication)) {
             dto.put("playerLogged", null);
@@ -53,14 +47,21 @@ public class SalvoController {
         return dto;
         }
 
-    @RequestMapping("/game_view/{gamePlayerId}")
-       public Map<String, Object> gameView(@PathVariable Long gamePlayerId) {
-       return gamePlayerRepository.findById(gamePlayerId).get().toDTOGameView();
-        }
+    @PostMapping("/games")
+    public ResponseEntity<>
 
-    private boolean isGuest(Authentication authentication) {
-        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
-    }
+
+    @RequestMapping("/game_view/{gamePlayerId}")
+       public ResponseEntity<Map<String, Object>>gameView(@PathVariable Long gamePlayerId, Authentication authentication) {
+
+        Player playerLogged = playerRepository.findByUserName(authentication.getName());
+        Optional<GamePlayer> gamePlayer = gamePlayerRepository.findById(gamePlayerId);
+
+        if ( playerLogged.getId() != gamePlayer.get().getPlayer().getId()) {
+            return new ResponseEntity<>(makeMap("error", "Not Allowed to see"), HttpStatus.UNAUTHORIZED);
+        }
+       return new ResponseEntity<>(gamePlayer.get().toDTOGameView(),HttpStatus.OK);
+        }
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createUser(@RequestParam String userName, @RequestParam String password) {
@@ -73,6 +74,13 @@ public class SalvoController {
         }
         Player newPlayer = playerRepository.save(new Player(userName, passwordEncoder.encode(password)));
         return new ResponseEntity<>(makeMap("id", newPlayer.getId()), HttpStatus.CREATED);
+    }
+
+    public SalvoController() {
+    }
+
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
     private Map<String, Object> makeMap(String key, Object value) {

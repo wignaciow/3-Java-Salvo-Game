@@ -23,30 +23,44 @@
 
         </form>
 
-
         <button type="button" class="btn btn-dark" v-on:click="logOut" v-if="user !== null ">Log out</button>
 
-        <h2>LEADERBOARD</h2>
-        <table class="col-6 table ">
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                    <th>Win</th>
-                    <th>Tie</th>
-                    <th>Loss</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="name in players">
-                    <th >{{name.user}} </th>
-                    <td>{{name.score}}</td>
-                    <td>{{name.win}}</td>
-                    <td>{{name.tie}}</td>
-                    <td>{{name.loss}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <section class="col-6">
+            <h2>LEADERBOARD</h2>
+            <table class="col-6 table ">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Score</th>
+                        <th>Win</th>
+                        <th>Tie</th>
+                        <th>Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="name in players">
+                        <th >{{name.user}} </th>
+                        <td>{{name.score}}</td>
+                        <td>{{name.win}}</td>
+                        <td>{{name.tie}}</td>
+                        <td>{{name.loss}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section  >
+            <button v-if="user !== null">Create New Game</button>
+            <ol class="col-6" >
+                <li v-for="game in gamesInfo">{{game.creationDate}}
+                    <ul v-for="gamePlayer in game.gamePlayers">
+                        <li >{{gamePlayer.player.userName}}</li>
+                        <button v-if="user !== null && user == gamePlayer.player.userName">Back to Game</button>
+                        <button v-if="user !== null && user !== gamePlayer.player.userName && game.gamePlayers.length == 1">Join Game</button>
+                    </ul>
+                </li>
+            </ol>
+        </section>
 
 
     </div>
