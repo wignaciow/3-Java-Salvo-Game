@@ -30,7 +30,10 @@ var vue = new Vue({
             alert ("Sign up successful!");
                         vue.logIn();
             })
-
+            .fail(function(){
+             alert ("Wrong user name or password, Try Sign up again!");
+             location.reload();
+             })
          },
         actualUser: function () {
             $.getJSON("/api/games", function (data) {
@@ -88,6 +91,18 @@ var vue = new Vue({
 
                 }
             }
+        },
+        createGame: function () {
+            $.post("/api/games")
+            .done(function(data) {
+             window.open("game.html?gp="+data.gpID, "_blank");
+            })
+        },
+        joinGame: function(gameID) {
+            $.post("/api/games/"+gameID+"/player")
+            .done(function(data) {
+                window.open("game.html?gp="+data.gpID, "_blank");
+        })
         }
     }
 })

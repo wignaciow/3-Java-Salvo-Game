@@ -55,7 +55,7 @@ public class GamePlayer {
         dto.put("date", this.joinDate);
         dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer:: toDTO).collect(toList()));
         dto.put("ships", this.ships.stream().map(Ship:: toDTOships).collect(toList()));
-        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvoes().stream().map(Salvo:: toDTOsalvoes)).collect(toList()));
+        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream().map(Salvo:: toDTOsalvoes)).collect(toList()));
         return dto;
     }
 
@@ -68,7 +68,7 @@ public class GamePlayer {
         salvo.setGamePlayer(this);
         salvos.add(salvo);
     }
-    public Set<Salvo> getSalvoes() {
+    public Set<Salvo> getSalvos() {
         return salvos;
     }
 
@@ -80,7 +80,7 @@ public class GamePlayer {
         this.game = game;
     }
 
-    public long getId() { return id;    }
+    public long getId() { return id; }
 
     public LocalDateTime getJoinDate() {
         return joinDate;
