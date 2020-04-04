@@ -3,3 +3,73 @@ div .table {
     margin: 1%;
 }
 
+.aircraft {
+    background-image: url(../imagenes/lechuga.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.battleShip {
+    background-image: url(../imagenes/zanahoria.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.submarine {
+    background-image: url(../imagenes/pepino.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.destroyer {
+    background-image: url(../imagenes/tomate.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.patrolBoat{
+    background-image: url(../imagenes/limon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+
+.aircraftM {
+    background-image: url(../imagenes/pernil.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.battleShipM {
+    background-image: url(../imagenes/pollo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.submarineM {
+    background-image: url(../imagenes/costillar.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.destroyerM {
+    background-image: url(../imagenes/morcilla.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.patrolBoatM {
+    background-image: url(../imagenes/Chorizo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

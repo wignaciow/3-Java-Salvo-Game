@@ -102,6 +102,7 @@ public class GamePlayer {
         return this.player.getScore (this.game );
     }
 
-
+    public Set<Ship> getShips() {return ships;
+    }
 }
 

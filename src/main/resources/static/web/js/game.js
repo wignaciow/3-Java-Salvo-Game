@@ -3,10 +3,12 @@ var vue = new Vue({
    data: {
         gridNumbers: ["#", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         gridLetters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+        
         gpId: null,
         gpInfo: [],
         player: [],
         opponent: [],
+        newShip: [],
         shipsLocation: [],
         playerSalvos: [],
         opponentSalvos: [],
@@ -23,6 +25,21 @@ var vue = new Vue({
             vue.gpUsers();
             vue.gpPlayerSalvoLocation();
         })
+        },
+        addShips: function () {
+          $.post({
+              url: "/api/games/players/"+vue.gpId+"/ships",
+              data: JSON.stringify(vue.newShip),
+              dataType: "text",
+              contentType: "application/json"
+            })
+            .done(function () {
+              alert("Ships positions saved");
+              location.reload();
+            })
+            .fail(function () {
+              alert("Failed to add ship");
+            })   
         },
         gpShipsLocation: function () {
             vue.gpInfo.ships.forEach(ship => {
@@ -72,6 +89,38 @@ vue.obtainGpId();
 vue.gpInformation();
 
 
+/*var Ships = [
+    {
+        "id" : 1,
+        "name" : "Aircraft",
+        "size": 5,
+        "image": 1,
+    },
+    {
+        "id" : 1,
+        "name" : "Aircraft",
+        "size" : 0,
+        "image" : 0,
+    },
+    {
+        "id" : 1,
+        "name" : "Aircraft",
+        "size" : 0,
+        "image" : 0,
+    },
+    {
+        "id" : 1,
+        "name" : "Aircraft",
+        "size" : 0,
+        "image" : 0,
+    },
+    {
+        "id" : 1,
+        "name" : "Aircraft",
+        "size" : 0,
+        "image" : 0,
+    }
+]*/
 
 
 

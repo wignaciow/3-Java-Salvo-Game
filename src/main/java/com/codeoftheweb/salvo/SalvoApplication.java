@@ -43,13 +43,13 @@ public class SalvoApplication {
 	public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ScoreRepository scoreRepository) {
 		return (args) -> {
 
-			Player player1 = new Player( "j.bauer@ctu.gov", passwordEncoder.encode("24"));
+			Player player1 = new Player( "Jack", "j.bauer@ctu.gov", passwordEncoder.encode("24"));
 			repository.save (player1);
-			Player player2 = new Player( "c.obrian@ctu.gov", passwordEncoder.encode("42"));
+			Player player2 = new Player( "Carl","c.obrian@ctu.gov", passwordEncoder.encode("42"));
 			repository.save(player2);
-			Player player3 = new Player( "kim_bauer@gmail.com", passwordEncoder.encode("kb"));
+			Player player3 = new Player( "Kim", "kim_bauer@gmail.com", passwordEncoder.encode("kb"));
 			repository.save(player3);
-			Player player4 = new Player( "t.almeida@ctu.gov", passwordEncoder.encode("mole"));
+			Player player4 = new Player( "Tomas", "t.almeida@ctu.gov", passwordEncoder.encode("mole"));
 			repository.save(player4);
 
 			Ship ship1 = new Ship ( "Destroyer", Arrays.asList ( "H2", "H3", "H4" ));
@@ -240,7 +240,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 		auth.userDetailsService(userName-> {
 			Player player = playerRepository.findByUserName(userName);
 			if (player != null) {
-				return new User(player.getUserName(), player.getPassword(),
+				return new User( player.getUserName(), player.getPassword(),
 						AuthorityUtils.createAuthorityList("USER"));
 			} else {
 				throw new UsernameNotFoundException("Unknown user: " + userName);

@@ -1,67 +1,221 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="style/games.css">
-    <title>Salvo!</title>
+    <title>Salvo</title>
 </head>
+
 <body>
-    <div id="app">
-        <h1>SALVO APPLICATION</h1>
+    <div id="app" class="container">
 
-        <legend>Welcome<h3 v-if="user !== null " > {{user}}!</h3></legend>
-        <form class="form-group" v-if="user == null">
-                <label for="inputEmail" >User Name</label>
-                <input type="email" class="form-inline" id="inputEmail" aria-describedby="emailHelp" v-model="userName">
-            <br>
-                <label for="inputPassword" >Password</label>
-                <input type="password" class="form-inline" id="inputPassword" v-model="password">
-            <br>
-            <button type="button" class="btn btn-success" v-on:click="logIn">Log In</button>
-            <button type="button" class="btn btn-primary" v-on:click="signUp">Sign Up</button>
+        <main id="main" class="row justify-content-center" v-if="user == null" >
 
-        </form>
+            <div id="boxTitle" class="col-12">
+                <h1 id="title" class="row">BATTLE OF FOOD</h1>
+            </div>
 
-        <button type="button" class="btn btn-dark" v-on:click="logOut" v-if="user !== null ">Log out</button>
+            <div id="choose" class="col-8">
+                <h3 id="chooseTitle" class="row">
+                    <em>C</em>
+                    <em>H</em>
+                    <em class="planet left"><img id="meat" src="../web/imagenes/bife.png" alt=""></em>
+                    <em>O</em>
+                    <em>S</em>
+                    <em>E</em>
+                    <em>&nbsp</em>
+                    <em>Y</em>
+                    <em class="planet right"><img id="tomate" src="../web/imagenes/tomate.png" alt=""></em>
+                    <em>U</em>
+                    <em>R</em>
+                    <em>S</em>
+                    <em>I</em>
+                    <em>D</em>
+                    <em>E</em>
+                </h3>
+            </div>
+            <div class="col-12 " >
+                <div class="row justify-content-around">
+                    <img class="col-4" src="imagenes/vegano.png" alt="vg" id="vegano">
+                    <img class="col-4" src="imagenes/carnicero.png" alt="vg" id="carnicero">
+                </div> 
+            </div>
+            <div id="side" class="col-12">
+                <div id="logInSide" class="row">
+                    
+                    <div class="col-5">          
+                        <div class="form" >
+                            <ul class="tab-group">
+                                <li class="tab" id="signLi"><a id="sign" v-on:click="loginFormTab($event)" href="#signup">Sign Up</a></li>
+                                <li class="tab active" id="logLi"><a id="log" v-on:click="loginFormTab($event)" href="#login">Log In</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div  id="signup">                                  
+                                    <h1>Sign Up!</h1>
+                                    <form action="/" method="post" >
+                                        <div class="field-wrap">
+                                            <label for="inputnickSign">Nick Name</label>
+                                            <input type="text"  id="inputnickSign" v-model="nickName">
+                                        </div>
+                                        <div class="field-wrap">
+                                            <label for="inputEmailSign">User Name</label>
+                                            <input type="email"  id="inputEmailSign" aria-describedby="emailHelp" v-model="userName">
+                                        </div>
+                                        <div class="field-wrap">
+                                            <label for="inputPasswordSign">Set a Password</label>
+                                            <input type="password" required autocomplete="off" class="form-inline" id="inputPasswordSign" v-model="password">
+                                        </div>
+                                        <button id="startVegano" type="button" class="button button-block" v-on:click="signUp">Get Started</button>
+                                    </form>
+                                </div>
+                                <div id="login">
+                                    <h1>Welcome Back!</h1>
+                                    <form action="/" method="post">
+                                        <div class="field-wrap">
+                                            <label for="inputEmailLog">User Name</label>
+                                            <input type="email" id="inputEmailLog" aria-describedby="emailHelp" v-model="userName">
+                                        </div>
+                                        <div class="field-wrap">
+                                            <label for="inputPasswordLog">Password</label>
+                                            <input type="password" required autocomplete="off" class="form-inline" id="inputPasswordLog" v-model="password">
+                                        </div>
 
-        <section class="col-6">
-            <h2>LEADERBOARD</h2>
-            <table class="col-6 table ">
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Score</th>
-                        <th>Win</th>
-                        <th>Tie</th>
-                        <th>Loss</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="name in players">
-                        <th >{{name.user}} </th>
-                        <td>{{name.score}}</td>
-                        <td>{{name.win}}</td>
-                        <td>{{name.tie}}</td>
-                        <td>{{name.loss}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+                                        <p class="forgot"><a href="#">Forgot Password?</a></p>
+                                        <button id="startVeganoTwo" type="button" class="button button-block" v-on:click="logIn" >Get Started</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--<div class="col-5">
+                        <div class="form" >
+                            <ul class="tab-group">
+                                <li class="tab" id="signLi"><a id="sign" v-on:click="loginFormTab($event)" href="#signup">Sign Up</a></li>
+                                <li class="tab active" id="logLi"><a id="log" v-on:click="loginFormTab($event)" href="#login">Log In</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div  id="signup">                                  
+                                    <h1>Sign Up!</h1>
+                                    <form action="/" method="post" >
+                                        <div class="field-wrap">
+                                            <label for="inputEmailSign">User Name</label>
+                                            <input type="email"  id="inputEmailSign" aria-describedby="emailHelp" v-model="userName">
+                                        </div>
+                                        <div class="field-wrap">
+                                            <label for="inputPasswordSign">Set a Password</label>
+                                            <input type="password" required autocomplete="off" class="form-inline" id="inputPasswordSign" v-model="password">
+                                        </div>
+                                        <button id="startVeganoTwo" type="button" class="button button-block" v-on:click="signUp">Get Started</button>
+                                    </form>
+                                </div>-->
+                                <!--<div id="login">
+                                    <h1>Welcome Back!</h1>
+                                    <form action="/" method="post">
+                                        <div class="field-wrap">
+                                            <label for="inputEmailLog">User Name</label>
+                                            <input type="email" id="inputEmailLog" aria-describedby="emailHelp" v-model="userName">
+                                        </div>
+                                        <div class="field-wrap">
+                                            <label for="inputPasswordLog">Password</label>
+                                            <input type="password" required autocomplete="off" class="form-inline" id="inputPasswordLog" v-model="password">
+                                        </div>
 
-        <section  >
-            <a v-if="user !== null"  v-on:click="createGame" ><button >Create New Game</button></a>
-            <ol class="col-6" >
-                <li v-for="game in gamesInfo">{{game.creationDate}}
-                    <ul v-for="gamePlayer in game.gamePlayers">
-                        <li >{{gamePlayer.player.userName}}</li>
-                        <a v-if="user !== null && user == gamePlayer.player.userName"  v-bind:href="'/web/game.html?gp='+gamePlayer.id" target="_blank"><button >Back to Game</button></a>
-                        <button v-on:click="joinGame(game.id)" v-if="user !== null && user !== gamePlayer.player.userName && game.gamePlayers.length == 1" >Join Game</button>
+                                        <p class="forgot"><a href="#">Forgot Password?</a></p>
+                                        <button id="startVeganoTwo" type="button" class="button button-block" v-on:click="logIn" >Get Started</button>
+                                    </form>
+                                </div> 
+                            </div> 
+                        </div>
+                    </div>-->
+                
+                </div>
+            </div>
+        </main>
+        
+        <section id="vegetarianArmy" v-if="user !== null"  >
+            
+            <h1 id="vegArmyTitle" class="col-12">¡Welcome to Vegetarian Army!</h1>
+            <h1 id="vegArmyUser">{{userNick}} </h1> 
+            <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark ">
+                <a class="navbar-brand mb-0 h1" href="#leaderboard">
+                    <img src="../web/imagenes/vegano.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    BATTLE OF FOOD
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#games"></a>
+                        </li> 
                     </ul>
-                </li>
-            </ol>
+                    <form class="form-inline my-2 my-lg-0">
+                        <button id="logOut" type="button" class="btn btn-success my-2 my-sm-0" v-on:click="logOut" v-if="user !== null ">Log out</button>
+                    </form>
+                </div>
+            </nav>
+            <div class="row">    
+                <a class="col-6" v-if="user !== null"  v-on:click="createGame" >
+                    <button id="buttonCreate">Create New Game</button>
+                </a>
+                <div id="leaderboard" class="col-6">
+                    <table id="tableleaderboard" class="table table-striped table-sm ">
+                        <thead>
+                            <tr>
+                                <th colspan="5">LEADERBOARD</th>
+                            </tr>
+                            <tr>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Win</th>
+                                <th>Tie</th>
+                                <th>Loss</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="name in players">
+                                <th >{{name.user}} </th>
+                                <td>{{name.score}}</td>
+                                <td>{{name.win}}</td>
+                                <td>{{name.tie}}</td>
+                                <td>{{name.loss}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>              
+            </div>
+            <div class="row">                                                                
+                <ol class="col-6" >
+                    <li v-for="game in gamesInfo">{{game.creationDate}}
+                        <ul v-for="gamePlayer in game.gamePlayers">
+                            <li >{{gamePlayer.player.userName}}</li>
+                            <a v-if="user !== null && user == gamePlayer.player.userName"  v-bind:href="'/web/game.html?gp='+gamePlayer.id" target="_blank">    
+                                <button >Back to Game</button>
+                            </a>
+                            <button v-on:click="joinGame(game.id)" v-if="user !== null && user !== gamePlayer.player.userName && game.gamePlayers.length == 1" >Join Game</button>
+                        </ul>
+                    </li>
+                </ol>
+                <ol class="col-6" >
+                    <li v-for="game in gamesInfo">{{game.creationDate}}
+                        <ul v-for="gamePlayer in game.gamePlayers">
+                            <li >{{gamePlayer.player.userName}}</li>
+                            <a v-if="user !== null && user == gamePlayer.player.userName"  v-bind:href="'/web/game.html?gp='+gamePlayer.id" target="_blank">
+                                <button >Back to Game</button>
+                            </a>
+                            <button v-on:click="joinGame(game.id)" v-if="user !== null && user !== gamePlayer.player.userName && game.gamePlayers.length == 1" >Join Game</button>
+                        </ul>
+                    </li>
+                </ol>
+            </div> 
         </section>
-
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -72,4 +226,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/games.js" type="text/javascript"></script>
 </body>
+
 </html>

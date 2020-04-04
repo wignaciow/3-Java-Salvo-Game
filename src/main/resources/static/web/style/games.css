@@ -1,0 +1,362 @@
+body {
+    background-image: url(../imagenes/foodbox.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    align-items: center;
+}
+
+.container {
+    background-color: rgba(161, 149, 149, 0.5);
+}
+
+#main {
+    justify-content: center;
+   
+}
+
+#title {
+    justify-content: center;
+    font-family: Rocks;
+    color: red;
+    font-size: 17vw;
+    margin: 0%;
+    line-height: 1;
+}
+
+#choose {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    color: #ccc;
+    padding: 0%;
+}
+
+#chooseTitle {
+    width: 100%;
+    justify-content: center;
+    padding: 20% 0%;
+    background-image: url(../imagenes/mira.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;  
+}
+
+h3 {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+@font-face {
+    font-family: Rocks;
+    src: url(Rocks.ttf);
+}
+
+em {
+    font-family: Rocks;
+    color: black;
+    font-size: 10vw;
+    font-style: normal;
+    width: 9%;
+    text-align: center;
+    
+}
+
+em.planet {
+  -webkit-animation: planet-rotate 4s linear infinite;
+  animation: planet-rotate 4s linear infinite;
+  
+}
+
+em.planet::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 13vmin;
+    height: 13vmin;
+    border-radius: 50%;  
+}
+
+em.planet.left {
+    transform-origin: 390% 270%;
+    align-self: center;
+    height: 10%;
+  
+}
+
+em.planet.right {
+    transform-origin: -260% 250%;
+    align-self: center;
+    justify-content: start;
+    height: 10%;
+}
+
+@-webkit-keyframes planet-rotate {
+  to {
+    -webkit-transform: rotate(1turn);
+  }
+}
+
+@keyframes planet-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+#meat {
+    width: 150%;
+    align-self: start;
+}
+
+#tomate {
+    width: 150%;
+    align-self: start;
+}
+
+#logInSide {
+    justify-content: space-between;
+    margin-bottom: 5%;
+}
+
+/*FORM*/
+*{
+  box-sizing: border-box;
+  margin:0px;
+  padding:0px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  transition: .5s ease;
+}
+a:hover {
+  color: #179b77;
+}
+
+.form {
+    padding: 10px;
+    margin: 0px 30px;
+    max-width: 600px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    transition: .5s ease;
+}
+
+.form:hover {
+	box-shadow: 0px 0px 40px 16px rgba(18,18,18,1.00);
+	}
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: #000;
+  color: #fff;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  transition: .5s ease;
+}
+
+.tab-group li a:hover {
+  background: #de2421;
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #06c93a;
+  color: #ffffff;
+}
+
+.tab-content > div:last-child {
+  display: none;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 200%; 
+    font-weight: 300;
+    margin: 0 0 10px;
+}
+
+label {
+  transform: translateY(6px);
+  left: 13px;
+  color: rgba(255,255,255,0.7);
+  transition: all 0.25s ease;
+  pointer-events: none;
+  font-size: 22px;
+}
+
+
+label.active {
+  transform: translateY(50px);
+  left: 2px;
+  font-size: 14px;
+}
+
+
+label.highlight {
+  color: #000;
+  margin-top:-10px;
+}
+
+input {
+  font-size: 22px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 0;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus{
+  outline: 0;
+  border-color: #000;
+}
+
+.field-wrap {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+#startVegano {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 0;
+    font-family: Rocks;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background-image: url(../imagenes/frutas.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    transition: all 0.5s ease;
+}
+
+#startVeganoTwo {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 0;
+    font-family: Rocks;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background-image: url(../imagenes/carne.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    transition: all 0.5s ease;
+}
+
+#startCarnicero {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 0;
+    font-family: Rocks;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background-image: url(../imagenes/carne.jpg);
+    color: #ffffff;
+    transition: all 0.5s ease; 
+}
+
+.button:hover, .button:focus {
+  background: #06c93a;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+.forgot {
+  margin-top: -20px;
+  text-align: right;
+  margin-bottom:10px;
+}
+
+#veganoBox, #carniceroBox  {
+    justify-content: center;   
+}
+
+/*LOGGED PLAYER PAGE*/
+#vegArmyTitle {
+    text-align: center;
+    font-family: Rocks;
+    color: green;
+    font-size: 10vw;
+    line-height: 1;
+}
+
+#vegArmyUser {
+    font-family: Rocks;
+    color: black;
+    font-size: 12vw;
+    line-height: 1;
+}
+
+#buttonCreate {
+    margin: 5%;
+}
+
+#leaderboard {
+    margin: 5% 0%;
+}
+
+#tableleaderboard {
+    border: 2px solid green;
+    background-image: url(../imagenes/backgroundgrey.jpg);
+    background-size: cover;
+    opacity: 80%;
+    color: white;
+}
+
+#leaderboard tr {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
