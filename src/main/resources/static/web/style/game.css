@@ -1,75 +1,129 @@
-
-div .table {
-    margin: 1%;
+body {
+    background-color: black;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    align-items: center;
+    padding: 0% 1%;
+    color: white;
 }
 
-.aircraft {
-    background-image: url(../imagenes/lechuga.png);
-    background-size: contain;
-    background-repeat: no-repeat;
+#app {
+    max-width: 100%;
+    margin: 0%;
+    padding: 0% 2%;
+    /*background-color: rgba(161, 149, 149, 0.5);*/
+}
+
+@font-face {
+    font-family: Rocks;
+    src: url(Rocks.ttf);
+}
+
+#title {
+    justify-content: center;
+    text-align: center;
+    font-family: Rocks;
+    color: green;
+    font-size: 15vw;
+    margin: 0%;
+    line-height: 1;
+}
+
+/*GRILLA*/
+#grid-shipsChoose{ 
+    padding: 3%; 
+    margin-bottom: 2%;
+    background-image: url(../imagenes/mesaOne.jfif);
     background-size: 100% 100%;
+    background-repeat: no-repeat;   
 }
 
-.battleShip {
-    background-image: url(../imagenes/zanahoria.png);
-    background-size: contain;
-    background-repeat: no-repeat;
+#gridChoose {
+    
+}
+
+#grid-shipsPosition {
+    padding-top: 52px;
+    padding-left: 10%;
+    margin: 0%;
+    width: 500px 500px;
+    background-image: url(../grilla/style/grid-bkg.png);
     background-size: 100% 100%;
-}
-
-.submarine {
-    background-image: url(../imagenes/pepino.png);
-    background-size: contain;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    justify-content:flex-end;
+    align-items: flex-end;
 }
 
-.destroyer {
-    background-image: url(../imagenes/tomate.png);
-    background-size: contain;
+#gridPosition {
+    padding: 0%;
+}
+
+.grid-stack-item-content {
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    left: 0px !important;
+    right: 0px !important;
 }
-
-.patrolBoat{
-    background-image: url(../imagenes/limon.png);
+/*Horizontal*/
+.carrierHorizontal{
+    background-image: url('../grilla/style/carrierhorOne.png');
     background-size: contain;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
-
-.aircraftM {
-    background-image: url(../imagenes/pernil.png);
+.battleshipHorizontal{
+    background-image: url('../grilla/style/battleshiphorOne.png');
     background-size: contain;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
-.battleShipM {
-    background-image: url(../imagenes/pollo.png);
+.destroyerHorizontal{
+    background-image: url('../grilla/style/destroyerhorOne.png');
     background-size: contain;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
-.submarineM {
-    background-image: url(../imagenes/costillar.png);
+.submarineHorizontal{
+    background-image: url('../grilla/style/submarinehorOne.png');
     background-size: contain;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
-.destroyerM {
-    background-image: url(../imagenes/morcilla.png);
+.patrolHorizontal{
+    background-image: url('../grilla/style/patrolboathorOne.png');
     background-size: contain;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
-.patrolBoatM {
-    background-image: url(../imagenes/Chorizo.png);
-    background-size: contain;
-    background-repeat: no-repeat;
+/*Vertical*/
+.carrierVertical{
+    background-image: url('../grilla/style/carrierverOne.png');
     background-size: 100% 100%;
+    width: 40px 
 }
+
+.battleshipVertical{
+    background-image: url('../grilla/style/battleshipverOne.png');
+    background-size: 100% 100%;
+    width: 50px !important;
+}
+
+.destroyerVertical{
+    background-image: url('../grilla/style/destroyerverOne.png');
+    background-size: 100% 100%;
+    width: 55px !important;
+}
+
+.submarineVertical{
+    background-image: url('../grilla/style/submarineverOne.png');
+    background-size: 100% 100%;
+    width: 50px !important;
+}
+
+.patrolVertical{
+    background-image: url('../grilla/style/patrolboatverOne.png');
+    background-size: 100% 100%;
+    width: 50px !important;
+}
+
+#otherStuff {
+    text-align: center;
+}
+
