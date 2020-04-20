@@ -146,7 +146,7 @@
         <section id="vegetarianArmy" v-if="userN !== null"  >          
             
             <nav id="navBar" class="row navbar navbar-expand-lg ">
-                <a class="col-3 navbar-brand" href="#leaderboard">
+                <a id="navBarTitle" class="col-3 navbar-brand" href="#leaderboard">
                     <img src="../web/imagenes/vegano.png" width="30" height="30" class="d-inline-block align-top" alt="">
                     BATTLE OF FOOD
                 </a>
@@ -155,41 +155,17 @@
                 </button>
             </nav>
             
-            <h1 id="vegArmyTitle" class="col-12">¡Welcome to Vegetarian Army!</h1>
+            <h1 id="vegArmyTitle" class="col-12">VEGETARIAN ARMY</h1>
             <h1 id="vegArmyUser">{{userNick}} </h1> 
             
-            <div id="leaderboard">
-                <table id="tableleaderboard" class="table table-striped table-sm ">
-                    <thead>
-                        <tr>
-                            <th colspan="5">LEADERBOARD</th>
-                        </tr>
-                        <tr>
-                            <th>Player</th>
-                            <th>Score</th>
-                            <th>Win</th>
-                            <th>Tie</th>
-                            <th>Loss</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="name in players">
-                            <th >{{name.user}} </th>
-                            <td>{{name.score}}</td>
-                            <td>{{name.win}}</td>
-                            <td>{{name.tie}}</td>
-                            <td>{{name.loss}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>  
-            <div class="row">                                                                
+            <div id="playerBoard" class="row">                                                               
                 <div class="col-3">
+                    <a class="nav-link" id="gamesOpened" >Games Opened:  {{gamesInfo.length}}</a>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Start Playing</a>
-                        <a class="nav-link " id="v-pills-statistics-tab" data-toggle="pill" href="#v-pills-statistics" role="tab" aria-controls="v-pills-statistics" aria-selected="false">Statistics</a>
-                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Continue Game</a>
-                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Join Game</a>
+                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">New Game!</a>
+                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Continue Game:  {{returnGameList.length}}</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Join Game:  {{joinGameList.length}}</a>
+                        <a class="nav-link " id="v-pills-statistics-tab" data-toggle="pill" href="#v-pills-statistics" role="tab" aria-controls="v-pills-statistics" aria-selected="false">All Statistics</a>
                     </div>
                 </div>
                 <div class="col-8">
@@ -200,7 +176,30 @@
                             </a> 
                         </div>
                         <div class="tab-pane fade " id="v-pills-statistics" role="tabpanel" aria-labelledby="v-pills-statistics-tab">
-                            ALL STATISTICS
+                            <table id="tableleaderboard" class="table table-striped table-sm ">
+                                <thead>
+                                   <tr></tr>
+                                    <tr>
+                                        <th colspan="5">LEADERBOARD</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Score</th>
+                                        <th>Win</th>
+                                        <th>Tie</th>
+                                        <th>Loss</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="name in players">
+                                        <th >{{name.user}} </th>
+                                        <td>{{name.score}}</td>
+                                        <td>{{name.win}}</td>
+                                        <td>{{name.tie}}</td>
+                                        <td>{{name.loss}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                             <ul >
@@ -232,9 +231,27 @@
                             <!--Ultimo no visible--> 
                         </div>
                     </div>
-                </div>       
+                </div> 
+                <br>       
+                <br>       
+                <br>       
+                <br>
+                <br>       
+                <br>       
+                <br>       
+                <br>       
+                <br>       
+                <br>        
+                <br>       
+                <br>       
+                <br>     
+                <br>       
+                <br>        
+                <br>       
+                <br>       
+                <br>      
             </div>
-            
+
         </section>
         
         <!--<section id="vegetarianArmy" v-if="userN !== null"  >          

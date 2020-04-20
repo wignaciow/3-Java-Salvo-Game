@@ -39,7 +39,7 @@ public class Game {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put( "id", this.id);
         dto.put("creationDate", this.date);
-        dto.put("gamePlayers", this.gamePlayers.stream().map(GamePlayer:: toDTO).collect(toList()));
+        dto.put("gamePlayers", this.gamePlayers.stream().map(GamePlayer::toDTO).collect(toList()));
         return dto;
     }
 

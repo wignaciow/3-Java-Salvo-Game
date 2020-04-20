@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-image: url(../imagenes/foodbox.jpg);    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; 
@@ -8,11 +8,15 @@ body {
     color: white;
 }
 
-#app {
+.container {
     max-width: 100%;
     margin: 0%;
     padding: 0% 2%;
-    /*background-color: rgba(161, 149, 149, 0.5);*/
+     background-image: url(../imagenes/mesaTwo..jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    
 }
 
 @font-face {
@@ -20,27 +24,65 @@ body {
     src: url(Rocks.ttf);
 }
 
+#navBar {
+    justify-content: space-between;
+    background-image: url(../imagenes/mesaThree.jfif);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 80%;
+}
+
+#navBarTitle {
+    font-family: Rocks;
+    font-size: 25px;
+    letter-spacing: 1px;
+    color: white;
+}
+
+#logOut {
+    font-family: Rocks;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
 #title {
     justify-content: center;
     text-align: center;
     font-family: Rocks;
-    color: green;
+    color: darkgreen;
     font-size: 15vw;
     margin: 0%;
     line-height: 1;
 }
 
-/*GRILLA*/
-#grid-shipsChoose{ 
-    padding: 3%; 
-    margin-bottom: 2%;
-    background-image: url(../imagenes/mesaOne.jfif);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;   
+#vegano {
+    box-shadow: 0 10px 10px -7px white;
 }
 
-#gridChoose {
-    
+#player {
+    font-family: Rocks;
+    font-size: 80px;
+}
+
+/*GRILLA*/
+#prepareOptions {
+    background-image: url(../imagenes/mesaTwoTwo.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 2%;
+    box-shadow: inset 0 0 10px white;
+}
+
+div p {
+    font-family: Rocks;
+    letter-spacing: 1px;
+    font-size: 30px;
+    margin-top: 1%;
+}
+
+.nailHead {
+    height: 50%;
 }
 
 #grid-shipsPosition {
@@ -123,7 +165,14 @@ body {
     width: 50px !important;
 }
 
-#otherStuff {
-    text-align: center;
+#buttonSave, #buttonReset {
+    font-family: Rocks;
+    font-size: 30px;
+    letter-spacing: 1px;
+    margin-top: 2%;
 }
+
+
+
+
 

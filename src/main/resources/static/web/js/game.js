@@ -4,6 +4,7 @@ var vue = new Vue({
         gpId: null,
         gpInfo: [],
         player: [],
+        userN: "",
         opponent: [],
         newShip: [],
         shipsLocation: [],
@@ -23,6 +24,23 @@ var vue = new Vue({
             vue.gpPlayerSalvoLocation();
         })
         },
+        actualUser: function () {
+            $.getJSON("/api/games", function (data) {
+                if (data.playerLogged !== null) {
+                    vue.userN = data.playerLogged.userName;
+                    vue.userNick = data.playerLogged.nickname;
+                } else {
+                    vue.userN = null;
+                    vue.userNick = null;
+                }
+                vue.gameList();
+            })
+        },
+        logOut: function () {
+            $.post("/api/logout").done(function () {
+                location.reload();
+            })
+        },
         addShips: function () {
           $.post({
               url: "/api/games/players/"+vue.gpId+"/ships",
@@ -31,8 +49,10 @@ var vue = new Vue({
               contentType: "application/json"
             })
             .done(function () {
+              if (vue.newShip.length=5) {
               alert("Ships positions saved");
-              location.reload();
+              /*location.reload();*/
+              } 
             })
             .fail(function () {
               alert("Failed to add ship");
@@ -89,16 +109,88 @@ vue.gpInformation();
 //todas las funciones se encuentran en la documentación
 //https://github.com/gridstack/gridstack.js/tree/develop/doc
 
-const optionsC = {
+const optionsCarrier = {
     //grilla de 10 x 10
-    column: 6,
-    row: 5,
+    column: 5,
+    row: 1,
     //separacion entre elementos (les llaman widgets)
     verticalMargin: 0,
     //altura de las celdas
     disableOneColumnMode: true,
     //altura de las filas/celdas
-    cellHeight: 70,
+    cellHeight: 50,
+    //necesario
+    float: true,
+    //desabilitando el resize de los widgets
+    disableResize: true,
+    //false permite mover los widgets, true impide
+    staticGrid: false,
+}
+
+const optionsBattleship = {
+    //grilla de 10 x 10
+    column: 4,
+    row: 1,
+    //separacion entre elementos (les llaman widgets)
+    verticalMargin: 0,
+    //altura de las celdas
+    disableOneColumnMode: true,
+    //altura de las filas/celdas
+    cellHeight: 50,
+    //necesario
+    float: true,
+    //desabilitando el resize de los widgets
+    disableResize: true,
+    //false permite mover los widgets, true impide
+    staticGrid: false,
+}
+
+const optionsSubmarine = {
+    //grilla de 10 x 10
+    column: 3,
+    row: 1,
+    //separacion entre elementos (les llaman widgets)
+    verticalMargin: 0,
+    //altura de las celdas
+    disableOneColumnMode: true,
+    //altura de las filas/celdas
+    cellHeight: 50,
+    //necesario
+    float: true,
+    //desabilitando el resize de los widgets
+    disableResize: true,
+    //false permite mover los widgets, true impide
+    staticGrid: false,
+}
+
+const optionsDestroyer = {
+    //grilla de 10 x 10
+    column: 3,
+    row: 1,
+    //separacion entre elementos (les llaman widgets)
+    verticalMargin: 0,
+    //altura de las celdas
+    disableOneColumnMode: true,
+    //altura de las filas/celdas
+    cellHeight: 50,
+    //necesario
+    float: true,
+    //desabilitando el resize de los widgets
+    disableResize: true,
+    //false permite mover los widgets, true impide
+    staticGrid: false,
+}
+
+const optionsPatrol = {
+    //grilla de 10 x 10
+    column: 2,
+    row: 1,
+    //separacion entre elementos (les llaman widgets)
+    verticalMargin: 0,
+    //altura de las celdas
+    disableOneColumnMode: true,
+    //altura de las filas/celdas
+    cellHeight: 50,
     //necesario
     float: true,
     //desabilitando el resize de los widgets
@@ -108,25 +200,29 @@ const optionsC = {
 }
 
 //Iniciando la grilla en modo libe staticGridFalse
-const gridChoose = GridStack.init(optionsC, '#gridChoose');
+const gridCarrier = GridStack.init(optionsCarrier, '#gridCarrier');
+const gridBattleship = GridStack.init(optionsBattleship, '#gridBattleship');
+const gridSubmarine = GridStack.init(optionsSubmarine, '#gridSubmarine');
+const gridDestroyer = GridStack.init(optionsDestroyer, '#gridDestroyer');
+const gridPatrol = GridStack.init(optionsPatrol, '#gridPatrol');
 //obteniendo los ships agregados en la grilla
 
 //Agregando elementos (widget) desde el javascript
 //elemento,x,y,width,height
-gridChoose.addWidget('<div><div id="carrier" class="grid-stack-item-content carrierHorizontal"></div><div/>',
-1, 0, 5, 1,);
+gridCarrier.addWidget('<div><div id="carrier" class="grid-stack-item-content carrierHorizontal"></div><div/>',
+0, 0, 5, 1,);
 
-gridChoose.addWidget('<div><div id="battleship" class="grid-stack-item-content battleshipHorizontal"></div><div/>',
-1, 1, 4, 1);
+gridBattleship.addWidget('<div><div id="battleship" class="grid-stack-item-content battleshipHorizontal"></div><div/>',
+0, 0, 4, 1);
 
-gridChoose.addWidget('<div><div id="submarine" class="grid-stack-item-content submarineHorizontal"></div><div/>',
-1, 2, 3, 1);
+gridSubmarine.addWidget('<div><div id="submarine" class="grid-stack-item-content submarineHorizontal"></div><div/>',
+0, 0, 3, 1);
 
-gridChoose.addWidget('<div><div id="destroyer" class="grid-stack-item-content destroyerHorizontal"></div><div/>',
-1, 3, 3, 1);
+gridDestroyer.addWidget('<div><div id="destroyer" class="grid-stack-item-content destroyerHorizontal"></div><div/>',
+0, 0, 3, 1);
 
-gridChoose.addWidget('<div><div id="patrol" class="grid-stack-item-content patrolHorizontal"></div><div/>',
-1, 4, 2, 1);
+gridPatrol.addWidget('<div><div id="patrol" class="grid-stack-item-content patrolHorizontal"></div><div/>',
+0, 0, 2, 1);
 
 
 const optionsP = {
@@ -187,6 +283,33 @@ gridPosition.on('dropped', function(event, previousWidget, newWidget) {
     }
   console.log('Added widget in dropped grid:', newWidget);
 });
+
+function saveShips(){
+    $("#gridPosition .grid-stack-item").each(function () {
+        var coordinate = [];
+        var ship = {
+          type: "",
+          locations: ""
+        };
+        if ($(this).attr("data-gs-width") !== "1") {
+          for (var i = 0; i < parseInt($(this).attr("data-gs-width")); i++) {
+            coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + 65) + (parseInt($(this).attr("data-gs-x")) + i + 1).toString());
+          }
+        } else {
+          for (var i = 0; i < parseInt($(this).attr("data-gs-height")); i++) {
+            coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + i + 65) + (parseInt($(this).attr("data-gs-x")) + 1).toString());
+          }
+        }
+
+    ship.type = $(this)[0].parentElement.id;
+    ship.locations = coordinate;
+    vue.newShip.push(ship);
+    console.log(ship);
+
+  });
+  vue.addShips();
+    
+};
 
 
 

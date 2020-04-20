@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <!--Grilla Link-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/dist/gridstack.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/dist/gridstack-extra.css"/>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/dist/gridstack-extra.css" />
+
     <!--Salvo Link-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style/game.css">
@@ -15,45 +15,74 @@
 
 <body>
     <div id="app" class="container">
+       <nav id="navBar" class="row navbar navbar-expand-lg ">
+            <a id="navBarTitle" class="col-3 navbar-brand" href="#leaderboard">
+                <img src="../web/imagenes/vegano.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                BATTLE OF FOOD
+            </a>
+            <button id="logOut" type="button" class="btn btn-success" v-on:click="logOut" v-if="userN !== null ">
+            Log Out
+            </button>
+        </nav>
         <h1 id="title">LET THE BATTLE BEGIN</h1>
-        <br>
-        <br>
-        <div class="row">
-            <h2 id="player" class="col-6"> Prepare Your Salad ¡ {{player.nickname}} !</h2>
-            <h2 id="opponent" class="col-6">Opponent: {{opponent.nickname}} </h2>
+        <div class="row justify-content-center"><img id="vegano" src="imagenes/vegano.png" alt="p"></div>
+        <div class="row mb-3 justify-content-center">
+            <h2 id="player" class=" text-align-center"> Prepare Your Salad {{player.nickname}} !</h2>
+            <!--<h2 id="opponent" class="col-6">Opponent: {{opponent.nickname}} </h2>-->
         </div>
-        <div class="row">     
-            <div  class="col-6">
+        <div id="prepareOptions" class="row">
+            <div class="col-6">
                 <div class="row">
+                    <div  class="col-10">
                     <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
-                    <div id="grid-shipsChoose" class="col-9">
-                       <div class="row">
-                            <!-- div que usa la librería gridstack--> 
-                            <div id="gridChoose" class="grid-stack grid-stack-10 col">
+                        <div id="prepareBoard" class="row">
+                            <!-- div que usa la librería gridstack-->
+                            <p class="col-12 ">AIRCRAFT CORN: 55555</p>
+                            <div class="row m-0">
+                                <img  class="col-2 nailHead " src="imagenes/nailHead.png" alt="nail">
+                                <div id="gridCarrier" class="grid-stack grid-stack-5 col-10"></div>
                             </div>
+                                                    
+                            <p class="col-12">BATTLE EGGPLANT: 4444</p>
+                            <div class="row m-0">
+                                <img  class="col-2 nailHead" src="imagenes/nailHead.png" alt="nail">
+                                <div id="gridBattleship" class="grid-stack grid-stack-4 col-10"></div>
+                            </div>
+                            
+                            <p class="col-12">SUBPEPPER: 333</p>
+                            <div class="row m-0">
+                                <img  class="col-2 nailHead" src="imagenes/nailHead.png" alt="nail">
+                                <div id="gridSubmarine" class="grid-stack grid-stack-3 col-10"></div>
+                            </div>
+                            
+                            <p class="col-12">LETTUCE-DESTROYER: 333</p>
+                            <div class="row m-0">
+                                <img  class="col-2 nailHead" src="imagenes/nailHead.png" alt="nail">
+                                <div id="gridDestroyer" class="grid-stack grid-stack-3 col-10"></div>
+                            </div>
+                            <p class="col-12">PATROL POTATOE: 22</p>
+                            <div class="row m-0">
+                                <img  class="col-2 nailHead" src="imagenes/nailHead.png" alt="nail">
+                                <div id="gridPatrol" class="grid-stack grid-stack-2 col-10"></div>
+                                </div>
                         </div>
                     </div>
-                    <div class="col-2">
-                        <button type="button" class="buttonShips btn btn-success " id="buttonShips"> Save Positions! </button>
-                        <button type="button" class="buttonShips btn btn-danger " id="buttonShips"> Reset Positions! </button>
-                    </div>
                 </div>
             </div>
-            <div class="col-6 align-self-center">
-                <h4 id="otherStuff">Other Stuff</h4>
-            </div>
-        </div>
-        
-        <div class="row"> 
-           <div class="col-6 p-0 "> 
-            <div id="grid-shipsPosition" class="row">
-                <div id="gridPosition" class="col-12 grid-stack grid-stack-10"></div>
-                        <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->   
-                        <!-- div que usa la librería gridstack-->
+            
+            <div class="col-6 p-0 ">
+                <div id="grid-shipsPosition" class="row">
+                <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
+                    <div id="gridPosition" class="col-12 grid-stack grid-stack-10"></div>
+                    <!-- div que usa la librería gridstack-->
+                </div>
+                <div class="row ml-0 mr-0 justify-content-between">
+                    <button id="buttonSave" type="button" class="col-9 btn btn-success" onclick="saveShips()"> SAVE POSITIONS </button>
+                    <button id="buttonReset" type="button" class="col-2 btn btn-danger" onclick="resetShip()">RESET</button>
                 </div>
             </div>
         </div>
-        
+
     </div>
     <!--Grilla Script-->
     <script src="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/dist/gridstack.all.js"></script>
@@ -66,7 +95,7 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    
+
 </body>
 
 </html>
