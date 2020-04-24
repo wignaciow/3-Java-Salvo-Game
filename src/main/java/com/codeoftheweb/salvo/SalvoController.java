@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -141,27 +140,30 @@ public class SalvoController {
         return new ResponseEntity<>(makeMap("addShips", "Ships cheated"), HttpStatus.CREATED);
     }
 
-    /*@GetMapping("/games/players/{gamePlayerId}/ships")
-    public ResponseEntity <Object> getShips(@PathVariable Long gamePlayerID, Authentication authentication) {
+    //LIST OF SALVOS//
+    @PostMapping("games/players/{gamePlayerId}/salvos")
+    public ResponseEntity<Map<String,Object>> Salvos(Authentication authentication, @PathVariable Long gamePlayerId, @RequestBody Salvo salvo) {
+        Optional<GamePlayer> optionalGamePlayer = gamePlayerRepository.findById(gamePlayerId);
+        Player playerLogged = playerRepository.findByUserName(authentication.getName());
+
         if (isGuest(authentication)) {
-            return new ResponseEntity<>(makeMap("error","Not logged in!"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(makeMap("error", "Not logged in!"), HttpStatus.UNAUTHORIZED);
+        }
+        if (optionalGamePlayer.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "No such game"), HttpStatus.UNAUTHORIZED);
+        }
+        if (optionalGamePlayer.get().getPlayer().getId() != playerLogged.getId()) {
+            return new ResponseEntity<>(makeMap("error", "Not allowed to see other player's info"), HttpStatus.UNAUTHORIZED);
         }
 
-        GamePlayer gamePlayer = gamePlayerRepository.findById(gamePlayerID).orElse(null);
-        Player player = playerRepository.findByUserName(authentication.getName());
-
-        if (gamePlayer == null) {
-            return new ResponseEntity<>("No such gamePlayer", HttpStatus.UNAUTHORIZED);
+        if (optionalGamePlayer.get().getSalvos().stream().anyMatch(s -> s.getTurns() == salvo.getTurns())) {
+            return new ResponseEntity<>(makeMap("error", "This turn has already salvos"), HttpStatus.FORBIDDEN);
         }
 
-        if(gamePlayer.getPlayer().getId() != player.getId()) {
-            return new ResponseEntity<>("Not allowed to see other player's info", HttpStatus.UNAUTHORIZED);
-        }
-
-        List<Ship> Ships = shipRepository.findByGamePlayerId(gamePlayerID);
-        return new ResponseEntity<>(Ships.stream().map(ship -> makeshipsDTO(ship)).collect(toList()), HttpStatus.CREATED);
-    }*/
-
+        optionalGamePlayer.get().addSalvo(salvo);
+        gamePlayerRepository.save(optionalGamePlayer.get());
+        return new ResponseEntity<>(makeMap("Success", "CREATED"), HttpStatus.CREATED);
+    }
 
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;

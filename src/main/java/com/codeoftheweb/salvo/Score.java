@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-
 @Entity
 public class Score {
 

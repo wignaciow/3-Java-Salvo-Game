@@ -12,12 +12,12 @@ import java.util.Map;
 @Entity
 public class Salvo {
 
-    private int turns;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
+
+    private int turns;
 
     @ElementCollection
     @Column(name="locations")
@@ -47,15 +47,16 @@ public class Salvo {
         return id;
     }
 
+    public int getTurns() { return turns; }
+
     public List<String> getLocations() {
         return locations;
     }
 
-    public GamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
+    public GamePlayer getGamePlayer() { return gamePlayer; }
 
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
+
 }

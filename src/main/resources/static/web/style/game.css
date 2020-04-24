@@ -16,7 +16,6 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; 
-    
 }
 
 @font-face {
@@ -57,21 +56,40 @@ body {
 }
 
 #vegano {
+    
     box-shadow: 0 10px 10px -7px white;
 }
 
-#player {
+#player, #player2 {
     font-family: Rocks;
     font-size: 80px;
 }
 
+p span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
+
+#gameSalvo {
+    margin-top: 5%;
+}
+
+#opponent {
+    font-family: Rocks;
+    font-size: 30px;
+}
+
 /*GRILLA*/
+#prepareSalad {
+    color: white;
+}
 #prepareOptions {
     background-image: url(../imagenes/mesaTwoTwo.jpg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     padding: 2%;
     box-shadow: inset 0 0 10px white;
+    color: white;
 }
 
 div p {
@@ -79,13 +97,29 @@ div p {
     letter-spacing: 1px;
     font-size: 30px;
     margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .nailHead {
-    height: 50%;
+    margin-top: 4%;
+    height: 40%;   
 }
 
-#grid-shipsPosition {
+#gridCarrier, #gridBattleship, #gridDestroyer, #gridSubmarine, #gridPatrol {
+    padding: 0%;
+}
+
+#buttonSaveRow {
+    margin: 5% 2% 0% 0%;
+}
+
+#buttonSave {
+    font-family: Rocks;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+#grid-shipsPosition, #grid-salvoPosition {
     padding-top: 52px;
     padding-left: 10%;
     margin: 0%;
@@ -97,7 +131,7 @@ div p {
     align-items: flex-end;
 }
 
-#gridPosition {
+#gridPosition, #gridSalvo {
     padding: 0%;
 }
 
@@ -163,13 +197,6 @@ div p {
     background-image: url('../grilla/style/patrolboatverOne.png');
     background-size: 100% 100%;
     width: 50px !important;
-}
-
-#buttonSave, #buttonReset {
-    font-family: Rocks;
-    font-size: 30px;
-    letter-spacing: 1px;
-    margin-top: 2%;
 }
 
 

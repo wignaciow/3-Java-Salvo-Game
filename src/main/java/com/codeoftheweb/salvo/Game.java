@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
 
