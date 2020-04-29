@@ -119,7 +119,8 @@ div p {
     letter-spacing: 1px;
 }
 
-#grid-shipsPosition, #grid-salvoPosition {
+/*GRILLA SHIPS*/
+#grid-shipsPosition {
     padding-top: 52px;
     padding-left: 10%;
     margin: 0%;
@@ -131,7 +132,7 @@ div p {
     align-items: flex-end;
 }
 
-#gridPosition, #gridSalvo {
+#gridPosition {
     padding: 0%;
 }
 
@@ -142,6 +143,7 @@ div p {
     left: 0px !important;
     right: 0px !important;
 }
+
 /*Horizontal*/
 .carrierHorizontal{
     background-image: url('../grilla/style/carrierhorOne.png');
@@ -199,6 +201,27 @@ div p {
     width: 50px !important;
 }
 
+/*GRILLA SALVOS*/
+
+#salvoGrid    {
+    background-color: teal;
+}
+
+#salvoGrid td, #salvoGrid th  {
+    text-align: center;
+    padding: .63rem;
+    width: 8%;
+}
+
+tbody td:hover {
+    background: red;
+}
+
+#buttonSaveSalvo, #buttonStartSalvo {
+    font-family: Rocks;
+    font-size: 30px;
+    letter-spacing: 1px;    
+}
 
 
 

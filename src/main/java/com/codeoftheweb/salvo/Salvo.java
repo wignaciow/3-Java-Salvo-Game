@@ -34,9 +34,8 @@ public class Salvo {
         this.locations = locations;
     }
 
-    public Map<String, Object> toDTOsalvoes() {
+    public Map<String, Object> toDTOsalvos() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", this.id);
         dto.put("turns", this.turns);
         dto.put("playerId", this.gamePlayer.getPlayer().getId());
         dto.put("locations", this.locations);

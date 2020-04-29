@@ -1,18 +1,28 @@
 var vue = new Vue({
     el: '#app',
     data: {
+        gridNumbers: ["#", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        gridLetters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
         gpId: null,
         gpInfo: [],
         player: [],
         userN: "",
+        userId: 0,
         opponent: [],
         newShips: [],
-        newSalvos: [],
+        newSalvos: {
+            turn: 0,
+            locations: []
+        },
+        newGame: true,
         /*shipsLocation: [],
         playerSalvos: [],
         opponentSalvos: [],*/
-        newGame: true,
-
+    },
+    updated() {
+        this.$nextTick(function() {
+            paintSalvosFired();
+        });
     },
     methods: {
         obtainGpId: function () {
@@ -24,7 +34,6 @@ var vue = new Vue({
                 vue.gpInfo = data;
                 vue.gpUsers();
                 gridShips();
-                /* vue.gpPlayerSalvoLocation();*/
             })
         },
         actualUser: function () {
@@ -32,16 +41,13 @@ var vue = new Vue({
                 if (data.playerLogged !== null) {
                     vue.userN = data.playerLogged.userName;
                     vue.userNick = data.playerLogged.nickname;
+                    vue.userId = data.playerLogged.id;
                 } else {
                     vue.userN = null;
                     vue.userNick = null;
+                    vue.userId = null;
                 }
                 vue.gameList();
-            })
-        },
-        logOut: function () {
-            $.post("/api/logout").done(function () {
-                location.reload();
             })
         },
         addShips: function () {
@@ -53,7 +59,7 @@ var vue = new Vue({
                 })
                 .done(function () {
                     alert("Ships positions saved");
-                    location.reload();
+                    location.reload(); 
                 })
                 .fail(function () {
                     alert("Failed to add ship");
@@ -62,43 +68,20 @@ var vue = new Vue({
         addSalvos: function () {
             $.post({
                     url: "/api/games/players/" + vue.gpId + "/salvos",
-                    data: JSON.stringify(vue.newSalvo),
+                    data: JSON.stringify(vue.newSalvos),
                     dataType: "text",
                     contentType: "application/json"
                 })
                 .done(function () {
+                    alert("Salvos fired!")
                     location.reload();
+                    
                 })
                 .fail(function () {
-                    alert("Failed to shoot salvo");
+                    alert("Failed shooting salvo");
                 })
         },
-        /*gpPlayerSalvoLocation: function () {
-            for (var i = 0; i < vue.gpInfo.salvos.length; i++) {
-                if (vue.gpInfo.salvos[i].playerId == vue.player.id) {
-                    vue.playerSalvos.push(vue.gpInfo.salvos[i].locations);
-                } else {
-                    vue.opponentSalvos.push(vue.gpInfo.salvos[i].locations);
-                }
-            };
-            vue.playerSalvos.forEach(salvoLocation => {
-                    salvoLocation.forEach(s => {
-                        document.getElementById(s + 'b').classList.add("bg-success");
-                    })
-                }),
-                vue.opponentSalvos.forEach(salvoLocation => {
-                    salvoLocation.forEach(t => {
-                        for (var i = 0; i < vue.shipsLocation.length; i++) {
-                            if (t == vue.shipsLocation[i]) {
-                                document.getElementById(t).classList.add("bg-warning");
-                            } else {
-                                document.getElementById(t).classList.add("bg-primary");
-                            }
-                        }
-                    })
-                })
-        },*/
-        gpUsers: function () {
+         gpUsers: function () {
             for (var i = 0; i < vue.gpInfo.gamePlayers.length; i++) {
                 if (vue.gpInfo.gamePlayers[i].id == vue.gpId) {
                     vue.player = vue.gpInfo.gamePlayers[i].player;
@@ -106,6 +89,12 @@ var vue = new Vue({
                     vue.opponent = vue.gpInfo.gamePlayers[i].player;
                 }
             }
+             
+        },
+        logOut: function () {
+            $.post("/api/logout").done(function () {
+                location.reload();
+            })
         },
     }
 })
@@ -143,100 +132,66 @@ function gridShips() {
         animate: true
     }
 
-    //Iiniciando la grilla en modo libre 
+    //Iiniciando la grilla
     const gridPosition = GridStack.init(optionsP, '#gridPosition');
 
     //Condicion para que muestre los barcos a posicionar y una grilla vacia.
     if (vue.gpInfo.ships.length == 0) {
         vue.newGame = true;
+
         //Grilla donde estan los barcos de muestra:
         const optionsCarrier = {
-            //grilla de 10 x 10
             column: 5,
             row: 1,
-            //separacion entre elementos (les llaman widgets)
             verticalMargin: 0,
-            //altura de las celdas
             disableOneColumnMode: true,
-            //altura de las filas/celdas
             cellHeight: 50,
-            //necesario
             float: true,
-            //desabilitando el resize de los widgets
             disableResize: true,
-            //false permite mover los widgets, true impide
             staticGrid: false,
         }
 
         const optionsBattleship = {
-            //grilla de 10 x 10
             column: 4,
             row: 1,
-            //separacion entre elementos (les llaman widgets)
             verticalMargin: 0,
-            //altura de las celdas
             disableOneColumnMode: true,
-            //altura de las filas/celdas
             cellHeight: 50,
-            //necesario
             float: true,
-            //desabilitando el resize de los widgets
             disableResize: true,
-            //false permite mover los widgets, true impide
             staticGrid: false,
         }
 
         const optionsSubmarine = {
-            //grilla de 10 x 10
             column: 3,
             row: 1,
-            //separacion entre elementos (les llaman widgets)
             verticalMargin: 0,
-            //altura de las celdas
             disableOneColumnMode: true,
-            //altura de las filas/celdas
             cellHeight: 50,
-            //necesario
             float: true,
-            //desabilitando el resize de los widgets
             disableResize: true,
-            //false permite mover los widgets, true impide
             staticGrid: false,
         }
 
         const optionsDestroyer = {
-            //grilla de 10 x 10
             column: 3,
             row: 1,
-            //separacion entre elementos (les llaman widgets)
             verticalMargin: 0,
-            //altura de las celdas
             disableOneColumnMode: true,
-            //altura de las filas/celdas
             cellHeight: 50,
-            //necesario
             float: true,
-            //desabilitando el resize de los widgets
             disableResize: true,
-            //false permite mover los widgets, true impide
             staticGrid: false,
         }
 
         const optionsPatrol = {
-            //grilla de 10 x 10
             column: 2,
             row: 1,
-            //separacion entre elementos (les llaman widgets)
             verticalMargin: 0,
-            //altura de las celdas
             disableOneColumnMode: true,
-            //altura de las filas/celdas
             cellHeight: 50,
-            //necesario
             float: true,
-            //desabilitando el resize de los widgets
             disableResize: true,
-            //false permite mover los widgets, true impide
             staticGrid: false,
         }
 
@@ -279,7 +234,7 @@ function gridShips() {
                 if (itemContent.classList.contains(itemContent.id + 'Horizontal')) {
                     //veiricando que existe espacio disponible para la rotacion
                     if (gridPosition.isAreaEmpty(itemX, itemY + 1, itemHeight, itemWidth - 1) && (itemY + (itemWidth - 1) <= 9)) {
-                        //la rotacion del widget es simplemente intercambiar el alto y ancho del widget, ademas se cambia la clase
+                        //la rotacion del widget es solo intercambiar el alto y ancho del widget, ademas se cambia la clase
                         gridPosition.resize(itemContent.parentElement, itemHeight, itemWidth);
                         itemContent.classList.remove(itemContent.id + 'Horizontal');
                         itemContent.classList.add(itemContent.id + 'Vertical');
@@ -302,6 +257,13 @@ function gridShips() {
         vue.newGame = false;
         optionsP.staticGrid = true;
         alreadySavedShips();
+
+        if (vue.gpInfo.salvos.length == 0) {
+            vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
+
+        } else {
+            vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
+        }
     }
 };
 
@@ -337,27 +299,17 @@ function saveShips() {
     };
 }
 
-
 //Funcion de la condicion de grilla salvados, para mostrar ya la grilla con los barcos.
 function alreadySavedShips() {
-
     const optionsP = {
-        //grilla de 10 x 10
         column: 10,
         row: 10,
-        //separacion entre elementos (les llaman widgets)
         verticalMargin: 0,
-        //altura de las celdas
         disableOneColumnMode: true,
-        //altura de las filas/celdas
         cellHeight: 52,
-        //necesario
         float: true,
-        //desabilitando el resize de los widgets
         disableResize: true,
-        //false permite mover los widgets, true impide
         staticGrid: false,
-        // function example, else can be simple: true | false | '.someClass' value
         acceptWidgets: function (i, el) {
             return true;
         },
@@ -367,14 +319,12 @@ function alreadySavedShips() {
     const gridPosition = GridStack.init(optionsP, '#gridPosition');
 
     for (var i = 0; i < vue.gpInfo.ships.length; i++) {
-
         var ship = vue.gpInfo.ships[i];
 
         let xShip = parseInt(ship.locations[0].slice(1)) - 1;
         let yShip = parseInt(ship.locations[0].slice(0, 1).charCodeAt(0)) - 65;
 
         if (ship.locations[0][0] == ship.locations[1][0]) {
-
             widthShip = ship.locations.length;
             heigthShip = 1;
 
@@ -404,40 +354,58 @@ function alreadySavedShips() {
 
 /*----------------------------------GRILLA Y FUNCIONES PARA SALVOS---------------------------------------------*/
 
-const optionsS = {
-    //grilla de 10 x 10
-    column: 10,
-    row: 10,
-    //separacion entre elementos (les llaman widgets)
-    verticalMargin: 0,
-    //altura de las celdas
-    disableOneColumnMode: true,
-    //altura de las filas/celdas
-    cellHeight: 52,
-    //necesario
-    float: true,
-    //desabilitando el resize de los widgets
-    disableResize: true,
-    //false permite mover los widgets, true impide
-    staticGrid: false,
-    // function example, else can be simple: true | false | '.someClass' value
+/*Marcar los Salvos en la Grilla*/
+function salvoLocation(id) {
+    if (vue.newSalvos.locations.length < 5) {
+        if (vue.newSalvos.locations.includes(id) == false) {
+            vue.newSalvos.locations.push(id);
+            document.getElementById(id).classList.add("bg-warning");
+            
+            vue.gpInfo.salvos.forEach(x => {
+                x.locations.forEach(y => {
+                if ( vue.newSalvos.locations.includes(y) == true) {
+                    document.getElementById(y).classList.remove("bg-warning");
+                    quitarSalvoLocation(id);
+                    alert ("You already select this cell before");
+                    }
+                })
+            })
+        } else {
+            document.getElementById(id).classList.remove("bg-warning");
+            quitarSalvoLocation(id);
+        }
+    } else if (vue.newSalvos.locations.length == 5) {
+        document.getElementById(id).classList.remove("bg-warning");
+        /*te permite modificar el salvo guardado en el json, ojo! no en el back */
+        quitarSalvoLocation(id);
+    }
+};
+
+/*Sub-funcion de marcar salvos en la grilla*/
+function quitarSalvoLocation(id) {
+    var index = vue.newSalvos.locations.indexOf(id);
+    if (index > -1) {
+        vue.newSalvos.locations.splice(index, 1);
+    }
 }
 
-const gridSalvo = GridStack.init(optionsS, '#gridSalvo');
+/*Salvar los salvos en la Grilla*/
+function saveSalvoLocation() {
+    if (vue.newSalvos.locations.length < 5) {
+        alert('Need to place all Shoots');
+    } else if (vue.newSalvos.locations.length == 5) {
+        vue.addSalvos();
+    }
+    
+}
 
-//Funcion para salvar Salvos
+/*Pintar los salvos en la grilla*/
+ function paintSalvosFired() {
+    vue.gpInfo.salvos.forEach(x => {
+        x.locations.forEach(y => {
+           document.getElementById(y).classList.add("bg-success");       
+        })
+    })
+}
 
-/*function postSalvos() {
-    vue.newSalvos = [];
-    $("#gridSalvo .grid-stack-item").each(function () {
-            var coordinate = [];
-            var salvo = {
-                turns: "",
-                locations: "",
-            };
-            if (vue.salvo.salvoLocations.length == 5) {
-                
-            };
-
- 
-    }*/
+       

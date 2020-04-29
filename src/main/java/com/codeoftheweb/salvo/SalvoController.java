@@ -142,7 +142,7 @@ public class SalvoController {
 
     //LIST OF SALVOS//
     @PostMapping("games/players/{gamePlayerId}/salvos")
-    public ResponseEntity<Map<String,Object>> Salvos(Authentication authentication, @PathVariable Long gamePlayerId, @RequestBody Salvo salvo) {
+    public ResponseEntity<Map<String,Object>> addSalvos(Authentication authentication, @PathVariable Long gamePlayerId, @RequestBody Salvo salvo) {
         Optional<GamePlayer> optionalGamePlayer = gamePlayerRepository.findById(gamePlayerId);
         Player playerLogged = playerRepository.findByUserName(authentication.getName());
 

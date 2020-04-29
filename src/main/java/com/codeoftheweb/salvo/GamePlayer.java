@@ -55,7 +55,7 @@ public class GamePlayer {
         dto.put("date", this.joinDate);
         dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer:: toDTO).collect(toList()));
         dto.put("ships", this.ships.stream().map(Ship:: toDTOships).collect(toList()));
-        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream().map(Salvo:: toDTOsalvoes)).collect(toList()));
+        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream().map(Salvo:: toDTOsalvos)).collect(toList()));
         return dto;
     }
 

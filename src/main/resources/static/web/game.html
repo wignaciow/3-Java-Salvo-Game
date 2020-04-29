@@ -45,7 +45,7 @@
                 <div class="col-12" v-else="newGame">
                     <div class="row">
                         <h3 class="col-6">Your Grid: {{player.nickname}}</h3>
-                        <h3 class="col-6">Opponent Grid:{{opponent.nickname}}</h3>
+                        <h3 class="col-6">Opponent Grid: {{opponent.nickname}}</h3>
                     </div>
                 </div>
                 <div class="col-3" v-if="newGame">
@@ -98,23 +98,37 @@
                         <div id="gridPosition" class="col-12 grid-stack grid-stack-10"></div>
                         <!-- div que usa la librería gridstack-->
                     </div>
-                </div>              
+                </div>
                 <div class="col-3" v-if="newGame">
                     Place all your vegetables on the grid before saving. After you save positions, the opponent grid will be display beside your grid and the game will be ready to start!
                 </div>
-                <div class="col-6  justify-content-center" v-else="newGame">
-                    <div id="grid-salvoPosition" class="row">
-                        <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
-                        <div id="gridSalvo" class="col-12 grid-stack grid-stack-10"></div>
-                        <!-- div que usa la librería gridstack-->
+                <div class="col-6" v-else="newGame">
+                    <div class="row">
+                        <table id="salvoGrid" class="col table table-bordered table-striped" cellspacing='0' cellpadding='0'>
+                            <thead>
+                                <tr>
+                                    <th class="bg-dark text-white" v-for="numbers in gridNumbers"> {{numbers}} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="letters in gridLetters">
+                                    <th class="bg-dark text-white"> {{letters}} </th>
+                                    <td v-for="(x, index) in gridLetters" :id="letters + (index + 1)" onclick="salvoLocation(id)"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="buttonSalvoRow" class="row justify-content-between">
+                        <button id="buttonSaveSalvo" type="button" class="col-12 btn btn-success" onclick="saveSalvoLocation()">SAVE SHOOTS</button>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
     <!--Grilla Script-->
     <script src="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/dist/gridstack.all.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/gridstack@1.1.1/src/jquery.js"></script>-->
 
     <!--Salvo Scripts-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
