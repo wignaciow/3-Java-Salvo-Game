@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -55,7 +56,12 @@ public class GamePlayer {
         dto.put("date", this.joinDate);
         dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer:: toDTO).collect(toList()));
         dto.put("ships", this.ships.stream().map(Ship:: toDTOships).collect(toList()));
-        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream().map(Salvo:: toDTOsalvos)).collect(toList()));
+        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream()
+                .map(Salvo:: toDTOsalvos)).collect(toList()));
+        dto.put("hitsPlayer", this.salvos.stream().map(Salvo::hitsDto).collect(Collectors.toList()));
+        dto.put("sunkenPlayer", this.salvos.stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
+        dto.put("hitsOpponent", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDto).collect(Collectors.toList()));
+        dto.put("sunkenOpponent", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
         return dto;
     }
 
@@ -104,5 +110,24 @@ public class GamePlayer {
 
     public Set<Ship> getShips() {return ships;
     }
+
+    //OTROS METODOS
+    public Optional <GamePlayer> getOpponent() {
+        return this.game.getGamePlayers ().stream ().filter ( g -> g.getId () != this.id ).findFirst ();
+    }
+
+    public List <Ship> getShipsOpponent() {
+        return (List<Ship>) getOpponent().get().getShips();
+    }
+
+    public List <String> getOpponentShipsLocations() {
+            return getShipsOpponent().stream().sorted ().flatMap ( s -> s.getLocations ().stream () ).collect ( toList () );
+    }
+
+    public List <String> getOpponentSalvoLocations() {
+        return getOpponent ().get ().getSalvos ().stream ().sorted().flatMap ( s -> s.getLocations ().stream () ).collect ( toList () );
+    }
+
+
 }
 

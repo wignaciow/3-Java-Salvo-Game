@@ -22,8 +22,8 @@
                 <img src="../web/imagenes/vegano.png" width="30" height="30" class="d-inline-block align-top" alt="">
                 BATTLE OF FOOD
             </a>
-            <button id="logOut" type="button" class="btn btn-success" v-on:click="logOut" v-if="userN !== null ">
-                Log Out
+            <button id="quitGame" type="button" class="btn btn-danger" v-on:click="guitGame" v-if="player !== null ">
+                Quit Game
             </button>
         </nav>
 
@@ -124,6 +124,50 @@
                 </div>
 
             </div>
+        </div>
+        <div id="targetTable">
+            <table id="statusTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="9" scope="col" >Game Status</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" scope="col">Player Fleet Status</th>
+                        <th scope="col"></th>
+                        <th colspan="4" scope="col">Opponent FLeet Status</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" scope="col">Barcos</th>
+                        <th scope="col"></th>
+                        <th colspan="4" scope="col">Barcos</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Turn</th>
+                        <th scope="col">Hits</th>
+                        <th scope="col">Remain</th>
+                        <th scope="col">Sunken</th>
+                        <th></th>
+                        <th scope="col">Turn</th>
+                        <th scope="col">Hits</th>
+                        <th scope="col">Remain</th>
+                        <th scope="col">Sunken</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td></td>
+                        <th scope="row">1</th>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>@mdo</td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
     </div>
     <!--Grilla Script-->

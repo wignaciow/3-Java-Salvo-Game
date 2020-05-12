@@ -6,21 +6,20 @@ var vue = new Vue({
         gpId: null,
         gpInfo: [],
         player: [],
-        userN: "",
-        userId: 0,
         opponent: [],
         newShips: [],
         newSalvos: {
             turn: 0,
             locations: []
         },
+        hitsPlayer: [],
+        hitsOpponent: [],
+        sinkPlayer: [],
+        sinkOpponent: [],
         newGame: true,
-        /*shipsLocation: [],
-        playerSalvos: [],
-        opponentSalvos: [],*/
     },
     updated() {
-        this.$nextTick(function() {
+        this.$nextTick(function () {
             paintSalvosFired();
         });
     },
@@ -36,20 +35,6 @@ var vue = new Vue({
                 gridShips();
             })
         },
-        actualUser: function () {
-            $.getJSON("/api/games", function (data) {
-                if (data.playerLogged !== null) {
-                    vue.userN = data.playerLogged.userName;
-                    vue.userNick = data.playerLogged.nickname;
-                    vue.userId = data.playerLogged.id;
-                } else {
-                    vue.userN = null;
-                    vue.userNick = null;
-                    vue.userId = null;
-                }
-                vue.gameList();
-            })
-        },
         addShips: function () {
             $.post({
                     url: "/api/games/players/" + vue.gpId + "/ships",
@@ -59,7 +44,7 @@ var vue = new Vue({
                 })
                 .done(function () {
                     alert("Ships positions saved");
-                    location.reload(); 
+                    location.reload();
                 })
                 .fail(function () {
                     alert("Failed to add ship");
@@ -75,13 +60,13 @@ var vue = new Vue({
                 .done(function () {
                     alert("Salvos fired!")
                     location.reload();
-                    
+
                 })
                 .fail(function () {
-                    alert("Failed shooting salvo");
+                    alert("Wait for opponent Salvos!");
                 })
         },
-         gpUsers: function () {
+        gpUsers: function () {
             for (var i = 0; i < vue.gpInfo.gamePlayers.length; i++) {
                 if (vue.gpInfo.gamePlayers[i].id == vue.gpId) {
                     vue.player = vue.gpInfo.gamePlayers[i].player;
@@ -89,9 +74,9 @@ var vue = new Vue({
                     vue.opponent = vue.gpInfo.gamePlayers[i].player;
                 }
             }
-             
+
         },
-        logOut: function () {
+        guitGame: function () {
             $.post("/api/logout").done(function () {
                 location.reload();
             })
@@ -260,152 +245,152 @@ function gridShips() {
 
         if (vue.gpInfo.salvos.length == 0) {
             vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
-
         } else {
             vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
         }
     }
 };
 
-//Funcion para salvar los barcos posicionados
-function saveShips() {
-    vue.newShips = [];
-    $("#gridPosition .grid-stack-item").each(function () {
-        var coordinate = [];
-        var ship = {
-            type: "",
-            locations: ""
+    //Funcion para salvar los barcos posicionados
+    function saveShips() {
+        vue.newShips = [];
+        $("#gridPosition .grid-stack-item").each(function () {
+            var coordinate = [];
+            var ship = {
+                type: "",
+                locations: ""
+            };
+            if ($(this).attr("data-gs-width") !== "1") {
+                for (var i = 0; i < parseInt($(this).attr("data-gs-width")); i++) {
+                    coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + 65) + (parseInt($(this).attr("data-gs-x")) + i + 1).toString());
+                }
+            } else {
+                for (var i = 0; i < parseInt($(this).attr("data-gs-height")); i++) {
+                    coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + i + 65) + (parseInt($(this).attr("data-gs-x")) + 1).toString());
+                }
+            }
+
+            ship.type = $(this)[0].firstChild.id;
+            ship.locations = coordinate;
+            vue.newShips.push(ship);
+            console.log(ship);
+        });
+        if (vue.newShips.length == 5) {
+            vue.addShips();
+
+        } else {
+            alert("Please place all ships before saving");
         };
-        if ($(this).attr("data-gs-width") !== "1") {
-            for (var i = 0; i < parseInt($(this).attr("data-gs-width")); i++) {
-                coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + 65) + (parseInt($(this).attr("data-gs-x")) + i + 1).toString());
-            }
-        } else {
-            for (var i = 0; i < parseInt($(this).attr("data-gs-height")); i++) {
-                coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + i + 65) + (parseInt($(this).attr("data-gs-x")) + 1).toString());
-            }
-        }
-
-        ship.type = $(this)[0].firstChild.id;
-        ship.locations = coordinate;
-        vue.newShips.push(ship);
-        console.log(ship);
-    });
-    if (vue.newShips.length == 5) {
-        vue.addShips();
-
-    } else {
-        alert("Please place all ships before saving");
-    };
-}
-
-//Funcion de la condicion de grilla salvados, para mostrar ya la grilla con los barcos.
-function alreadySavedShips() {
-    const optionsP = {
-        column: 10,
-        row: 10,
-        verticalMargin: 0,
-        disableOneColumnMode: true,
-        cellHeight: 52,
-        float: true,
-        disableResize: true,
-        staticGrid: false,
-        acceptWidgets: function (i, el) {
-            return true;
-        },
-        animate: true
     }
 
-    const gridPosition = GridStack.init(optionsP, '#gridPosition');
+    //Funcion de la condicion de grilla salvados, para mostrar ya la grilla con los barcos.
+    function alreadySavedShips() {
+        const optionsP = {
+            column: 10,
+            row: 10,
+            verticalMargin: 0,
+            disableOneColumnMode: true,
+            cellHeight: 52,
+            float: true,
+            disableResize: true,
+            staticGrid: false,
+            acceptWidgets: function (i, el) {
+                return true;
+            },
+            animate: true
+        }
 
-    for (var i = 0; i < vue.gpInfo.ships.length; i++) {
-        var ship = vue.gpInfo.ships[i];
+        const gridPosition = GridStack.init(optionsP, '#gridPosition');
 
-        let xShip = parseInt(ship.locations[0].slice(1)) - 1;
-        let yShip = parseInt(ship.locations[0].slice(0, 1).charCodeAt(0)) - 65;
+        for (var i = 0; i < vue.gpInfo.ships.length; i++) {
+            var ship = vue.gpInfo.ships[i];
 
-        if (ship.locations[0][0] == ship.locations[1][0]) {
-            widthShip = ship.locations.length;
-            heigthShip = 1;
+            let xShip = parseInt(ship.locations[0].slice(1)) - 1;
+            let yShip = parseInt(ship.locations[0].slice(0, 1).charCodeAt(0)) - 65;
 
-            gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Horizontal"></div></div>', {
-                width: widthShip,
-                heigth: heigthShip,
-                x: xShip,
-                y: yShip,
-                noResize: true,
-                id: ship.type
-            })
-        } else {
-            widthShip = 1;
-            heigthShip = ship.locations.length;
+            if (ship.locations[0][0] == ship.locations[1][0]) {
+                widthShip = ship.locations.length;
+                heigthShip = 1;
 
-            gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Vertical"></div></div>', {
-                width: widthShip,
-                height: heigthShip,
-                x: xShip,
-                y: yShip,
-                noResize: true,
-                id: ship.type
-            })
+                gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Horizontal"></div></div>', {
+                    width: widthShip,
+                    heigth: heigthShip,
+                    x: xShip,
+                    y: yShip,
+                    noResize: true,
+                    id: ship.type
+                })
+            } else {
+                widthShip = 1;
+                heigthShip = ship.locations.length;
+
+                gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Vertical"></div></div>', {
+                    width: widthShip,
+                    height: heigthShip,
+                    x: xShip,
+                    y: yShip,
+                    noResize: true,
+                    id: ship.type
+                })
+            }
         }
     }
-}
 
-/*----------------------------------GRILLA Y FUNCIONES PARA SALVOS---------------------------------------------*/
+    /*----------------------------------GRILLA Y FUNCIONES PARA SALVOS---------------------------------------------*/
 
-/*Marcar los Salvos en la Grilla*/
-function salvoLocation(id) {
-    if (vue.newSalvos.locations.length < 5) {
-        if (vue.newSalvos.locations.includes(id) == false) {
-            vue.newSalvos.locations.push(id);
-            document.getElementById(id).classList.add("bg-warning");
-            
-            vue.gpInfo.salvos.forEach(x => {
-                x.locations.forEach(y => {
-                if ( vue.newSalvos.locations.includes(y) == true) {
-                    document.getElementById(y).classList.remove("bg-warning");
-                    quitarSalvoLocation(id);
-                    alert ("You already select this cell before");
+    /*Marcar los Salvos en la Grilla*/
+    function salvoLocation(id) {
+        if (vue.newSalvos.locations.length < 5) {
+            if (vue.newSalvos.locations.includes(id) == false) {
+                vue.newSalvos.locations.push(id);
+                document.getElementById(id).classList.add("bg-warning");
+
+                vue.gpInfo.salvos.forEach(x => {
+                    if (x.playerId == vue.player.id) {
+                        x.locations.forEach(y => {
+                            if (vue.newSalvos.locations.includes(y) == true) {
+                                document.getElementById(y).classList.remove("bg-warning");
+                                quitarSalvoLocation(id);
+                                alert("You already select this cell before");
+                            }
+                        })
                     }
                 })
-            })
-        } else {
+            } else {
+                document.getElementById(id).classList.remove("bg-warning");
+                quitarSalvoLocation(id);
+            }
+        } else if (vue.newSalvos.locations.length == 5) {
             document.getElementById(id).classList.remove("bg-warning");
+            /*te permite modificar el salvo guardado en el json, ojo! no en el back */
             quitarSalvoLocation(id);
         }
-    } else if (vue.newSalvos.locations.length == 5) {
-        document.getElementById(id).classList.remove("bg-warning");
-        /*te permite modificar el salvo guardado en el json, ojo! no en el back */
-        quitarSalvoLocation(id);
-    }
-};
+    };
 
-/*Sub-funcion de marcar salvos en la grilla*/
-function quitarSalvoLocation(id) {
-    var index = vue.newSalvos.locations.indexOf(id);
-    if (index > -1) {
-        vue.newSalvos.locations.splice(index, 1);
-    }
-}
+    /*Sub-funcion de marcar salvos en la grilla*/
+    function quitarSalvoLocation(id) {
+        var index = vue.newSalvos.locations.indexOf(id);
+        if (index > -1) {
+            vue.newSalvos.locations.splice(index, 1);
+        }
+    };
 
-/*Salvar los salvos en la Grilla*/
-function saveSalvoLocation() {
-    if (vue.newSalvos.locations.length < 5) {
-        alert('Need to place all Shoots');
-    } else if (vue.newSalvos.locations.length == 5) {
-        vue.addSalvos();
-    }
-    
-}
+    /*Salvar los salvos en la Grilla*/
+    function saveSalvoLocation() {
+        if (vue.newSalvos.locations.length < 5) {
+            alert('Need to place all Shoots');
+        } else if (vue.newSalvos.locations.length == 5) {
+            vue.addSalvos();
+        }
+    };
 
-/*Pintar los salvos en la grilla*/
- function paintSalvosFired() {
-    vue.gpInfo.salvos.forEach(x => {
-        x.locations.forEach(y => {
-           document.getElementById(y).classList.add("bg-success");       
+    /*Pintar los salvos en la grilla*/
+    function paintSalvosFired() {
+        vue.gpInfo.salvos.forEach(x => {
+            if (x.playerId == vue.player.id) {
+                x.locations.forEach(y => {
+                    document.getElementById(y).classList.add("bg-success");
+                })
+            }
         })
-    })
-}
-
-       
+    };

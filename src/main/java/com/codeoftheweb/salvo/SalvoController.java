@@ -143,8 +143,10 @@ public class SalvoController {
     //LIST OF SALVOS//
     @PostMapping("games/players/{gamePlayerId}/salvos")
     public ResponseEntity<Map<String,Object>> addSalvos(Authentication authentication, @PathVariable Long gamePlayerId, @RequestBody Salvo salvo) {
+
         Optional<GamePlayer> optionalGamePlayer = gamePlayerRepository.findById(gamePlayerId);
         Player playerLogged = playerRepository.findByUserName(authentication.getName());
+        Optional<GamePlayer> opponent = optionalGamePlayer.get().getGame().getGamePlayers().stream().filter(gp -> gp.getPlayer().getId() != playerLogged.getId()).findFirst();
 
         if (isGuest(authentication)) {
             return new ResponseEntity<>(makeMap("error", "Not logged in!"), HttpStatus.UNAUTHORIZED);
@@ -152,13 +154,23 @@ public class SalvoController {
         if (optionalGamePlayer.isEmpty()) {
             return new ResponseEntity<>(makeMap("error", "No such game"), HttpStatus.UNAUTHORIZED);
         }
+        if (opponent.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "Wait for an opponent"), HttpStatus.FORBIDDEN);
+        }
         if (optionalGamePlayer.get().getPlayer().getId() != playerLogged.getId()) {
             return new ResponseEntity<>(makeMap("error", "Not allowed to see other player's info"), HttpStatus.UNAUTHORIZED);
         }
-
         if (optionalGamePlayer.get().getSalvos().stream().anyMatch(s -> s.getTurns() == salvo.getTurns())) {
             return new ResponseEntity<>(makeMap("error", "This turn has already salvos"), HttpStatus.FORBIDDEN);
         }
+        if (optionalGamePlayer.get().getSalvos().size() > opponent.get().getSalvos().size()) {
+            return new ResponseEntity<>(makeMap("error", "Wait for opponent shots!"), HttpStatus.FORBIDDEN);
+        }
+
+        /*if (optionalGamePlayer.get().getSalvos().size() == opponent.get().getSalvos().size() ||   ) {
+            optionalGamePlayer.get().getSalvos().size()
+        }*/
+
 
         optionalGamePlayer.get().addSalvo(salvo);
         gamePlayerRepository.save(optionalGamePlayer.get());

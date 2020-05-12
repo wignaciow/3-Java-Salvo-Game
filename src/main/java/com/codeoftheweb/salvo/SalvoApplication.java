@@ -57,8 +57,8 @@ public class SalvoApplication {
 			Ship ship3 = new Ship ( "patrol", Arrays.asList ( "B4", "B5" ));
 			Ship ship28 = new Ship ("battleship", Arrays.asList("G10", "H10","I10","J10"));
 			Ship ship29 = new Ship ("carrier", Arrays.asList("A10","B10","C10","D10","E10"));
-			Ship ship4 = new Ship ( "Destroyer", Arrays.asList ( "B5", "C5", "D5" ));
-			Ship ship5 = new Ship ( "Patrol Boat", Arrays.asList ( "F1", "F2" ));
+			Ship ship4 = new Ship ( "destroyer", Arrays.asList ( "B5", "C5", "D5" ));
+			Ship ship5 = new Ship ( "patrol", Arrays.asList ( "F1", "F2" ));
 			Ship ship30 = new Ship ("battleship", Arrays.asList("G10", "H10","I10","J10"));
 			Ship ship31 = new Ship ("carrier", Arrays.asList("A10","B10","C10","D10","E10"));
 			Ship ship32 = new Ship ( "submarine", Arrays.asList ( "E1", "E2", "E3" ));
@@ -128,7 +128,6 @@ public class SalvoApplication {
 			gamePlayer1.addShip ( ship3 );
 			gamePlayer1.addShip ( ship28 );
 			gamePlayer1.addShip ( ship29 );
-
 			gamePlayerRepository.save( gamePlayer1);
 			GamePlayer gamePlayer2 = new GamePlayer( player2, game1);
 			gamePlayer2.addShip ( ship4 );
@@ -136,7 +135,6 @@ public class SalvoApplication {
 			gamePlayer2.addShip ( ship30 );
 			gamePlayer2.addShip ( ship31 );
 			gamePlayer2.addShip ( ship32 );
-
 			gamePlayerRepository.save( gamePlayer2);
 
 			GamePlayer gamePlayer3 = new GamePlayer( player1, game2);

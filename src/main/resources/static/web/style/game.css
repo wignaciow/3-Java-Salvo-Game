@@ -39,10 +39,10 @@ body {
     color: white;
 }
 
-#logOut {
+#quitGame {
     font-family: Rocks;
     font-size: 25px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 #title {
@@ -217,10 +217,19 @@ tbody td:hover {
     background: red;
 }
 
+.salvosSelect {
+    background-color: yellow;
+    border-radius: 100px;
+}
+
 #buttonSaveSalvo, #buttonStartSalvo {
     font-family: Rocks;
     font-size: 30px;
     letter-spacing: 1px;    
+}
+
+#statusTable {
+    background-color: white;
 }
 
 
