@@ -8,14 +8,13 @@ var vue = new Vue({
         player: [],
         opponent: [],
         newShips: [],
-        newSalvos: {
-            turn: 0,
-            locations: []
-        },
-        hitsPlayer: [],
-        hitsOpponent: [],
-        sinkPlayer: [],
-        sinkOpponent: [],
+        newSalvosLocations: [],
+        playerStatusBoard: [],
+        opponentStatusBoard: [{
+            turnOpponent: 0,
+            hitsOpponent: [],
+            sunkenOpponent: [],
+        }],        
         newGame: true,
     },
     updated() {
@@ -53,7 +52,7 @@ var vue = new Vue({
         addSalvos: function () {
             $.post({
                     url: "/api/games/players/" + vue.gpId + "/salvos",
-                    data: JSON.stringify(vue.newSalvos),
+                    data: JSON.stringify(vue.newSalvosLocations),
                     dataType: "text",
                     contentType: "application/json"
                 })
@@ -63,7 +62,7 @@ var vue = new Vue({
 
                 })
                 .fail(function () {
-                    alert("Wait for opponent Salvos!");
+                    alert("Opponent turn!");
                 })
         },
         gpUsers: function () {
@@ -241,13 +240,7 @@ function gridShips() {
     } else {
         vue.newGame = false;
         optionsP.staticGrid = true;
-        alreadySavedShips();
-
-        if (vue.gpInfo.salvos.length == 0) {
-            vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
-        } else {
-            vue.newSalvos.turns = vue.gpInfo.salvos.length + 1;
-        }
+        alreadySavedShips();        
     }
 };
 
@@ -340,15 +333,15 @@ function gridShips() {
 
     /*Marcar los Salvos en la Grilla*/
     function salvoLocation(id) {
-        if (vue.newSalvos.locations.length < 5) {
-            if (vue.newSalvos.locations.includes(id) == false) {
-                vue.newSalvos.locations.push(id);
+        if (vue.newSalvosLocations.length < 5) {
+            if (vue.newSalvosLocations.includes(id) == false) {
+                vue.newSalvosLocations.push(id);
                 document.getElementById(id).classList.add("bg-warning");
 
                 vue.gpInfo.salvos.forEach(x => {
                     if (x.playerId == vue.player.id) {
                         x.locations.forEach(y => {
-                            if (vue.newSalvos.locations.includes(y) == true) {
+                            if (vue.newSalvosLocations.includes(y) == true) {
                                 document.getElementById(y).classList.remove("bg-warning");
                                 quitarSalvoLocation(id);
                                 alert("You already select this cell before");
@@ -360,7 +353,7 @@ function gridShips() {
                 document.getElementById(id).classList.remove("bg-warning");
                 quitarSalvoLocation(id);
             }
-        } else if (vue.newSalvos.locations.length == 5) {
+        } else if (vue.newSalvosLocations.length == 5) {
             document.getElementById(id).classList.remove("bg-warning");
             /*te permite modificar el salvo guardado en el json, ojo! no en el back */
             quitarSalvoLocation(id);
@@ -369,19 +362,21 @@ function gridShips() {
 
     /*Sub-funcion de marcar salvos en la grilla*/
     function quitarSalvoLocation(id) {
-        var index = vue.newSalvos.locations.indexOf(id);
+        var index = vue.newSalvosLocations.indexOf(id);
         if (index > -1) {
-            vue.newSalvos.locations.splice(index, 1);
+            vue.newSalvosLocations.splice(index, 1);
         }
     };
 
     /*Salvar los salvos en la Grilla*/
-    function saveSalvoLocation() {
-        if (vue.newSalvos.locations.length < 5) {
+    function saveSalvoLocations() {
+        var turn = 0;
+        if (vue.newSalvosLocations.length < 5) {
             alert('Need to place all Shoots');
-        } else if (vue.newSalvos.locations.length == 5) {
-            vue.addSalvos();
-        }
+        } else {
+           vue.addSalvos();
+        } 
+        
     };
 
     /*Pintar los salvos en la grilla*/
@@ -394,3 +389,17 @@ function gridShips() {
             }
         })
     };
+
+/*function gameStatusBoard () {
+recorrer arrays y volcar informacion en tabla html por turno
+vue.gpInfo.salvos.turn
+vue.gpInfo.playerHits
+vue.gpInfo.playerSunken
+vue.gpInfo.playerShipRemain
+
+vue.gpInfo.salvos.turn
+vue.gpInfo.opponentHits
+vvue.gpInfo.opponentSunken
+vue.gpInfo.opponentShipRemain
+}*/
+

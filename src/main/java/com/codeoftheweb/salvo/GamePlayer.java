@@ -46,7 +46,7 @@ public class GamePlayer {
         dto.put("id", this.id);
         dto.put("player", this.player.toDTO());
         Score score = getScore();
-        dto.put("scores", score != null? score.toDTO() : null );
+        dto.put("scores", score != null ? score.toDTO() : null);
         return dto;
     }
 
@@ -54,14 +54,16 @@ public class GamePlayer {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", this.id);
         dto.put("date", this.joinDate);
-        dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer:: toDTO).collect(toList()));
-        dto.put("ships", this.ships.stream().map(Ship:: toDTOships).collect(toList()));
+        dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer::toDTO).collect(toList()));
+        dto.put("ships", this.ships.stream().map(Ship::toDTOships).collect(toList()));
         dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream()
-                .map(Salvo:: toDTOsalvos)).collect(toList()));
-        dto.put("hitsPlayer", this.salvos.stream().map(Salvo::hitsDto).collect(Collectors.toList()));
-        dto.put("sunkenPlayer", this.salvos.stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
-        dto.put("hitsOpponent", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDto).collect(Collectors.toList()));
-        dto.put("sunkenOpponent", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
+                .map(Salvo::toDTOsalvos)).collect(toList()));
+        dto.put("playerHits", this.salvos.stream().map(Salvo::hitsDto).collect(Collectors.toList()));
+        dto.put("playerSunken", this.salvos.stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
+        dto.put("opponentHits", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDto).collect(Collectors.toList()));
+        dto.put("opponentSunken", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
+        dto.put("playerShipsRemain", this.getOpponent().get().getSalvos().stream().map(Salvo::shipsRemainDto).collect(Collectors.toList()));
+        dto.put("opponentShipsRemain", this.salvos.stream().map(Salvo::shipsRemainDto).collect(Collectors.toList()));
         return dto;
     }
 
@@ -74,6 +76,7 @@ public class GamePlayer {
         salvo.setGamePlayer(this);
         salvos.add(salvo);
     }
+
     public Set<Salvo> getSalvos() {
         return salvos;
     }
@@ -86,7 +89,9 @@ public class GamePlayer {
         this.game = game;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
     public LocalDateTime getJoinDate() {
         return joinDate;
@@ -105,29 +110,16 @@ public class GamePlayer {
     }
 
     public Score getScore() {
-        return this.player.getScore (this.game );
+        return this.player.getScore(this.game);
     }
 
-    public Set<Ship> getShips() {return ships;
+    public Set<Ship> getShips() {
+        return ships;
     }
 
-    //OTROS METODOS
-    public Optional <GamePlayer> getOpponent() {
-        return this.game.getGamePlayers ().stream ().filter ( g -> g.getId () != this.id ).findFirst ();
+    //METODO PARAR IDENTIFICAR OPPONENT
+    public Optional<GamePlayer> getOpponent() {
+        return this.game.getGamePlayers().stream().filter(g -> g.getId() != this.id).findFirst();
     }
-
-    public List <Ship> getShipsOpponent() {
-        return (List<Ship>) getOpponent().get().getShips();
-    }
-
-    public List <String> getOpponentShipsLocations() {
-            return getShipsOpponent().stream().sorted ().flatMap ( s -> s.getLocations ().stream () ).collect ( toList () );
-    }
-
-    public List <String> getOpponentSalvoLocations() {
-        return getOpponent ().get ().getSalvos ().stream ().sorted().flatMap ( s -> s.getLocations ().stream () ).collect ( toList () );
-    }
-
-
 }
 
