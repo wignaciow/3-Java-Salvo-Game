@@ -121,51 +121,54 @@
                     <div id="buttonSalvoRow" class="row justify-content-between">
                         <button id="buttonSaveSalvo" type="button" class="col-12 btn btn-success" onclick="saveSalvoLocations()">SAVE SHOOTS</button>
                     </div>
+
                 </div>
 
             </div>
         </div>
+
         <div id="targetTable">
-            <table id="statusTable" class="table table-bordered">
+            <table id="statusPlayerTable" class="table table-bordered statusTable">
                 <thead>
                     <tr>
-                        <th colspan="9" scope="col" >Game Status</th>
+                        <th class="historyTitle" colspan="10" scope="col">Player Game History</th>
                     </tr>
                     <tr>
-                        <th colspan="4" scope="col">Player Fleet Status</th>
-                        <th scope="col"></th>
-                        <th colspan="4" scope="col">Opponent FLeet Status</th>
-                    </tr>
-                    <tr>
-                        <th colspan="4" scope="col">Own Ships</th>
-                        <th scope="col"></th>
-                        <th colspan="4" scope="col">Opponent Ships</th>
-                    </tr>
-                    <tr >
-                        <th scope="col">Turn</th>
-                        <th scope="col">Hits</th>
-                        <th scope="col">Sunken</th>
-                        <th scope="col">Remain</th>
-                        <th></th>
-                        <th scope="col">Turn</th>
-                        <th scope="col">Hits</th>
-                        <th scope="col">Sunken</th>
-                        <th scope="col">Remain</th>
+                        <th style="width: 5%">Turn</th>
+                        <th style="width: 15%">Hits on Opponent</th>
+                        <th style="width: 20%">Opponent Ships Sunk</th>
+                        <th colspan="5" style="width: 60%">Opponent Ships Afloat</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td></td>
-                        <th scope="row">1</th>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
+                    <tr v-for="pl in playerHistory" >
+                        <td>{{pl.turn}}</td>
+                        <td>{{pl.hit}}</td>
+                        <td>{{pl.sunk}}</td>
+                        <td v-for="remain in pl.remain">{{remain}}</td>
                     </tr>
+                </tbody>
+            </table>
 
+             <table id="statusOpponentTable" class="table table-bordered statusTable">
+                <thead>
+                    <tr>
+                        <th class="historyTitle" colspan="10" scope="col">Opponent Game History</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 5%">Turn</th>
+                        <th style="width: 15%">Hits on You</th>
+                        <th style="width: 20%">Your Ships Sunk</th>
+                        <th colspan="5" style="width: 60%">Your Ships Afloat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="op in opponentHistory" >
+                        <td>{{op.turn}}</td>
+                        <td>{{op.hit}}</td>
+                        <td>{{op.sunk}}</td>
+                        <td v-for="remain in op.remain">{{remain}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -33,7 +33,7 @@ public class Salvo {
         this.locations = locations;
     }
 
-    public Map<String, Object> toDTOsalvos() {
+    public Map<String, Object> salvosDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("turn", this.turns);
         dto.put("playerId", this.gamePlayer.getPlayer().getId());
@@ -41,22 +41,26 @@ public class Salvo {
         return dto;
     }
 
-    public Map<String, Object> hitsDto() {
+    public Map<String, Object> hitsDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
-            dto.put("turns", this.turns);
+            dto.put("turn", this.turns);
+            dto.put("playerId", this.gamePlayer.getPlayer().getId());
             dto.put("hits", this.getHits());
         return dto;
     }
 
-    public Map<String, Object> sunkenDto() {
+    public Map<String, Object> sunkDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("turns", this.turns);
-        dto.put("sunken", this.getSunken());
+        dto.put("turn", this.turns);
+        dto.put("playerId", this.gamePlayer.getPlayer().getId());
+        dto.put("sunk", this.getSunk());
         return dto;
     }
 
-    public Map<String, Object> shipsRemainDto() {
+    public Map<String, Object> shipsRemainDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("turn", this.turns);
+        dto.put("playerId", this.gamePlayer.getPlayer().getId());
         dto.put("shipsRemain", this.shipsRemain());
         return dto;
     }
@@ -89,23 +93,10 @@ public class Salvo {
         }
         return hits;
     }
-
-    public List<String> getSunken() {
-        List<String> salvos = new ArrayList<>();
-        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
-                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
-                mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
-        return this.gamePlayer.getOpponent().get().getShips().stream().filter(s ->
-                salvos.containsAll(s.getLocations())
-        ).map(Ship::getType).collect(Collectors.toList());
-    }
     public List<String> shipsRemain() {
-        List<String> shipsRemain = new ArrayList<>();
-        Salvo lastSalvo = gamePlayer.getSalvos().stream()
-                .filter(x -> x.getTurns() == gamePlayer.getSalvos().size()).findAny().orElse(null);
-
-        if (this.gamePlayer.getOpponent().isPresent() && lastSalvo != null) {
-            shipsRemain = this.gamePlayer.getOpponent().get().getShips().stream().filter(y -> !lastSalvo.getSunken().contains(y.getType()))
+        List<String> shipsRemain;
+        if (this.gamePlayer.getOpponent().isPresent()) {
+            shipsRemain = this.gamePlayer.getOpponent().get().getShips().stream().filter(x -> !this.getSunkHistory().contains(x.getType()))
                     .map(Ship::getType).collect(Collectors.toList());
         } else {
             shipsRemain = this.gamePlayer.getOpponent().get().getShips().stream().map(Ship::getType).collect(Collectors.toList());
@@ -114,4 +105,20 @@ public class Salvo {
     }
 
 
+    public List<String> getSunkHistory() {
+        List<String> salvos = new ArrayList<>();
+        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
+                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
+        mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
+        return this.gamePlayer.getOpponent().get().getShips().stream().filter(s ->
+                salvos.containsAll(s.getLocations())
+        ).map(Ship::getType).collect(Collectors.toList());
+    }
+
+    public List<String> getSunk() {
+
+        return this.gamePlayer.getOpponent().get().getShips().stream().filter(s ->
+                this.getLocations().containsAll(s.getLocations())
+        ).map(Ship::getType).collect(Collectors.toList());
+    }
 }

@@ -50,20 +50,19 @@ public class GamePlayer {
         return dto;
     }
 
-    public Map<String, Object> toDTOGameView() {
+    public Map<String, Object> GameViewDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", this.id);
         dto.put("date", this.joinDate);
         dto.put("gamePlayers", this.game.getGamePlayers().stream().map(GamePlayer::toDTO).collect(toList()));
         dto.put("ships", this.ships.stream().map(Ship::toDTOships).collect(toList()));
-        dto.put("salvos", this.game.gamePlayers.stream().flatMap(gamePlayer -> gamePlayer.getSalvos().stream()
-                .map(Salvo::toDTOsalvos)).collect(toList()));
-        dto.put("playerHits", this.salvos.stream().map(Salvo::hitsDto).collect(Collectors.toList()));
-        dto.put("playerSunken", this.salvos.stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
-        dto.put("opponentHits", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDto).collect(Collectors.toList()));
-        dto.put("opponentSunken", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkenDto).collect(Collectors.toList()));
-        dto.put("playerShipsRemain", this.getOpponent().get().getSalvos().stream().map(Salvo::shipsRemainDto).collect(Collectors.toList()));
-        dto.put("opponentShipsRemain", this.salvos.stream().map(Salvo::shipsRemainDto).collect(Collectors.toList()));
+        dto.put("salvos", this.game.getGamePlayers().stream().flatMap(gp -> gp.getSalvos().stream().map(Salvo::salvosDTO)).collect(Collectors.toList()));
+        dto.put("playerHits", this.salvos.stream().map(Salvo::hitsDTO).collect(Collectors.toList()));
+        dto.put("playerSunkOpponentShips", this.salvos.stream().map(Salvo::sunkDTO).collect(Collectors.toList()));
+        dto.put("opponentHits", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDTO).collect(Collectors.toList()));
+        dto.put("opponentSunkPlayer", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkDTO).collect(Collectors.toList()));
+        dto.put("opponentShipsRemain", this.salvos.stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
+        dto.put("playerShipsRemain", this.getOpponent().get().getSalvos().stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
         return dto;
     }
 

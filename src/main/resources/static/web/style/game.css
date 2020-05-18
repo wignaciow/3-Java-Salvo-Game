@@ -228,8 +228,12 @@ tbody td:hover {
     letter-spacing: 1px;    
 }
 
-#statusTable {
+.statusTable {
     background-color: white;
+}
+
+.historyTitle {
+    text-align: center;
 }
 
 

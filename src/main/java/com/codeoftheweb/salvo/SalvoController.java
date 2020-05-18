@@ -112,7 +112,7 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "User not authorized"), HttpStatus.FORBIDDEN);
 
         }
-        return new ResponseEntity<>(gamePlayer.get().toDTOGameView(), HttpStatus.OK);
+        return new ResponseEntity<>(gamePlayer.get().GameViewDTO(), HttpStatus.OK);
     }
 
     //LIST OF SHIPS//

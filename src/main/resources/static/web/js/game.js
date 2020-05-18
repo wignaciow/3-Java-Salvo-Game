@@ -7,14 +7,10 @@ var vue = new Vue({
         gpInfo: [],
         player: [],
         opponent: [],
+        playerHistory: [],
+        opponentHistory: [],
         newShips: [],
         newSalvosLocations: [],
-        playerStatusBoard: [],
-        opponentStatusBoard: [{
-            turnOpponent: 0,
-            hitsOpponent: [],
-            sunkenOpponent: [],
-        }],        
         newGame: true,
     },
     updated() {
@@ -32,6 +28,8 @@ var vue = new Vue({
                 vue.gpInfo = data;
                 vue.gpUsers();
                 gridShips();
+                vue.historyTablePlayer();
+                vue.historyTableOpponent();
             })
         },
         addShips: function () {
@@ -74,6 +72,122 @@ var vue = new Vue({
                 }
             }
 
+        },
+        historyTablePlayer: function () {
+            var salvos = vue.gpInfo.salvos.filter(salvo => salvo.playerId == vue.player.id);
+            var playerHistory = [];
+
+            //Turn
+            for (var i = 0; i < salvos.length; i++) {
+                var plHistory = {
+                    turn: salvos[i].turn,
+                    miss: 0,
+                    hit: 0,
+                    sunk: 0,
+                    remain: []
+                };
+
+                playerHistory.push(plHistory);
+            }
+            playerHistory.sort((a, b) => a.turn - b.turn);
+
+            //Miss and Hits
+            playerHistory.forEach(plHistoryTurn => {
+                vue.gpInfo.playerHits.forEach(hit => {
+                    if (plHistoryTurn.turn == hit.turn) {
+                        plHistoryTurn.hit = hit.hits.length;
+                        plHistoryTurn.miss = 5 - plHistoryTurn.hit;
+                    }
+                })
+            })
+            
+            //Sunk
+            playerHistory.forEach(plHistoryTurn => {
+                vue.gpInfo.playerSunkOpponentShips.forEach(sunk => {
+                    if (plHistoryTurn.turn == sunk.turn) {
+                        if (sunk.sunk.length == 0) {
+                            plHistoryTurn.sunk = 0;
+                        } else {
+                            sunk.sunk.forEach(type => {
+                                plHistoryTurn.sunk = type
+                            });
+                        }
+                    }
+                })
+            })
+
+            //Remain
+            playerHistory.forEach(plHistoryTurn => {
+                vue.gpInfo.opponentShipsRemain.forEach(remain => {
+                    if (plHistoryTurn.turn == remain.turn) {
+                        remain.shipsRemain.forEach(type => {
+                            plHistoryTurn.remain.push(type);
+                        })
+
+                    }
+                })
+            })
+
+            vue.playerHistory = playerHistory;
+        },
+        historyTableOpponent: function () {
+            var salvos = vue.gpInfo.salvos.filter(salvo => salvo.playerId != vue.player.id);
+            var opponentHistory = [];
+
+            //Turn
+            for (var i = 0; i < salvos.length; i++) {
+                var opHistory = {
+                    turn: salvos[i].turn,
+                    miss: 0,
+                    hit: 0,
+                    sunk: 0,
+                    remain: []
+                };
+
+                opponentHistory.push(opHistory);
+            }
+            opponentHistory.sort((a, b) => a.turn - b.turn);
+            
+            
+            
+            //Miss and Hits
+            opponentHistory.forEach(opHistoryTurn => {
+                vue.gpInfo.opponentHits.forEach(hit => {
+                    if (opHistoryTurn.turn == hit.turn) {
+                        opHistoryTurn.hit = hit.hits.length;
+                        opHistoryTurn.miss = 5 - opHistoryTurn.hit;
+                    }
+                })
+            })
+            
+            //Sunk
+            opponentHistory.forEach(opHistoryTurn => {
+                vue.gpInfo.opponentSunkPlayer.forEach(sunk => {
+                    if (opHistoryTurn.turn == sunk.turn) {
+                        if (sunk.sunk.length == 0) {
+                            opHistoryTurn.sunk = 0;
+                        } else {
+                            sunk.sunk.forEach(type => {
+                                opHistoryTurn.sunk = type
+                            });
+                        }
+                    }
+                })
+            })
+
+            //Remain
+            opponentHistory.forEach(opHistoryTurn => {
+                vue.gpInfo.playerShipsRemain.forEach(remain => {
+                    if (opHistoryTurn.turn == remain.turn) {
+                        remain.shipsRemain.forEach(type => {
+                            opHistoryTurn.remain.push(type);
+                        })
+
+                    }
+                })
+            })
+
+            vue.opponentHistory = opponentHistory;
         },
         guitGame: function () {
             $.post("/api/logout").done(function () {
@@ -240,166 +354,153 @@ function gridShips() {
     } else {
         vue.newGame = false;
         optionsP.staticGrid = true;
-        alreadySavedShips();        
+        alreadySavedShips();
     }
 };
 
-    //Funcion para salvar los barcos posicionados
-    function saveShips() {
-        vue.newShips = [];
-        $("#gridPosition .grid-stack-item").each(function () {
-            var coordinate = [];
-            var ship = {
-                type: "",
-                locations: ""
-            };
-            if ($(this).attr("data-gs-width") !== "1") {
-                for (var i = 0; i < parseInt($(this).attr("data-gs-width")); i++) {
-                    coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + 65) + (parseInt($(this).attr("data-gs-x")) + i + 1).toString());
-                }
-            } else {
-                for (var i = 0; i < parseInt($(this).attr("data-gs-height")); i++) {
-                    coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + i + 65) + (parseInt($(this).attr("data-gs-x")) + 1).toString());
-                }
-            }
-
-            ship.type = $(this)[0].firstChild.id;
-            ship.locations = coordinate;
-            vue.newShips.push(ship);
-            console.log(ship);
-        });
-        if (vue.newShips.length == 5) {
-            vue.addShips();
-
-        } else {
-            alert("Please place all ships before saving");
+//Funcion para salvar los barcos posicionados
+function saveShips() {
+    vue.newShips = [];
+    $("#gridPosition .grid-stack-item").each(function () {
+        var coordinate = [];
+        var ship = {
+            type: "",
+            locations: ""
         };
-    }
-
-    //Funcion de la condicion de grilla salvados, para mostrar ya la grilla con los barcos.
-    function alreadySavedShips() {
-        const optionsP = {
-            column: 10,
-            row: 10,
-            verticalMargin: 0,
-            disableOneColumnMode: true,
-            cellHeight: 52,
-            float: true,
-            disableResize: true,
-            staticGrid: false,
-            acceptWidgets: function (i, el) {
-                return true;
-            },
-            animate: true
-        }
-
-        const gridPosition = GridStack.init(optionsP, '#gridPosition');
-
-        for (var i = 0; i < vue.gpInfo.ships.length; i++) {
-            var ship = vue.gpInfo.ships[i];
-
-            let xShip = parseInt(ship.locations[0].slice(1)) - 1;
-            let yShip = parseInt(ship.locations[0].slice(0, 1).charCodeAt(0)) - 65;
-
-            if (ship.locations[0][0] == ship.locations[1][0]) {
-                widthShip = ship.locations.length;
-                heigthShip = 1;
-
-                gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Horizontal"></div></div>', {
-                    width: widthShip,
-                    heigth: heigthShip,
-                    x: xShip,
-                    y: yShip,
-                    noResize: true,
-                    id: ship.type
-                })
-            } else {
-                widthShip = 1;
-                heigthShip = ship.locations.length;
-
-                gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Vertical"></div></div>', {
-                    width: widthShip,
-                    height: heigthShip,
-                    x: xShip,
-                    y: yShip,
-                    noResize: true,
-                    id: ship.type
-                })
+        if ($(this).attr("data-gs-width") !== "1") {
+            for (var i = 0; i < parseInt($(this).attr("data-gs-width")); i++) {
+                coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + 65) + (parseInt($(this).attr("data-gs-x")) + i + 1).toString());
+            }
+        } else {
+            for (var i = 0; i < parseInt($(this).attr("data-gs-height")); i++) {
+                coordinate.push(String.fromCharCode(parseInt($(this).attr("data-gs-y")) + i + 65) + (parseInt($(this).attr("data-gs-x")) + 1).toString());
             }
         }
+
+        ship.type = $(this)[0].firstChild.id;
+        ship.locations = coordinate;
+        vue.newShips.push(ship);
+        console.log(ship);
+    });
+    if (vue.newShips.length == 5) {
+        vue.addShips();
+
+    } else {
+        alert("Please place all ships before saving");
+    };
+}
+
+//Funcion de la condicion de grilla salvados, para mostrar ya la grilla con los barcos.
+function alreadySavedShips() {
+    const optionsP = {
+        column: 10,
+        row: 10,
+        verticalMargin: 0,
+        disableOneColumnMode: true,
+        cellHeight: 52,
+        float: true,
+        disableResize: true,
+        staticGrid: false,
+        acceptWidgets: function (i, el) {
+            return true;
+        },
+        animate: true
     }
 
-    /*----------------------------------GRILLA Y FUNCIONES PARA SALVOS---------------------------------------------*/
+    const gridPosition = GridStack.init(optionsP, '#gridPosition');
 
-    /*Marcar los Salvos en la Grilla*/
-    function salvoLocation(id) {
-        if (vue.newSalvosLocations.length < 5) {
-            if (vue.newSalvosLocations.includes(id) == false) {
-                vue.newSalvosLocations.push(id);
-                document.getElementById(id).classList.add("bg-warning");
+    for (var i = 0; i < vue.gpInfo.ships.length; i++) {
+        var ship = vue.gpInfo.ships[i];
 
-                vue.gpInfo.salvos.forEach(x => {
-                    if (x.playerId == vue.player.id) {
-                        x.locations.forEach(y => {
-                            if (vue.newSalvosLocations.includes(y) == true) {
-                                document.getElementById(y).classList.remove("bg-warning");
-                                quitarSalvoLocation(id);
-                                alert("You already select this cell before");
-                            }
-                        })
-                    }
-                })
-            } else {
-                document.getElementById(id).classList.remove("bg-warning");
-                quitarSalvoLocation(id);
-            }
-        } else if (vue.newSalvosLocations.length == 5) {
+        let xShip = parseInt(ship.locations[0].slice(1)) - 1;
+        let yShip = parseInt(ship.locations[0].slice(0, 1).charCodeAt(0)) - 65;
+
+        if (ship.locations[0][0] == ship.locations[1][0]) {
+            widthShip = ship.locations.length;
+            heigthShip = 1;
+
+            gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Horizontal"></div></div>', {
+                width: widthShip,
+                heigth: heigthShip,
+                x: xShip,
+                y: yShip,
+                noResize: true,
+                id: ship.type
+            })
+        } else {
+            widthShip = 1;
+            heigthShip = ship.locations.length;
+
+            gridPosition.addWidget('<div id="' + ship.type + '"><div class="grid-stack-item-content' + " " + ship.type + 'Vertical"></div></div>', {
+                width: widthShip,
+                height: heigthShip,
+                x: xShip,
+                y: yShip,
+                noResize: true,
+                id: ship.type
+            })
+        }
+    }
+}
+
+/*----------------------------------GRILLA Y FUNCIONES PARA SALVOS---------------------------------------------*/
+
+/*Marcar los Salvos en la Grilla*/
+function salvoLocation(id) {
+    if (vue.newSalvosLocations.length < 5) {
+        if (vue.newSalvosLocations.includes(id) == false) {
+            vue.newSalvosLocations.push(id);
+            document.getElementById(id).classList.add("bg-warning");
+
+            vue.gpInfo.salvos.forEach(x => {
+                if (x.playerId == vue.player.id) {
+                    x.locations.forEach(y => {
+                        if (vue.newSalvosLocations.includes(y) == true) {
+                            document.getElementById(y).classList.remove("bg-warning");
+                            quitarSalvoLocation(id);
+                            alert("You already select this cell before");
+                        }
+                    })
+                }
+            })
+        } else {
             document.getElementById(id).classList.remove("bg-warning");
-            /*te permite modificar el salvo guardado en el json, ojo! no en el back */
             quitarSalvoLocation(id);
         }
-    };
+    } else if (vue.newSalvosLocations.length == 5) {
+        document.getElementById(id).classList.remove("bg-warning");
+        /*te permite modificar el salvo guardado en el json, ojo! no en el back */
+        quitarSalvoLocation(id);
+    }
+};
 
-    /*Sub-funcion de marcar salvos en la grilla*/
-    function quitarSalvoLocation(id) {
-        var index = vue.newSalvosLocations.indexOf(id);
-        if (index > -1) {
-            vue.newSalvosLocations.splice(index, 1);
+/*Sub-funcion de marcar salvos en la grilla*/
+function quitarSalvoLocation(id) {
+    var index = vue.newSalvosLocations.indexOf(id);
+    if (index > -1) {
+        vue.newSalvosLocations.splice(index, 1);
+    }
+};
+
+/*Salvar los salvos en la Grilla*/
+function saveSalvoLocations() {
+    var turn = 0;
+    if (vue.newSalvosLocations.length < 5) {
+        alert('Need to place all Shoots');
+    } else {
+        vue.addSalvos();
+    }
+
+};
+
+/*Pintar los salvos en la grilla*/
+function paintSalvosFired() {
+    vue.gpInfo.salvos.forEach(x => {
+        if (x.playerId == vue.player.id) {
+            x.locations.forEach(y => {
+                document.getElementById(y).classList.add("bg-success");
+            })
         }
-    };
+    })
 
-    /*Salvar los salvos en la Grilla*/
-    function saveSalvoLocations() {
-        var turn = 0;
-        if (vue.newSalvosLocations.length < 5) {
-            alert('Need to place all Shoots');
-        } else {
-           vue.addSalvos();
-        } 
-        
-    };
-
-    /*Pintar los salvos en la grilla*/
-    function paintSalvosFired() {
-        vue.gpInfo.salvos.forEach(x => {
-            if (x.playerId == vue.player.id) {
-                x.locations.forEach(y => {
-                    document.getElementById(y).classList.add("bg-success");
-                })
-            }
-        })
-    };
-
-/*function gameStatusBoard () {
-recorrer arrays y volcar informacion en tabla html por turno
-vue.gpInfo.salvos.turn
-vue.gpInfo.playerHits
-vue.gpInfo.playerSunken
-vue.gpInfo.playerShipRemain
-
-vue.gpInfo.salvos.turn
-vue.gpInfo.opponentHits
-vvue.gpInfo.opponentSunken
-vue.gpInfo.opponentShipRemain
-}*/
-
+};
