@@ -1,7 +1,7 @@
 var vue = new Vue({
     el: '#app',
     data: {
-        show: "home",
+        show: "",
         gamesInfo: [],
         returnGameList: [],
         joinGameList: [],
@@ -16,7 +16,7 @@ var vue = new Vue({
         nickNameM: "",
         userNameM: "",
         passwordM: "",
-        
+
     },
     methods: {
         display: function (page) {
@@ -141,7 +141,7 @@ var vue = new Vue({
                 vue.actualUser();
                 vue.gamesPlayerData();
                 vue.playerData();
-                
+
             })
         },
         gamesPlayerData: function () {
@@ -210,8 +210,8 @@ var vue = new Vue({
                 })
             })
         },
+        
     }
 })
 vue.gamesData();
-
 

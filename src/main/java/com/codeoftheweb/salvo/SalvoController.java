@@ -160,6 +160,12 @@ public class SalvoController {
         if (optionalGamePlayer.get().getPlayer().getId() != playerLogged.getId()) {
             return new ResponseEntity<>(makeMap("error", "This is not your game"), HttpStatus.FORBIDDEN);
         }
+        //first salvo
+        if (optionalGamePlayer.get().getId() > opponent.get().getId() && optionalGamePlayer.get().getSalvos().size() ==
+            opponent.get().getSalvos().size()) {
+            return new ResponseEntity<>(makeMap("error", "Game creator owns first shot of any turn"), HttpStatus.FORBIDDEN);
+        }
+        //salvo turns
         if (optionalGamePlayer.get().getSalvos().size() > opponent.get().getSalvos().size()) {
             return new ResponseEntity<>(makeMap("error", "Wait for opponent shots!"), HttpStatus.FORBIDDEN);
         }

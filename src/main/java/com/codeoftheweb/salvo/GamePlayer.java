@@ -59,10 +59,13 @@ public class GamePlayer {
         dto.put("salvos", this.game.getGamePlayers().stream().flatMap(gp -> gp.getSalvos().stream().map(Salvo::salvosDTO)).collect(Collectors.toList()));
         dto.put("playerHits", this.salvos.stream().map(Salvo::hitsDTO).collect(Collectors.toList()));
         dto.put("playerSunkOpponentShips", this.salvos.stream().map(Salvo::sunkDTO).collect(Collectors.toList()));
-        dto.put("opponentHits", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDTO).collect(Collectors.toList()));
-        dto.put("opponentSunkPlayer", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkDTO).collect(Collectors.toList()));
-        dto.put("opponentShipsRemain", this.salvos.stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
-        dto.put("playerShipsRemain", this.getOpponent().get().getSalvos().stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
+        if (this.getOpponent().isPresent()) {
+            dto.put("opponentHits", this.getOpponent().get().getSalvos().stream().map(Salvo::hitsDTO).collect(Collectors.toList()));
+            dto.put("opponentSunkPlayerShips", this.getOpponent().get().getSalvos().stream().map(Salvo::sunkDTO).collect(Collectors.toList()));
+            dto.put("opponentShipsRemain", this.salvos.stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
+            dto.put("playerShipsRemain", this.getOpponent().get().getSalvos().stream().map(Salvo::shipsRemainDTO).collect(Collectors.toList()));
+        }
+        dto.put("state", this.getStateGame());
         return dto;
     }
 
@@ -120,5 +123,49 @@ public class GamePlayer {
     public Optional<GamePlayer> getOpponent() {
         return this.game.getGamePlayers().stream().filter(g -> g.getId() != this.id).findFirst();
     }
-}
+
+    //ESTADO DEL JUEGO
+    public String getStateGame() {
+        String state = " ";
+        if (this.getOpponent().isEmpty()) {
+            if (this.getShips().isEmpty()) {
+                state = "PLACE_SHIPS";
+            } else if (this.getOpponent().isEmpty()) {
+                state = "WAIT_FOR_AN_OPPONENT";
+            }
+        } else {
+            int myTurn = this.getSalvos().size();
+            int opponentTurn = this.getOpponent().get().getSalvos().size();
+
+            if (this.getShips().isEmpty()) {
+                state = "PLACE_SHIPS";
+            } else if (this.getOpponent().get().getShips().isEmpty()) {
+                state = "WAIT_OPPONENT_SHIPS";
+            } else if (myTurn > opponentTurn) {
+                state = "WAIT_OPPONENT_ATTACK";
+            } else if (myTurn < opponentTurn){
+                state = "FIRE";
+            } else if (myTurn == opponentTurn) {
+                if(this.getId() < this.getOpponent().get().getId()){
+                    state = "FIRE";
+                }else if(this.getId() > this.getOpponent().get().getId()){
+                    state = "WAIT_OPPONENT_ATTACK";
+                }
+
+                boolean sinkPlayer = this.getSalvos().stream().anyMatch(salvo -> salvo.getShipsRemain().size() == 0);
+                boolean sinkOpponent = this.getOpponent().get().getSalvos().stream().anyMatch(salvo -> salvo.getShipsRemain().size() == 0);
+
+                if (sinkPlayer && !sinkOpponent) {
+                    state = "YOU_WON";
+                } else if (!sinkPlayer && sinkOpponent) {
+                    state = "YOU_LOST";
+                } else if (sinkPlayer && sinkOpponent) {
+                    state = "BOTH_TIE";
+                }
+            }
+        }
+        return state;
+    }
+ }
+
 

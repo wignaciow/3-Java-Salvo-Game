@@ -53,7 +53,7 @@ public class Salvo {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("turn", this.turns);
         dto.put("playerId", this.gamePlayer.getPlayer().getId());
-        dto.put("sunk", this.getSunk());
+        dto.put("sunk", this. getSunk());
         return dto;
     }
 
@@ -61,7 +61,7 @@ public class Salvo {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("turn", this.turns);
         dto.put("playerId", this.gamePlayer.getPlayer().getId());
-        dto.put("shipsRemain", this.shipsRemain());
+        dto.put("shipsRemain", this.getShipsRemain());
         return dto;
     }
 
@@ -82,7 +82,6 @@ public class Salvo {
     }
 
     //METODOS PARA OBTENER HITS Y SUNKEN
-
     public List <String> getHits () {
         List<String> hits = new ArrayList<>();
         if (this.gamePlayer.getOpponent().isPresent()) {
@@ -93,7 +92,29 @@ public class Salvo {
         }
         return hits;
     }
-    public List<String> shipsRemain() {
+
+    public List<String> getSunk() {
+        List<String> salvos = new ArrayList<>();
+        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
+                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
+        mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
+        return this.gamePlayer.getOpponent().get().getShips().stream()
+                .filter(s -> salvos.containsAll(s.getLocations()))
+                    .filter(sunkShip -> sunkShip.getLocations().stream().anyMatch(s -> this.locations.contains(s)))
+                        .map(Ship::getType).collect(Collectors.toList());
+    }
+
+    public List<String> getSunkHistory() {
+        List<String> salvos = new ArrayList<>();
+        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
+                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
+        mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
+        return this.gamePlayer.getOpponent().get().getShips().stream()
+                .filter(s -> salvos.containsAll(s.getLocations()))
+                    .map(Ship::getType).collect(Collectors.toList());
+    }
+
+    public List<String> getShipsRemain() {
         List<String> shipsRemain;
         if (this.gamePlayer.getOpponent().isPresent()) {
             shipsRemain = this.gamePlayer.getOpponent().get().getShips().stream().filter(x -> !this.getSunkHistory().contains(x.getType()))
@@ -102,23 +123,5 @@ public class Salvo {
             shipsRemain = this.gamePlayer.getOpponent().get().getShips().stream().map(Ship::getType).collect(Collectors.toList());
         }
         return shipsRemain;
-    }
-
-
-    public List<String> getSunkHistory() {
-        List<String> salvos = new ArrayList<>();
-        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
-                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
-        mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
-        return this.gamePlayer.getOpponent().get().getShips().stream().filter(s ->
-                salvos.containsAll(s.getLocations())
-        ).map(Ship::getType).collect(Collectors.toList());
-    }
-
-    public List<String> getSunk() {
-
-        return this.gamePlayer.getOpponent().get().getShips().stream().filter(s ->
-                this.getLocations().containsAll(s.getLocations())
-        ).map(Ship::getType).collect(Collectors.toList());
     }
 }

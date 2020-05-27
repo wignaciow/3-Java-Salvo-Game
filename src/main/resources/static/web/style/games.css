@@ -1,9 +1,13 @@
 body {
-    background-image: url(../imagenes/foodbox.jpg);
+   background-image: url(../imagenes/foodbox.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; 
-    align-items: center;
+    align-items: center; 
+}
+
+#titleBox {
+    position: absolute;    
 }
 
 .container {
@@ -126,6 +130,43 @@ em.planet.right {
     justify-content: space-between;
     margin-bottom: 5%;
 }
+
+/*IMG*/
+@font-face {
+    font-family: Parisienne;
+    src: url(Parisienne.ttf);
+}
+
+#v {
+    font-family: Parisienne;
+    color: black;
+    font-size: 1000%;
+    text-align: start;
+}
+
+#m {
+    font-family: Parisienne;
+    color: black;
+    font-size: 1000%;
+    text-align: end;
+}
+
+
+#vegano  {
+    background-image: url("../imagenes/vegano.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    padding: 0%;  
+}
+
+#carnicero {
+    background-image: url("../imagenes/carnicero.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
 
 /*FORM*/
 *{
@@ -379,77 +420,185 @@ input:focus{
     letter-spacing: 1px;
 }
 
+#vegArmy {
+    background-image: url(../imagenes/frutasFrescas.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 #vegArmyTitle {
-    margin-top: 2%;
+    margin: 5% 0% 3% 0%;
     text-align: center;
     font-family: Rocks;
     color: darkgreen;
     font-size: 15vw;
     line-height: 1;
-    line-height: 10vw;
+    line-height: 10vw;   
 }
 
 #vegArmyUser {
     font-family: Rocks;
-    color: black;
-    font-size: 12vw;
+    color: darkred;
+    font-size: 10vw;
     line-height: 1;
-    margin-bottom: 0%;
-}
-
-#playerBoard {
-    background-image: url(../imagenes/mesaFour.jfif);
-    background-size: 100% 100%;
+    margin-top: 2%;
+    margin-bottom: 3%;
+    text-transform: uppercase;
+    background-image: url(../imagenes/fork.png);
+    background-size: contain;
+    background-position:right;
     background-repeat: no-repeat;
-    padding: 2%;
-    box-shadow: inset 0 0 10px white;
 }
 
-#gamesOpened {
+#playerMenu{
+    background-image: url(../imagenes/menu.jpg);
+    background-size: 100% ;
+    /*background-repeat: no-repeat;*/
+    padding: 2%;
+    margin-top: 5%;
+}
+
+#navbarSupportedContent {
+   margin: 35% 0% 0% 0%; 
+}
+
+#navPlayer {
+    box-shadow: 2px 0px 10px 2px white;
+    margin: 0% 3% 3% 3%;
+    padding: 0%;
+    font-family: Rocks;
+    font-size: 70px;
     color: white;
+    justify-content:space-around;
+    align-items: center;
+    opacity: 80%;
+}
+
+#navPlayer li {
+    margin: 0% 1%; 
+}
+
+#navPlayer li a {
+    border: none;
+}
+
+#navPlayer li a:hover {
+    border: none;
+}
+
+/*#homeOpened {
     border: 1px solid green;
     background-color: darkgray;
     margin-bottom: 5%;
+}*/
+
+#menuDisplay {
+    margin: 0%;
+    justify-content: space-around;
+}
+
+#menuDisplayBox {
+    margin: 0% 2% 5% 2%;
+    padding: 0%;
+    box-shadow: 1px 5px 10px 5px white;
+    opacity: 90%;
+    background-color: white;
+}
+
+#home, #join, #continue, #statistics {
+    opacity: 90%;
+    align-items: center;
+    margin: 0%;
+    padding: 0%;
+}
+
+/*HOME-TAB*/
+#homeText {
+    text-align: justify;
+    font-size: 50px;
+    font-family: Rocks;
+    color: black;
+    line-height: 1; 
+}
+
+#create {
+    font-family: Rocks;
+    font-size: 80px;
+    color: white;
+    background-image: url(../imagenes/frutas.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 80%;
+    margin: 5% 0%;
+    border-radius: 25%;
+}
+
+#create:hover { 
+  color: red;
+}
+
+/*JOIN-COMTINUE-STATISTICS TABS*/
+.listContent {
+    list-style: none;
+    margin: 2% 4%;
+}
+
+.listContent li {
+    list-style: none;
+}
+
+.continueList, .joinList {
+    margin-top: 7%;
+    font-family:fantasy;
+    font-weight: lighter;
+    letter-spacing: 5%;
+    font-size: 30px;
+    color: black;
+    opacity: 80%;
+    
+}
+
+.joinList ul {
+    margin: 0%;
+}
+
+.joinList ul li {
+    font-size: 25px;
+}
+
+li span {
+    color: green;
 }
 
 /*LEADERBOARD*/
-
-#leaderboard {
-    margin: 5% 0%;
-}
-
-#tableleaderboard {
-    border: 2px solid green;
-    background-image: url(../imagenes/mesaFive.jpg);
+#tableLeaderBoard {                     
     opacity: 80%;
     color: white;
+    margin-top: 2%;
+    padding: 0%;
+    
+}
+
+#tableLeaderBoard thead tr {
+    text-transform: uppercase;
+    font-size: 50px;
+    font-family: Rocks;
+    text-align: center;
+}
+
+.player {
+    text-align: left;
+}
+
+.score {
+    text-align: right;
+}
+
+#tableLeaderBoard tbody tr {
+    font-size: 25px;
+    text-align: center;
 }
 
 #leaderboard tr {
     text-align: center;
 }
-
-#v-pills-statistics-tab, #v-pills-home-tab, #v-pills-profile-tab, #v-pills-messages-tab {
-    border: 1px solid green;
-    background-color: grey;
-}
-
-.continueList, .joinList {
-    background-color: darkgreen;
-    color: white;
-    margin: 0.5%;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

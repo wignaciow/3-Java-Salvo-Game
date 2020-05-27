@@ -83,7 +83,7 @@ var vue = new Vue({
                     turn: salvos[i].turn,
                     miss: 0,
                     hit: 0,
-                    sunk: 0,
+                    sunk: [],
                     remain: []
                 };
 
@@ -109,7 +109,7 @@ var vue = new Vue({
                             plHistoryTurn.sunk = 0;
                         } else {
                             sunk.sunk.forEach(type => {
-                                plHistoryTurn.sunk = type
+                                plHistoryTurn.sunk.push(type);
                             });
                         }
                     }
