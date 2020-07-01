@@ -1,7 +1,6 @@
-package com.codeoftheweb.salvo;
+package com.codeoftheweb.salvo.models;
 
 
-import org.apache.tomcat.util.net.WriteBuffer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -54,6 +53,7 @@ public class Salvo {
         dto.put("turn", this.turns);
         dto.put("playerId", this.gamePlayer.getPlayer().getId());
         dto.put("sunk", this. getSunk());
+        dto.put("location", this.getSunkLoc());
         return dto;
     }
 
@@ -102,6 +102,17 @@ public class Salvo {
                 .filter(s -> salvos.containsAll(s.getLocations()))
                     .filter(sunkShip -> sunkShip.getLocations().stream().anyMatch(s -> this.locations.contains(s)))
                         .map(Ship::getType).collect(Collectors.toList());
+    }
+
+    public List<List<String>> getSunkLoc() {
+        List<String> salvos = new ArrayList<>();
+        Set<Salvo> mySalvos = this.gamePlayer.getSalvos().stream()
+                .filter(salvo -> salvo.getTurns() <= this.getTurns()).collect(Collectors.toSet());
+        mySalvos.stream().forEach(salvo -> salvos.addAll(salvo.getLocations()));
+        return this.gamePlayer.getOpponent().get().getShips().stream()
+                .filter(s -> salvos.containsAll(s.getLocations()))
+                .filter(sunkShip -> sunkShip.getLocations().stream().anyMatch(s -> this.locations.contains(s)))
+                .map(Ship::getLocations).collect(Collectors.toList());
     }
 
     public List<String> getSunkHistory() {

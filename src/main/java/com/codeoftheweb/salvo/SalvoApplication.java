@@ -1,6 +1,11 @@
 package com.codeoftheweb.salvo;
 
 
+import com.codeoftheweb.salvo.models.*;
+import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
+import com.codeoftheweb.salvo.repositories.GameRepository;
+import com.codeoftheweb.salvo.repositories.PlayerRepository;
+import com.codeoftheweb.salvo.repositories.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -52,38 +57,38 @@ public class SalvoApplication {
 			Player player4 = new Player( "Tomas", "t.almeida@ctu.gov", passwordEncoder.encode("mole"));
 			repository.save(player4);
 
-			Ship ship1 = new Ship ( "destroyer", Arrays.asList ( "H2", "H3", "H4" ));
-			Ship ship2 = new Ship ( "submarine", Arrays.asList ( "E1", "F1", "G1" ));
-			Ship ship3 = new Ship ( "patrol", Arrays.asList ( "B4", "B5" ));
-			Ship ship28 = new Ship ("battleship", Arrays.asList("G10", "H10","I10","J10"));
-			Ship ship29 = new Ship ("carrier", Arrays.asList("A10","B10","C10","D10","E10"));
-			Ship ship4 = new Ship ( "destroyer", Arrays.asList ( "B5", "C5", "D5" ));
-			Ship ship5 = new Ship ( "patrol", Arrays.asList ( "F1", "F2" ));
-			Ship ship30 = new Ship ("battleship", Arrays.asList("G10", "H10","I10","J10"));
-			Ship ship31 = new Ship ("carrier", Arrays.asList("A10","B10","C10","D10","E10"));
-			Ship ship32 = new Ship ( "submarine", Arrays.asList ( "E1", "E2", "E3" ));
-			Ship ship6 = new Ship ( "Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship7 = new Ship (	"Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship8 = new Ship (	"Submarine", Arrays.asList ("A2", "A3", "A4"));
-			Ship ship9 = new Ship (	"Patrol Boat", Arrays.asList ("G6", "H6"));
-			Ship ship10 = new Ship ("Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship11 = new Ship ("Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship12 = new Ship ("Submarine", Arrays.asList ("A2", "A3", "A4"));
-			Ship ship13 = new Ship ("Patrol Boat", Arrays.asList ("G6", "H6"));
-			Ship ship14 = new Ship ("Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship15 = new Ship ("Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship16 = new Ship ("Submarine", Arrays.asList ("A2", "A3", "A4"));
-			Ship ship17 = new Ship ("Patrol Boat", Arrays.asList ("G6", "H6"));
-			Ship ship18 = new Ship ("Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship19 = new Ship ("Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship20 = new Ship ("Submarine", Arrays.asList ("A2", "A3", "A4"));
-			Ship ship21 = new Ship ("Patrol Boat", Arrays.asList ("G6", "H6"));
-			Ship ship22 = new Ship ("Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship23 = new Ship ("Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship24 = new Ship ("Destroyer", Arrays.asList ("B5", "C5", "D5"));
-			Ship ship25 = new Ship ("Patrol Boat", Arrays.asList ("C6", "C7"));
-			Ship ship26 = new Ship ("Submarine", Arrays.asList ("A2", "A3", "A4"));
-			Ship ship27 = new Ship ("Patrol Boat", Arrays.asList ("G6", "H6"));
+			Ship ship1 = new Ship ( "lechuga", Arrays.asList ( "H2", "H3", "H4" ));
+			Ship ship2 = new Ship ( "morron", Arrays.asList ( "E1", "F1", "G1" ));
+			Ship ship3 = new Ship ( "papa", Arrays.asList ( "B4", "B5" ));
+			Ship ship28 = new Ship ("pepino", Arrays.asList("G10", "H10","I10","J10"));
+			Ship ship29 = new Ship ("choclo", Arrays.asList("A10","B10","C10","D10","E10"));
+			Ship ship4 = new Ship ( "lechuga", Arrays.asList ( "B5", "C5", "D5" ));
+			Ship ship5 = new Ship ( "papa", Arrays.asList ( "F1", "F2" ));
+			Ship ship30 = new Ship ("pepino", Arrays.asList("G10", "H10","I10","J10"));
+			Ship ship31 = new Ship ("choclo", Arrays.asList("A10","B10","C10","D10","E10"));
+			Ship ship32 = new Ship ( "morron", Arrays.asList ( "E1", "E2", "E3" ));
+			Ship ship6 = new Ship ( "lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship7 = new Ship (	"papa", Arrays.asList ("C6", "C7"));
+			Ship ship8 = new Ship (	"morron", Arrays.asList ("A2", "A3", "A4"));
+			Ship ship9 = new Ship (	"papa", Arrays.asList ("G6", "H6"));
+			Ship ship10 = new Ship ("lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship11 = new Ship ("papa", Arrays.asList ("C6", "C7"));
+			Ship ship12 = new Ship ("morron", Arrays.asList ("A2", "A3", "A4"));
+			Ship ship13 = new Ship ("papa", Arrays.asList ("G6", "H6"));
+			Ship ship14 = new Ship ("lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship15 = new Ship ("papa", Arrays.asList ("C6", "C7"));
+			Ship ship16 = new Ship ("morron", Arrays.asList ("A2", "A3", "A4"));
+			Ship ship17 = new Ship ("papa", Arrays.asList ("G6", "H6"));
+			Ship ship18 = new Ship ("lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship19 = new Ship ("papa", Arrays.asList ("C6", "C7"));
+			Ship ship20 = new Ship ("morron", Arrays.asList ("A2", "A3", "A4"));
+			Ship ship21 = new Ship ("papa", Arrays.asList ("G6", "H6"));
+			Ship ship22 = new Ship ("lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship23 = new Ship ("papa", Arrays.asList ("C6", "C7"));
+			Ship ship24 = new Ship ("lechuga", Arrays.asList ("B5", "C5", "D5"));
+			Ship ship25 = new Ship ("papa", Arrays.asList ("C6", "C7"));
+			Ship ship26 = new Ship ("morron", Arrays.asList ("A2", "A3", "A4"));
+			Ship ship27 = new Ship ("papa", Arrays.asList ("G6", "H6"));
 
 
 			Game game1 = new Game((LocalDateTime.now()));
@@ -122,14 +127,14 @@ public class SalvoApplication {
 			Salvo salvo20 = new Salvo (2, Arrays.asList ("C6", "D6", "E6"));
 			Salvo salvo21 = new Salvo (3, Arrays.asList ("H1", "H8"));
 
-			GamePlayer gamePlayer1 = new GamePlayer( player1, game1);
+			GamePlayer gamePlayer1 = new GamePlayer( player1, game1, Food.VEGETARIAN);
 			gamePlayer1.addShip ( ship1 );
 			gamePlayer1.addShip ( ship2 );
 			gamePlayer1.addShip ( ship3 );
 			gamePlayer1.addShip ( ship28 );
 			gamePlayer1.addShip ( ship29 );
 			gamePlayerRepository.save( gamePlayer1);
-			GamePlayer gamePlayer2 = new GamePlayer( player2, game1);
+			GamePlayer gamePlayer2 = new GamePlayer( player2, game1, Food.MEATLOVER);
 			gamePlayer2.addShip ( ship4 );
 			gamePlayer2.addShip ( ship5 );
 			gamePlayer2.addShip ( ship30 );
@@ -137,52 +142,52 @@ public class SalvoApplication {
 			gamePlayer2.addShip ( ship32 );
 			gamePlayerRepository.save( gamePlayer2);
 
-			GamePlayer gamePlayer3 = new GamePlayer( player1, game2);
+			GamePlayer gamePlayer3 = new GamePlayer( player1, game2, Food.MEATLOVER);
 			gamePlayer3.addShip ( ship6);
 			gamePlayer3.addShip ( ship7);
 			gamePlayer3.addSalvo( salvo5);
 			gamePlayer3.addSalvo( salvo7);
 			gamePlayerRepository.save( gamePlayer3);
-			GamePlayer gamePlayer4 = new GamePlayer( player2, game2);
+			GamePlayer gamePlayer4 = new GamePlayer( player2, game2, Food.VEGETARIAN);
 			gamePlayer4.addShip ( ship8);
 			gamePlayer4.addShip ( ship9);
 			gamePlayer4.addSalvo( salvo6);
 			gamePlayer4.addSalvo( salvo8);
 			gamePlayerRepository.save( gamePlayer4);
 
-			GamePlayer gamePlayer5 = new GamePlayer( player2, game3);
+			GamePlayer gamePlayer5 = new GamePlayer( player2, game3, Food.VEGETARIAN);
 			gamePlayer5.addShip ( ship10);
 			gamePlayer5.addShip ( ship11);
 			gamePlayer5.addSalvo( salvo9);
 			gamePlayer5.addSalvo( salvo11);
 			gamePlayerRepository.save( gamePlayer5);
-			GamePlayer gamePlayer6 = new GamePlayer( player4, game3);
+			GamePlayer gamePlayer6 = new GamePlayer( player4, game3, Food.VEGETARIAN);
 			gamePlayer6.addShip ( ship12);
 			gamePlayer6.addShip ( ship13);
 			gamePlayer6.addSalvo( salvo10);
 			gamePlayer6.addSalvo( salvo12);
 			gamePlayerRepository.save( gamePlayer6);
 
-			GamePlayer gamePlayer7 = new GamePlayer( player2, game4);
+			GamePlayer gamePlayer7 = new GamePlayer( player2, game4, Food.VEGETARIAN);
 			gamePlayer7.addShip ( ship14);
 			gamePlayer7.addShip ( ship15);
 			gamePlayer7.addSalvo( salvo13);
 			gamePlayer7.addSalvo( salvo15);
 			gamePlayerRepository.save( gamePlayer7);
-			GamePlayer gamePlayer8 = new GamePlayer( player1, game4);
+			GamePlayer gamePlayer8 = new GamePlayer( player1, game4, Food.MEATLOVER);
 			gamePlayer8.addShip ( ship16);
 			gamePlayer8.addShip ( ship17);
 			gamePlayer8.addSalvo( salvo14);
 			gamePlayer8.addSalvo( salvo16);
 			gamePlayerRepository.save( gamePlayer8);
 
-			GamePlayer gamePlayer9 = new GamePlayer( player4, game5);
+			GamePlayer gamePlayer9 = new GamePlayer( player4, game5, Food.VEGETARIAN);
 			gamePlayer9.addShip ( ship18);
 			gamePlayer9.addShip ( ship19);
 			gamePlayer9.addSalvo( salvo17);
 			gamePlayer9.addSalvo( salvo19);
 			gamePlayerRepository.save( gamePlayer9);
-			GamePlayer gamePlayer10 = new GamePlayer( player1, game5);
+			GamePlayer gamePlayer10 = new GamePlayer( player1, game5, Food.MEATLOVER);
 			gamePlayer10.addShip ( ship20);
 			gamePlayer10.addShip ( ship21);
 			gamePlayer10.addSalvo( salvo18);
@@ -190,24 +195,24 @@ public class SalvoApplication {
 			gamePlayer10.addSalvo( salvo21);
 			gamePlayerRepository.save( gamePlayer10);
 
-			GamePlayer gamePlayer11 = new GamePlayer( player3, game6);
+			GamePlayer gamePlayer11 = new GamePlayer( player3, game6, Food.VEGETARIAN);
 			gamePlayer11.addShip ( ship22);
 			gamePlayer11.addShip ( ship23);
 			gamePlayerRepository.save( gamePlayer11);
 
-			GamePlayer gamePlayer13 = new GamePlayer( player4, game7);
+			GamePlayer gamePlayer13 = new GamePlayer( player4, game7, Food.VEGETARIAN);
 			gamePlayerRepository.save( gamePlayer13);
 
-			GamePlayer gamePlayer15 = new GamePlayer( player3, game8);
+			GamePlayer gamePlayer15 = new GamePlayer( player3, game8, Food.MEATLOVER);
 			gamePlayer15.addShip ( ship24);
 			gamePlayer15.addShip ( ship25);
 			gamePlayerRepository.save( gamePlayer15);
-			GamePlayer gamePlayer16 = new GamePlayer( player4, game8);
+			GamePlayer gamePlayer16 = new GamePlayer( player4, game8, Food.VEGETARIAN);
 			gamePlayer16.addShip ( ship26);
 			gamePlayer16.addShip ( ship27);
 			gamePlayerRepository.save( gamePlayer16);
 
-			Score score1 = new Score(1, LocalDateTime.now().plusMinutes(30), player1, game1);
+			/*Score score1 = new Score(1, LocalDateTime.now().plusMinutes(30), player1, game1);
 			scoreRepository.save(score1);
 			Score score2 = new Score(0, LocalDateTime.now().plusMinutes(30), player2, game1);
 			scoreRepository.save(score2);
@@ -222,78 +227,81 @@ public class SalvoApplication {
 			Score score7 = new Score(0.5, LocalDateTime.now().plusMinutes(30), player2, game4);
 			scoreRepository.save(score7);
 			Score score8 = new Score(0.5, LocalDateTime.now().plusMinutes(30), player1, game4);
-			scoreRepository.save(score8);
+			scoreRepository.save(score8);*/
 		};
 	}
-}
 
-/*AUTENTICATION*/
-@Configuration
-class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+	/*AUTENTICATION*/
+	@Configuration
+	static
+	class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
-	@Autowired
-	PlayerRepository playerRepository;
+		@Autowired
+		PlayerRepository playerRepository;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		@Bean
+		public PasswordEncoder passwordEncoder() {
+			return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		}
+
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			auth.userDetailsService(userName-> {
+				Player player = playerRepository.findByUserName(userName);
+				if (player != null) {
+					return new User( player.getUserName(), player.getPassword(),
+							AuthorityUtils.createAuthorityList("USER"));
+				} else {
+					throw new UsernameNotFoundException("Unknown user: " + userName);
+				}
+			});
+		}
 	}
 
-	@Override
-	public void init(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userName-> {
-			Player player = playerRepository.findByUserName(userName);
-			if (player != null) {
-				return new User( player.getUserName(), player.getPassword(),
-						AuthorityUtils.createAuthorityList("USER"));
-			} else {
-				throw new UsernameNotFoundException("Unknown user: " + userName);
+	/*AUTHORIZATION*/
+	@EnableWebSecurity
+	@Configuration
+	static
+	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.authorizeRequests()
+					.antMatchers("/web/game.html", "/api/game_view/**").hasAuthority("USER")
+					.antMatchers("/web/**").permitAll()
+					.antMatchers("/api/**").permitAll();
+
+			http.formLogin()
+					.usernameParameter("userName")
+					.passwordParameter("password")
+					.loginPage("/api/login");
+
+			http.logout().logoutUrl("/api/logout");
+
+			// turn off checking for CSRF tokens
+			http.csrf().disable();
+
+			http.headers().frameOptions().disable();
+
+			// if user is not authenticated, just send an authentication failure response
+			http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+			// if login is successful, just clear the flags asking for authentication
+			http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+
+			// if login fails, just send an authentication failure response
+			http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+			// if logout is successful, just send a success response
+			http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+		}
+
+		private void clearAuthenticationAttributes(HttpServletRequest request) {
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 			}
-		});
-	}
-}
-
-/*AUTHORIZATION*/
-@EnableWebSecurity
-@Configuration
-class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/web/game.html", "/api/game_view/**").hasAuthority("USER")
-				.antMatchers("/web/**").permitAll()
-				.antMatchers("/api/**").permitAll();
-
-		http.formLogin()
-				.usernameParameter("userName")
-				.passwordParameter("password")
-				.loginPage("/api/login");
-
-		http.logout().logoutUrl("/api/logout");
-
-		// turn off checking for CSRF tokens
-		http.csrf().disable();
-
-		http.headers().frameOptions().disable();
-
-		// if user is not authenticated, just send an authentication failure response
-		http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
-
-		// if login is successful, just clear the flags asking for authentication
-		http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
-
-		// if login fails, just send an authentication failure response
-		http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
-
-		// if logout is successful, just send a success response
-		http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-	}
-
-	private void clearAuthenticationAttributes(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		}
 	}
 }
+

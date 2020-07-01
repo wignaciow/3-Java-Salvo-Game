@@ -1,4 +1,4 @@
-package com.codeoftheweb.salvo;
+package com.codeoftheweb.salvo.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,6 +22,8 @@ public class GamePlayer {
     @JoinColumn(name = "player_id")
     private Player player;
 
+    private Food food;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
     private Game game;
@@ -35,16 +37,18 @@ public class GamePlayer {
     public GamePlayer() {
     }
 
-    public GamePlayer(Player player, Game game) {
+    public GamePlayer(Player player, Game game, Food food) {
         this.joinDate = LocalDateTime.now();
         this.player = player;
         this.game = game;
+        this.food = food;
     }
 
     public Map<String, Object> toDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", this.id);
         dto.put("player", this.player.toDTO());
+        dto.put("food", this.food);
         Score score = getScore();
         dto.put("scores", score != null ? score.toDTO() : null);
         return dto;
@@ -79,9 +83,7 @@ public class GamePlayer {
         salvos.add(salvo);
     }
 
-    public Set<Salvo> getSalvos() {
-        return salvos;
-    }
+    public void setFood(Food food) { this.food = food; }
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -109,6 +111,12 @@ public class GamePlayer {
 
     public Game getGame() {
         return game;
+    }
+
+    public Food getFood() { return food; }
+
+    public Set<Salvo> getSalvos() {
+        return salvos;
     }
 
     public Score getScore() {

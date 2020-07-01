@@ -1,17 +1,23 @@
 body {
-   background-image: url(../imagenes/foodbox.jpg);
+    background-image: url(../imagenes/foodbox.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; 
     align-items: center; 
 }
 
-#titleBox {
-    position: absolute;    
+@font-face {
+    font-family: Rocks;
+    src: url(Rocks.ttf);
 }
 
-.container {
-    max-width: 1350px;
+@font-face {
+    font-family: Parisienne;
+    src: url(Parisienne.ttf);
+}
+
+#app {
+    padding: 0%;
 }
 
 #main {
@@ -23,56 +29,72 @@ body {
 #title {
     justify-content: center;
     font-family: Rocks;
-    color: red;
-    font-size: 17vw;
+    color: #db2e2e;
+    font-size: 12vw;
     margin: 0%;
     line-height: 1;
 }
 
-#choose {
-    margin-top: 5%;
-    margin-bottom: 5%;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
+.titleA {
+    align-self: center;
+}
+
+.titleB {
+    background-color: #db2e2e;
+    color: #db2e2e;
+    font-size: 5vw;
+}
+
+#subtitle {
+    margin-bottom: 2%;
+   /* overflow: hidden;
+    display: flex;*/
     justify-content: center;
     color: #ccc;
     padding: 0%;
 }
+#subtitleOne {
+    justify-content: space-between;
+    align-content: center;
+}
+
+#subtitleOne h3 {
+    margin-bottom: -20%;
+    align-self: center;
+    font-family: Rocks;
+    color: black;
+    font-size: 7vw;
+    font-style: normal;
+    width: 9%;
+}
+
+#subtitleTwo {
+    justify-content: center;
+}
 
 #chooseTitle {
-    width: 100%;
     justify-content: center;
-    padding: 20% 0%;
+    padding: 10% 0%;
     background-image: url(../imagenes/mira.png);
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;  
 }
 
 h3 {
     margin: 0;
-    width: 100%;
     display: flex;
     justify-content: center;
     position: relative;
     text-align: center;
 }
 
-@font-face {
-    font-family: Rocks;
-    src: url(Rocks.ttf);
-}
-
 em {
     font-family: Rocks;
     color: black;
-    font-size: 10vw;
+    font-size: 7vw;
     font-style: normal;
     width: 9%;
-    text-align: center;
-    
 }
 
 em.planet {
@@ -91,14 +113,13 @@ em.planet::before {
 }
 
 em.planet.left {
-    transform-origin: 390% 270%;
+    transform-origin: 320% 100%;
     align-self: center;
     height: 10%;
-  
 }
 
 em.planet.right {
-    transform-origin: -260% 250%;
+    transform-origin: -190% 100%;
     align-self: center;
     justify-content: start;
     height: 10%;
@@ -117,7 +138,7 @@ em.planet.right {
 }
 
 #meat {
-    width: 150%;
+    width: 140%;
     align-self: start;
 }
 
@@ -126,15 +147,50 @@ em.planet.right {
     align-self: start;
 }
 
-#logInSide {
-    justify-content: space-between;
-    margin-bottom: 5%;
+#subtitleThree {
+    justify-content: center;
+    margin-top: -18.5%;
+}
+.orange-circle-button {
+    padding: 1%;
+	line-height: 220%;
+    padding-top: 2%;
+	color: #ffffff;
+	background-image:url(../imagenes/buttonGreen.png);
+    background-size: cover;
+    background-position: center;
+	margin: auto;
+	border-radius: 50%;
+	width: 8%;
+    font-family: Rocks;
+    color: black;
+    z-index: 1;
+	
+}
+.orange-circle-button:hover {
+	color:#ffffff;
+	text-decoration: none;	
+}
+
+.orange-circle-button:visited {
+	color:#ffffff;
+    background-color: #e84d0e;
+	text-decoration: none;
+	
+}
+.orange-circle-greater-than {
+    font-size: 270%;
 }
 
 /*IMG*/
-@font-face {
-    font-family: Parisienne;
-    src: url(Parisienne.ttf);
+#chef {
+    padding: 0%;
+    margin-top: 0%;
+    margin-bottom: 2%;
+}
+
+#chefItem {
+    margin: 0% 5%;
 }
 
 #v {
@@ -151,10 +207,9 @@ em.planet.right {
     text-align: end;
 }
 
-
 #vegano  {
     background-image: url("../imagenes/vegano.png");
-    background-size: 100% 100%;
+    background-size: 90% 100%;
     background-repeat: no-repeat;
     background-position: bottom;
     padding: 0%;  
@@ -162,32 +217,15 @@ em.planet.right {
 
 #carnicero {
     background-image: url("../imagenes/carnicero.png");
-    background-size: 100% 100%;
+    background-size: 90% 100%;
     background-repeat: no-repeat;
     background-position: bottom;
 }
 
-
 /*FORM*/
-*{
-  box-sizing: border-box;
-  margin:0px;
-  padding:0px;
-}
-
-a {
-  text-decoration: none;
-  color: #fff;
-  transition: .5s ease;
-}
-a:hover {
-  color: #179b77;
-}
-
-.form {
+#logSign {
     padding: 10px;
-    margin: 0px 20px;
-    max-width: 600px;
+    margin: 10px 20px 20px 5px;
     border-radius: 4px;
     box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
     transition: .5s ease;
@@ -195,14 +233,10 @@ a:hover {
     font-size: 40px;
 }
 
-.form:hover {
-	box-shadow: 0px 0px 40px 16px rgba(18,18,18,1.00);
-	}
-
 .tab-group {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0;
 }
 .tab-group:after {
   content: "";
@@ -233,6 +267,11 @@ a:hover {
   color: #ffffff;
 }
 
+.tab-content {
+    background-image: url(../imagenes/mesaTwo..jpg);
+   
+}
+
 .tab-content > div:last-child {
     display: none;
     font-family: Rocks;
@@ -240,73 +279,57 @@ a:hover {
 
 h1 {
     text-align: center;
-    color: #fff;
+    color: white;
     font-size: 200%; 
     font-weight: 300;
-    margin: 0 0 10px;
-}
-
-label {
-  transform: translateY(6px);
-  left: 13px;
-  color: #fff;
-  transition: all 0.25s ease;
-  pointer-events: none;
-  font-size: 22px;
-}
-
-
-label.active {
-  transform: translateY(50px);
-  left: 2px;
-  font-size: 20px;
-}
-
-
-label.highlight {
-  color: #000;
-  margin-top:-10px;
-}
-
-input {
-    font-family: 'Wellfleet', cursive;
-    font-size: 20px;
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 5px 10px;
-    background: none;
-    background-image: none;
-    border: 1px solid #fff;
-    color: white;
-    border-radius: 0;
-    transition: border-color .25s ease, box-shadow .25s ease;
-}
-input:focus{
-  outline: 0;
-  border-color: #000;
-}
-
-.field-wrap .inputSign,  {
-    font-size: 40px;
-    margin-bottom: 0px;
+    margin: 0px;
 }
 
 .field-wrap {
   position: relative;
-  margin-bottom: 20px;
+  margin: 10px 10px;
     
 }
 
-.field-wrap .inputSign {
-    font-size: 40px;
-    margin-bottom: 0px;
+.inputSign {
+    color: #fff;
+    font-size: 50px;
+    letter-spacing: 2px;
+    }
+
+.inputSign:highlight {
+  color: #000;
+  margin-top:-10px;
 }
 
-#startVegano {
-    border: 0;
-    outline: none;
-    border-radius: 0;
+.field-wrap input  {
+    font-size: 20px;
+    font-family: 'Wellfleet', cursive;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid #fff;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.field-wrap input:focus{
+  outline: 0;
+  border-color: #000;
+}
+
+#forgot {
+    margin: 2%;
+    text-align: right;
+    letter-spacing: 2px;
+}
+
+#forgot a {
+    color: white;
+}
+
+.start {
     padding: 10px 0;
     font-family: Rocks;
     font-size: 40px;
@@ -320,59 +343,8 @@ input:focus{
     transition: all 0.5s ease;
 }
 
-#startVeganoTwo {
-    border: 0;
-    outline: none;
-    border-radius: 0;
-    padding: 10px 0;
-    font-family: Rocks;
-    font-size: 40px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    background-image: url(../imagenes/frutas.jpg);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    color: darkred;
-    transition: all 0.5s ease;
-}
-
-#startCarnicero {
-    border: 0;
-    outline: none;
-    border-radius: 0;
-    padding: 10px 0;
-    font-family: Rocks;
-    font-size: 40px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    background-image: url(../imagenes/carne.jpg);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    color: darkred;
-    transition: all 0.5s ease; 
-}
-
-#startCarniceroTwo {
-    border: 0;
-    outline: none;
-    border-radius: 0;
-    padding: 10px 0;
-    font-family: Rocks;
-    font-size: 40px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    background-image: url(../imagenes/frutas.jpg);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    color: darkred;
-    transition: all 0.5s ease;
-}
-
 .button:hover, .button:focus {
-  background: #06c93a;
+  box-shadow: 0px 0px 40px 16px rgba(230,230,230,0.5);
 }
 
 .button-block {
@@ -380,117 +352,96 @@ input:focus{
   width: 100%;
 }
 
-.forgot {
-  margin-top: -20px;
-  text-align: right;
-  margin-bottom:10px;
-}
-
 #veganoBox, #carniceroBox  {
     justify-content: center;   
 }
+/*SIDE*/
+#side {
+    margin: 0px;
+}
 
 /*LOGGED PLAYER PAGE*/
-#vegetarianArmy {
-    background-image: url(../imagenes/mesaTwo..jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; 
-    padding: 0% 2%;
-}
-
-#navBar {
-    justify-content: space-between;
-    background-image: url(../imagenes/mesaThree.jfif);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 80%;
-}
-
-#navBarTitle {
-    font-family: Rocks;
-    font-size: 25px;
-    letter-spacing: 1px;
-}
-
-#logOut {
-    font-family: Rocks;
-    font-size: 25px;
-    letter-spacing: 1px;
-}
-
-#vegArmy {
-    background-image: url(../imagenes/frutasFrescas.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-#vegArmyTitle {
-    margin: 5% 0% 3% 0%;
-    text-align: center;
-    font-family: Rocks;
-    color: darkgreen;
-    font-size: 15vw;
-    line-height: 1;
-    line-height: 10vw;   
-}
-
-#vegArmyUser {
-    font-family: Rocks;
-    color: darkred;
-    font-size: 10vw;
-    line-height: 1;
-    margin-top: 2%;
-    margin-bottom: 3%;
-    text-transform: uppercase;
-    background-image: url(../imagenes/fork.png);
-    background-size: contain;
-    background-position:right;
-    background-repeat: no-repeat;
+#playerLog {
+    justify-content: center;
+    margin: 0% 2%;
+    background-color: rgba(161, 149, 149, 0.7);
 }
 
 #playerMenu{
-    background-image: url(../imagenes/menu.jpg);
+    background-image: url(../imagenes/backgroundMenu.jpg);
     background-size: 100% ;
     /*background-repeat: no-repeat;*/
     padding: 2%;
-    margin-top: 5%;
+    margin: 1% 5% 5% 5%;
+}
+
+.navBar {
+    justify-content: space-between;
+    opacity: 80%;
+    margin-top: 1%;
+}
+
+.navBar a {
+    color: white;
+}
+
+.navBarTitle {
+    font-family: Rocks;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.logOut {
+    font-family: Rocks;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+#army {
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 2% 0%;
+}
+
+#armyUser {
+    opacity: 80%;
+    font-family: Rocks;
+    color: white;
+    font-size: 6vw;
+    line-height: 1;
+    text-transform: uppercase;
 }
 
 #navbarSupportedContent {
-   margin: 35% 0% 0% 0%; 
+   margin: 5% 0% 0% 0%; 
 }
 
-#navPlayer {
+.nav-tabs {
     box-shadow: 2px 0px 10px 2px white;
     margin: 0% 3% 3% 3%;
     padding: 0%;
     font-family: Rocks;
     font-size: 70px;
-    color: white;
     justify-content:space-around;
     align-items: center;
     opacity: 80%;
 }
 
-#navPlayer li {
+.nav-item {
     margin: 0% 1%; 
-}
-
-#navPlayer li a {
     border: none;
+    text-decoration: none;
+    transition: .5s ease;
 }
 
-#navPlayer li a:hover {
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
     border: none;
+    color: #179b77;
 }
-
-/*#homeOpened {
-    border: 1px solid green;
-    background-color: darkgray;
-    margin-bottom: 5%;
-}*/
 
 #menuDisplay {
     margin: 0%;
@@ -498,38 +449,43 @@ input:focus{
 }
 
 #menuDisplayBox {
-    margin: 0% 2% 5% 2%;
+    margin: 0% 2% 0% 2%;
     padding: 0%;
     box-shadow: 1px 5px 10px 5px white;
-    opacity: 90%;
+    opacity: 80%;
     background-color: white;
+    border-radius: 1%;
 }
 
 #home, #join, #continue, #statistics {
-    opacity: 90%;
     align-items: center;
     margin: 0%;
     padding: 0%;
 }
 
 /*HOME-TAB*/
+#home div {
+    margin: 0%;
+}
 #homeText {
     text-align: justify;
     font-size: 50px;
     font-family: Rocks;
-    color: black;
-    line-height: 1; 
+    color: white;
+    line-height: 1;
+    margin: 4% 2%;
+    padding: 0%;
 }
 
 #create {
     font-family: Rocks;
-    font-size: 80px;
+    font-size: 70px;
     color: white;
     background-image: url(../imagenes/frutas.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     opacity: 80%;
-    margin: 5% 0%;
+    margin: 5% 5%;
     border-radius: 25%;
 }
 
@@ -540,43 +496,99 @@ input:focus{
 /*JOIN-COMTINUE-STATISTICS TABS*/
 .listContent {
     list-style: none;
-    margin: 2% 4%;
+    margin: 2% 2%;
+}
+
+.listContent > li:nth-of-type(odd) {
+    background-color: #e9e9f9 ;
+}
+
+.listContent > li:last-child {
+    border-bottom: none;
 }
 
 .listContent li {
     list-style: none;
 }
 
-.continueList, .joinList {
-    margin-top: 7%;
+.btn-circle.btn-xl {
+    background-image: url(../imagenes/pelea.jfif);
+    background-position: center;
+    background-size: cover;
+    box-shadow: 1px 5px 10px 5px black;
+    width: 70px; 
+    height: 70px; 
+    padding: 10px 16px; 
+    border-radius: 35px; 
+    font-size: 12px; 
+    text-align: center; 
+} 
+
+.btn-circle.btn-xl:hover {
+    background-image: url(../imagenes/boca.jpg);
+}
+
+.joinList {
     font-family:fantasy;
     font-weight: lighter;
     letter-spacing: 5%;
-    font-size: 30px;
+    font-size: 25px;
     color: black;
     opacity: 80%;
-    
+    margin-bottom: 2%;
+}
+
+.joinList  li span {
+    color: green;
+}
+
+.joinList div .title {
+    padding-right: 0%;
+}
+
+.joinList div .link {
+    padding: 0%;
+    margin-right: 2%;
 }
 
 .joinList ul {
     margin: 0%;
 }
 
-.joinList ul li {
+/*.btn-circle.btn-xl:hover {
+    border-color: red;
+}*/
+.continueList {
+    font-family:fantasy;
+    font-weight: lighter;
+    letter-spacing: 5%;
     font-size: 25px;
+    color: black;
+    opacity: 80%;  
+    margin-bottom: 2%;
 }
 
-li span {
-    color: green;
+.continueList  li span {
+    color: darkred;
+}
+
+.continueList div .title {
+    padding-right: 0%;
+}
+
+.continueList div .link {
+    padding-left: 0%;
+}
+
+.continueList ul {
+    margin: 0%;
 }
 
 /*LEADERBOARD*/
 #tableLeaderBoard {                     
-    opacity: 80%;
     color: white;
-    margin-top: 2%;
+    margin: 2% 2%; 
     padding: 0%;
-    
 }
 
 #tableLeaderBoard thead tr {
@@ -601,4 +613,32 @@ li span {
 
 #leaderboard tr {
     text-align: center;
+}
+
+/*MODAL LOG*/
+#modalFoodContent {
+    background-image: url(../imagenes/mesaOne.jfif);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#modalFoodTitle {
+   /* text-align: center;*/
+    font-family: Rocks;
+    font-size: 50px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+#modalFoodHeader {
+    margin: 0%;
+}
+
+#modalFoodHeader button {
+    margin-left:  -20%;
+    margin-right: 0%;
+}
+
+#modalFoodBody {
+    justify-content: space-around;
 }

@@ -1,7 +1,11 @@
-package com.codeoftheweb.salvo;
+package com.codeoftheweb.salvo.controllers;
 
 
+
+import com.codeoftheweb.salvo.models.*;
+import com.codeoftheweb.salvo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -9,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -32,6 +38,9 @@ public class SalvoController {
     private ShipRepository shipRepository;
 
     @Autowired
+    private ScoreRepository scoreRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     //PLAYER LOGGED//
@@ -50,7 +59,7 @@ public class SalvoController {
 
     //CREATE USER//
     @RequestMapping("/players")
-    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String nickName, @RequestParam String userName, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String nickName, @RequestParam String userName,  @RequestParam String password ) {
         if (!(userName.contains("@")) || !userName.contains(".") || userName.isEmpty() || password.isEmpty()) {
             return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
         }
@@ -58,13 +67,14 @@ public class SalvoController {
         if (player != null) {
             return new ResponseEntity<>(makeMap("error", "Username already exists"), HttpStatus.CONFLICT);
         }
+
         Player newPlayer = playerRepository.save(new Player(nickName, userName, passwordEncoder.encode(password)));
         return new ResponseEntity<>(makeMap("id", newPlayer.getId()), HttpStatus.CREATED);
     }
 
     //JOIN GAME//
     @PostMapping("/games/{gameId}/player")
-    private ResponseEntity<Map<String, Object>> joinGame(@PathVariable Long gameId, Authentication authentication) {
+    private ResponseEntity<Map<String, Object>> joinGame(@PathVariable Long gameId, Authentication authentication, @RequestParam Food food) {
         Player player = playerRepository.findByUserName(authentication.getName());
         if (isGuest(authentication)) {
             return new ResponseEntity<>(makeMap("error", "Not logged in!"), HttpStatus.UNAUTHORIZED);
@@ -83,19 +93,19 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "You can't play against yourself!"), HttpStatus.FORBIDDEN);
         }
 
-        GamePlayer gamePlayer = gamePlayerRepository.save(new GamePlayer(player, game));
-        return new ResponseEntity<>(makeMap("gpID", gamePlayer.getId()), HttpStatus.OK);
+        GamePlayer gamePlayer = gamePlayerRepository.save(new GamePlayer(player, game, food));
+        return new ResponseEntity<>(makeMap("gamePlayerId", gamePlayer.getId()), HttpStatus.OK);
     }
 
     //CREATE GAME//
     @PostMapping("/games")
-    public ResponseEntity<Map<String, Object>> createGame(Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> createGame(Authentication authentication, @RequestParam Food food) {
         if (isGuest(authentication)) {
             return new ResponseEntity<>(makeMap("error", "Not logged in!"), HttpStatus.UNAUTHORIZED);
         }
         Game newGame = gameRepository.save(new Game(LocalDateTime.now()));
         Player player = playerRepository.findByUserName(authentication.getName());
-        GamePlayer newGamePlayer = gamePlayerRepository.save(new GamePlayer(player, newGame));
+        GamePlayer newGamePlayer = gamePlayerRepository.save(new GamePlayer(player, newGame, food));
 
         return new ResponseEntity<>(makeMap("gamePlayerId", newGamePlayer.getId()), HttpStatus.CREATED);
     }
@@ -162,7 +172,7 @@ public class SalvoController {
         }
         //first salvo
         if (optionalGamePlayer.get().getId() > opponent.get().getId() && optionalGamePlayer.get().getSalvos().size() ==
-            opponent.get().getSalvos().size()) {
+                opponent.get().getSalvos().size()) {
             return new ResponseEntity<>(makeMap("error", "Game creator owns first shot of any turn"), HttpStatus.FORBIDDEN);
         }
         //salvo turns
@@ -170,8 +180,23 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "Wait for opponent shots!"), HttpStatus.FORBIDDEN);
         }
 
-        Salvo newSalvo = new Salvo (optionalGamePlayer.get().getSalvos().size() + 1, locations);
+        Salvo newSalvo = new Salvo(optionalGamePlayer.get().getSalvos().size() + 1, locations);
         optionalGamePlayer.get().addSalvo(newSalvo);
+
+        if (optionalGamePlayer.get().getStateGame() == "YOU_WON") {
+            scoreRepository.save(new Score(1.0, LocalDateTime.now(), optionalGamePlayer.get().getPlayer(), optionalGamePlayer.get().getGame()));
+            scoreRepository.save(new Score(0.0, LocalDateTime.now(), opponent.get().getPlayer(), opponent.get().getGame()));
+        }
+
+        if (optionalGamePlayer.get().getStateGame() == "YOU_LOST") {
+            scoreRepository.save(new Score(0.0, LocalDateTime.now(), optionalGamePlayer.get().getPlayer(), optionalGamePlayer.get().getGame()));
+            scoreRepository.save(new Score(1.0, LocalDateTime.now(), opponent.get().getPlayer(), opponent.get().getGame()));
+        }
+
+        if (optionalGamePlayer.get().getStateGame() == "BOTH_TIE") {
+            scoreRepository.save(new Score(0.5, LocalDateTime.now(), optionalGamePlayer.get().getPlayer(), optionalGamePlayer.get().getGame()));
+            scoreRepository.save(new Score(0.5, LocalDateTime.now(), opponent.get().getPlayer(), opponent.get().getGame()));
+        }
 
         gamePlayerRepository.save(optionalGamePlayer.get());
         return new ResponseEntity<>(makeMap("Success", "CREATED"), HttpStatus.CREATED);

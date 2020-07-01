@@ -10,111 +10,85 @@ var vue = new Vue({
         players: [],
         userN: "",
         userNick: "",
-        nickNameV: "",
-        userNameV: "",
-        passwordV: "",
-        nickNameM: "",
-        userNameM: "",
-        passwordM: "",
-
+        nickName: "",
+        userName: "",
+        password: "",
+    },
+    filters: {
+        date: function (value) {
+            if (!value) return '';
+            return moment(value).format('YYYY - MM - DD / h:mm a');
+        }
     },
     methods: {
         display: function (page) {
             this.show = page;
         },
-        signUpV: function () {
-            $.post("/api/players", {
-                    nickName: vue.nickNameV,
-                    userName: vue.userNameV,
-                    password: vue.passwordV
+        signUp: function () {
+            if (vue.userName == "" || vue.nickName == "" || vue.password == "") {
+                swal({
+                    title: "Please complete all fields",
+                    icon: "warning"
                 })
-                .done(function () {
-                    alert("Sign up successful!");
-                    vue.logInV();
-                })
-                .fail(function () {
-                    alert("Wrong user name or password, Try Sign up again!");
-                    location.reload();
-                })
-        },
-        signUpM: function () {
-            $.post("/api/players", {
-                    nickName: vue.nickNameM,
-                    userName: vue.userNameM,
-                    password: vue.passwordM
-                })
-                .done(function () {
-                    alert("Sign up successful!");
-                    vue.logInM();
-                })
-                .fail(function () {
-                    alert("Wrong user name or password, Try Sign up again!");
-                    location.reload();
-                })
-        },
-        logInV: function () {
-            if (vue.userNameV == "" || vue.passwordV == "") {
-                alert("Please complete all fields");
             } else {
-                $.post("/api/login", {
-                        userName: vue.userNameV,
-                        password: vue.passwordV
-                    }).done(function () {
-                        location.reload();
-                        alert("Log in successful");
-
+                $.post("/api/players", {
+                        nickName: vue.nickName,
+                        userName: vue.userName,
+                        password: vue.password
+                    })
+                    .done(function () {
+                        swal({
+                            title: "Sign up Successful",
+                            icon: "success",
+                        });
+                        vue.logIn();
                     })
                     .fail(function () {
-                        alert("Wrong user name or password, Please try again or Sign up");
-                        location.reload();
+                        swal({
+                            title: "Misspelled user email , check @ or . missing ",
+                            icon: "warning"
+                        });
+
                     })
             }
         },
-        logInM: function () {
-            if (vue.userNameM == "" || vue.passwordM == "") {
-                alert("Please complete all fields");
+        logIn: function () {
+            if (vue.userName == "" || vue.password == "") {
+                swal({
+                    title: "Please complete all fields",
+                    icon: "warning"
+                });
             } else {
                 $.post("/api/login", {
-                        userName: vue.userNameM,
-                        password: vue.passwordM
+                        userName: vue.userName,
+                        password: vue.password
                     }).done(function () {
-                        location.reload();
-                        alert("Log in successful");
-
+                        swal({
+                                title: "Log in Successful",
+                                icon: "success",
+                            }),
+                            setTimeout("location.reload();", 1500);
                     })
                     .fail(function () {
-                        alert("Wrong user name or password, Please try again or Sign up");
-                        location.reload();
+                        swal({
+                            title: "Wrong user name or password, Please try again or Sign up",
+                            icon: "error"
+                        });
                     })
             }
         },
-        loginFormTabV: function (e) {
+        loginFormTab: function (e) {
             e.preventDefault();
 
-            document.getElementById('logLiV').classList.remove('active');
-            document.getElementById('signLiV').classList.remove('active');
+            document.getElementById('logLi').classList.remove('active');
+            document.getElementById('signLi').classList.remove('active');
 
             document.getElementById(e.target.id).parentElement.classList.add('active');
 
             target = e.target.hash.substring(1);
 
-            document.getElementById('loginV').style.display = "none";
-            document.getElementById('signupV').style.display = "none";
-
-            document.getElementById(target).style.display = "block";
-        },
-        loginFormTabM: function (e) {
-            e.preventDefault();
-
-            document.getElementById('logLiM').classList.remove('active');
-            document.getElementById('signLiM').classList.remove('active');
-
-            document.getElementById(e.target.id).parentElement.classList.add('active');
-
-            target = e.target.hash.substring(1);
-
-            document.getElementById('loginM').style.display = "none";
-            document.getElementById('signupM').style.display = "none";
+            document.getElementById('login').style.display = "none";
+            document.getElementById('signup').style.display = "none";
 
             document.getElementById(target).style.display = "block";
         },
@@ -132,12 +106,22 @@ var vue = new Vue({
         },
         logOut: function () {
             $.post("/api/logout").done(function () {
-                location.reload();
+                swal({
+                        title: "You are Loging Out",
+                        icon: "warning",
+                        button: "Confirm",
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            location.reload();
+                        };
+                    })
             })
         },
         gamesData: function () {
             $.getJSON("/api/games", function (data) {
                 vue.gamesInfo = data.games;
+
                 vue.actualUser();
                 vue.gamesPlayerData();
                 vue.playerData();
@@ -187,14 +171,30 @@ var vue = new Vue({
                 }
             }
         },
-        createGame: function () {
-            $.post("/api/games")
-                .done(function (data) {
+        newGame: function () {
+
+        },
+        createGameMeat: function () {
+            $.post("/api/games", {
+                    food: "MEATLOVER"
+                })
+                .done(function (data) {                   
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
                 })
         },
+        createGameVegetables: function () {
+            $.post("/api/games", {
+                    food: "VEGETARIAN"
+                })
+                .done(function (data) {                   
+                    window.open("game.html?gp=" + data.gamePlayerId, "_blank");
+                })
+        },
+        
         joinGame: function (gameID) {
-            $.post("/api/games/" + gameID + "/player")
+            $.post("/api/games/" + gameID + "/player", {
+                    food: "Carnivoro"
+                })
                 .done(function (data) {
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
                 })
@@ -210,8 +210,8 @@ var vue = new Vue({
                 })
             })
         },
-        
+
     }
 })
-vue.gamesData();
 
+vue.gamesData();
