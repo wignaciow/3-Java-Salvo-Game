@@ -121,11 +121,9 @@ var vue = new Vue({
         gamesData: function () {
             $.getJSON("/api/games", function (data) {
                 vue.gamesInfo = data.games;
-
                 vue.actualUser();
                 vue.gamesPlayerData();
                 vue.playerData();
-
             })
         },
         gamesPlayerData: function () {
@@ -171,14 +169,11 @@ var vue = new Vue({
                 }
             }
         },
-        newGame: function () {
-
-        },
         createGameMeat: function () {
             $.post("/api/games", {
                     food: "MEATLOVER"
                 })
-                .done(function (data) {                   
+                .done(function (data) {
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
                 })
         },
@@ -186,11 +181,11 @@ var vue = new Vue({
             $.post("/api/games", {
                     food: "VEGETARIAN"
                 })
-                .done(function (data) {                   
+                .done(function (data) {
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
                 })
         },
-        
+
         joinGame: function (gameID) {
             $.post("/api/games/" + gameID + "/player", {
                     food: "Carnivoro"

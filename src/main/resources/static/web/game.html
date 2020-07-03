@@ -28,31 +28,24 @@
                         </button>
                     </nav>
                     <div v-show="playerType === 'VEGETARIAN'" class="col-12">
-                        <h1 id="title" class="row">LET THE BATTLE BEGIN</h1>
+                        <h1 class="title row" v-if="newGame">LET THE BATTLE BEGIN</h1>
+                        <h1 class="title row" v-else="newGame">THIS IS WAR</h1>
                         <div class="row justify-content-center">
-                            <img id="vegano" src="imagenes/vegano.png" alt="p" class="col-6">
-                        </div>
-                        <h2 id="player" v-if="newGame"> {{player.nickname}}: {{state}} !</h2>
-                        <h2 id="player2" v-else="newGame">THIS IS WAR!!</h2>
-                    </div>
-
-                    <div v-show="playerType === 'MEATLOVER'" class="col-12">
-                        <h1 id="titleM" class="row">LET THE BATTLE BEGIN</h1>
-                    </div>
-                    <div v-show="playerType === 'MEATLOVER'" class="col-12">
-                        <div class="row justify-content-around">
-                            <div id="playerBox" class="col-6">
-                                <h2 id="playerM" v-if="newGame"> {{player.nickname}} </h2>
-                                <h2 id="player2M" v-else="newGame">THIS IS WAR!!</h2>
-                                <div id="gameStateBox" class="row">
-                                    <h2 id="gameState">{{state}}</h2>
-                                </div>
-                            </div>
-                            <img id="carnicero" src="imagenes/carnicero.png" alt="p" class="col-4">
-
+                            <img class="col-8" src="imagenes/cuchillo.png" alt="playerBox">
+                            <h2 id="player" v-if="newGame"> {{player.nickname}}: <span>{{state}} !</span></h2>
+                            <h2 id="player2" v-else="newGame">{{state}}</h2>
                         </div>
                     </div>
 
+                    <div v-show="playerType === 'MEATLOVER'" class="col-12">
+                        <h1 class="titleM row" v-if="newGame">LET THE BATTLE BEGIN</h1>
+                        <h1 class="titleM row" v-else="newGame">THIS IS WAR</h1>
+                        <div class="row justify-content-center ">
+                            <img class="col-8" src="imagenes/cuchillo.png" alt="playerBox">
+                            <h2 id="playerM" v-if="newGame"> {{player.nickname}}: <span> {{state}}</span> </h2>
+                            <h2 id="player2M" v-else="newGame">{{state}}</h2>
+                        </div>
+                    </div>
                     <div id="prepare" class="col-12">
                         <div id="prepareOptions" class="row">
                             <div class="col-12 text-align-center" v-if="newGame"></div>
@@ -145,151 +138,152 @@
                                     <button id="buttonSave" type="button" class="col-12 btn btn-success " onclick="saveShips()"> SAVE POSITIONS </button>
                                 </div>
                             </div>
-
-
-                            <div class="col-6  justify-content-center">
+                            <div class="playerGrid justify-content-center" :class="{ 'col-6' : newGame, 'col-4 mr-2 ' : !newGame }">
                                 <div class="row grid-shipsPosition">
                                     <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
                                     <div id="gridShips" class="col-12   grid-stack grid-stack-10 gridPosition"></div>
                                     <!-- div que usa la librería gridstack-->
                                 </div>
                             </div>
+
                             <div class="col-3" v-if="newGame">
                                 Place all your vegetables on the grid before saving. After you save positions, the opponent grid will be display beside your grid and the game will be ready to start!
-                            </div>
-                            <div class="col-6" v-else="newGame">
-                                <div class="row">
-                                    <table id="salvoGrid" class="col table table-bordered table-striped" cellspacing='0' cellpadding='0'>
-                                        <thead>
-                                            <tr>
-                                                <th class="bg-dark text-white" v-for="numbers in gridNumbers"> {{numbers}} </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="letters in gridLetters">
-                                                <th class="bg-dark text-white"> {{letters}} </th>
-                                                <td v-for="(x, index) in gridLetters" :id="letters + (index + 1)" onclick="salvoLocation(id)"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="row justify-content-center">
+                                    <img id="vegano" src="imagenes/vegano.png" alt="p" class="col-12">
                                 </div>
-                                <div id="buttonSalvoRow" class="row justify-content-between">
+                            </div>
+
+                            <div class="col" v-else="newGame">
+                                <table id="salvoGrid" class="table table-bordered table-striped" cellspacing='0' cellpadding='0'>
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-dark text-white" v-for="numbers in gridNumbers"> {{numbers}} </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="letters in gridLetters">
+                                            <th class="bg-dark text-white"> {{letters}} </th>
+                                            <td v-for="(x, index) in gridLetters" :id="letters + (index + 1)" onclick="salvoLocation(id)"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div id="buttonSalvoRow" class="row m-0 justify-content-between">
                                     <button id="buttonSaveSalvo" type="button" class="col-12 btn btn-success" onclick="saveSalvoLocations()">SAVE SHOOTS</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="targetTable" class="col-12">
-                        <div class="row">
-                            <div class="col-6 p-0">
-                                <table id="statusPlayerTable" class="table table-bordered statusTable ">
-                                    <thead>
-                                        <tr>
-                                            <th class="historyTitle" colspan="10" scope="col">PLAYER GAME HISTORY</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="statusPlayerGeneral">TURN</td>
-                                            <td v-show="playerType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">MY VEGETABLES</td>
-                                            <td v-show="playerType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">MY MEAT</td>
-                                        </tr>
-                                        <tr class="historyShips">
-                                            <td style="width: 5%" class="tdnumber">{{playerHistory.length}}</td>
-                                            <td style="width: 10%" v-bind:id="allShips[0]+ '_'"></td>
-                                            <td style="width: 15%" v-bind:id="allShips[1]+ '_'"></td>
-                                            <td style="width: 15%" v-bind:id="allShips[2]+ '_'"></td>
-                                            <td style="width: 25%" v-bind:id="allShips[3]+ '_'"></td>
-                                            <td style="width: 30%" v-bind:id="allShips[4]+ '_'"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header" id="heading">
-                                            <h2 class="mb-0 text-align-center">
-                                                <button class="btn btn-link collapsed turnHistory" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
-                                                    Player TURN HISTORY
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapse" class="collapse" aria-labelledby="heading" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <table id="statusPlayerTableContain" class="table table-bordered statusTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 5%">Turn</th>
-                                                            <th style="width: 5%">Hits</th>
-                                                            <th style="width: 25%">Opp Ships Sunk</th>
-                                                            <th style="width: 65%">Opponent Ships Afloat</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr v-for="pl in playerHistory">
-                                                            <td class="tdnumber">{{pl.turn}}</td>
-                                                            <td class="tdnumber">{{pl.hit}}</td>
-                                                            <td>{{pl.sunk}}</td>
-                                                            <td>{{pl.remain}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                        <div id="targetTable" class="col-12" v-show="state !== 'Place Your Ships'">
+                            <div class="row">
+                                <div class="col-6 p-0">
+                                    <table id="statusPlayerTable" class="table table-bordered statusTable ">
+                                        <thead>
+                                            <tr>
+                                                <th class="historyTitle" colspan="10" scope="col">PLAYER GAME HISTORY</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="statusPlayerGeneral">TURN</td>
+                                                <td v-show="playerType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">MY VEGETABLES</td>
+                                                <td v-show="playerType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">MY MEAT</td>
+                                            </tr>
+                                            <tr class="historyShips">
+                                                <td style="width: 5%" class="tdnumber">{{playerHistory.length}}</td>
+                                                <td style="width: 10%" v-bind:id="allShips[0]+ '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShips[1]+ '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShips[2]+ '_'"></td>
+                                                <td style="width: 25%" v-bind:id="allShips[3]+ '_'"></td>
+                                                <td style="width: 30%" v-bind:id="allShips[4]+ '_'"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card">
+                                            <div class="card-header" id="heading">
+                                                <h2 class="mb-0 text-align-center">
+                                                    <button class="btn btn-link collapsed turnHistory" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                                                        Player TURN HISTORY
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse" class="collapse" aria-labelledby="heading" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <table id="statusPlayerTableContain" class="table table-bordered statusTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 5%">Turn</th>
+                                                                <th style="width: 5%">Hits</th>
+                                                                <th style="width: 25%">Opp Ships Sunk</th>
+                                                                <th style="width: 65%">Opponent Ships Afloat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="pl in playerHistory">
+                                                                <td class="tdnumber">{{pl.turn}}</td>
+                                                                <td class="tdnumber">{{pl.hit}}</td>
+                                                                <td>{{pl.sunk}}</td>
+                                                                <td>{{pl.remain}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6 p-0">
-                                <table id="statusOpponentTable" class="table table-bordered statusTable ">
-                                    <thead>
-                                        <tr>
-                                            <th class="historyTitle" colspan="10" scope="col">OPPONENT GAME HISTORY</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="statusPlayerGeneral">TURN</td>
-                                            <td v-show="playerType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
-                                            <td v-show="playerType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
-                                        </tr>
-                                        <tr class="historyShips">
-                                            <td style="width: 5%" class="tdnumber">{{opponentHistory.length}}</td>
-                                            <td style="width: 10%" v-bind:id="allShips[0] + '_'"></td>
-                                            <td style="width: 15%" v-bind:id="allShips[1]+ '_'"></td>
-                                            <td style="width: 15%" v-bind:id="allShips[2]+ '_'"></td>
-                                            <td style="width: 25%" v-bind:id="allShips[3]+ '_'"></td>
-                                            <td style="width: 30%" v-bind:id="allShips[4]+ '_'"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="accordion" id="accordionExampleTwo">
-                                    <div class="card">
-                                        <div class="card-header" id="headingTwo">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-link collapsed turnHistory" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    TURN HISTORY
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExampleTwo">
-                                            <div class="card-body">
-                                                <table id="statusOpponentTableContain" class="table table-bordered statusTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 5%">Turn</th>
-                                                            <th style="width: 5%">Hits</th>
-                                                            <th style="width: 25%">Your Ships Sunk</th>
-                                                            <th colspan="5" style="width: 65%">Your Ships Afloat</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr v-for="op in opponentHistory">
-                                                            <td class="tdnumber">{{op.turn}}</td>
-                                                            <td class="tdnumber">{{op.hit}}</td>
-                                                            <td>{{op.sunk}}</td>
-                                                            <td v-for="remain in op.remain">{{remain}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                <div class="col-6 p-0">
+                                    <table id="statusOpponentTable" class="table table-bordered statusTable ">
+                                        <thead>
+                                            <tr>
+                                                <th class="historyTitle" colspan="10" scope="col">OPPONENT GAME HISTORY</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="statusPlayerGeneral">TURN</td>
+                                                <td v-show="playerType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
+                                                <td v-show="playerType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
+                                            </tr>
+                                            <tr class="historyShips">
+                                                <td style="width: 5%" class="tdnumber">{{opponentHistory.length}}</td>
+                                                <td style="width: 10%" v-bind:id="allShips[0] + '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShips[1]+ '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShips[2]+ '_'"></td>
+                                                <td style="width: 25%" v-bind:id="allShips[3]+ '_'"></td>
+                                                <td style="width: 30%" v-bind:id="allShips[4]+ '_'"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="accordion" id="accordionExampleTwo">
+                                        <div class="card">
+                                            <div class="card-header" id="headingTwo">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link collapsed turnHistory" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        TURN HISTORY
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExampleTwo">
+                                                <div class="card-body">
+                                                    <table id="statusOpponentTableContain" class="table table-bordered statusTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 5%">Turn</th>
+                                                                <th style="width: 5%">Hits</th>
+                                                                <th style="width: 25%">Your Ships Sunk</th>
+                                                                <th colspan="5" style="width: 65%">Your Ships Afloat</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="op in opponentHistory">
+                                                                <td class="tdnumber">{{op.turn}}</td>
+                                                                <td class="tdnumber">{{op.hit}}</td>
+                                                                <td>{{op.sunk}}</td>
+                                                                <td v-for="remain in op.remain">{{remain}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -298,7 +292,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </main>
     </div>
 

@@ -147,7 +147,7 @@ var vue = new Vue({
                 const gridThree = GridStack.init(optionsThree, '#gridThree');
                 const gridThreeB = GridStack.init(optionsThreeB, '#gridThreeB');
                 const gridTwo = GridStack.init(optionsTwo, '#gridTwo');
-                
+
                 const gridFive2 = GridStack.init(optionsFive, '#gridFive2');
                 const gridFour2 = GridStack.init(optionsFour, '#gridFour2');
                 const gridThree2 = GridStack.init(optionsThree, '#gridThree2');
@@ -238,7 +238,7 @@ var vue = new Vue({
         },*/
         stateF: function () {
             if (vue.gpInfo.state == "PLACE_SHIPS") {
-                vue.state = "Place Ships";
+                vue.state = "Place Your Ships";
             } else if (vue.gpInfo.state == "WAIT_FOR_AN_OPPONENT") {
                 vue.state = "Wait for an Opponent";
             } else if (vue.gpInfo.state == "FIRE") {
