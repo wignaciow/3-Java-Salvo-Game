@@ -6,11 +6,13 @@ var vue = new Vue({
         gridLetters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
         gpId: null,
         gpInfo: [],
-        allShips: [],
         player: [],
         playerType: "",
-        opponent: [],
+        allShips: [],
         playerHistory: [],
+        opponent: [],
+        opponentType: "",
+        allShipsOpp: [],
         opponentHistory: [],
         newShips: [],
         newSalvosLocations: [],
@@ -35,6 +37,7 @@ var vue = new Vue({
                 vue.stateF();
                 /*vue.checkGameState();*/
                 vue.shipsImagen();
+                vue.shipsImagenOpp();
                 vue.historyTablePlayer();
                 vue.historyTableOpponent();
             })
@@ -46,6 +49,7 @@ var vue = new Vue({
                     vue.playerType = vue.gpInfo.gamePlayers[i].food;
                 } else {
                     vue.opponent = vue.gpInfo.gamePlayers[i].player;
+                    vue.opponentType = vue.gpInfo.gamePlayers[i].food;
                 }
             }
 
@@ -233,7 +237,10 @@ var vue = new Vue({
         },
         /*checkGameState: function () {
             if(vue.gpInfo.state == "WAIT_OPPONENT_ATTACK" || "WAIT_FOR_AN_OPPONENT") {
+                
                 setTimeout("location.reload();", 15000);
+            } else {
+                
             }
         },*/
         stateF: function () {
@@ -261,11 +268,19 @@ var vue = new Vue({
                     contentType: "application/json"
                 })
                 .done(function () {
-                    alert("Ships positions saved");
-                    location.reload();
+                    swal({
+                        title: "Ships positions saved",
+                        icon: "success",
+                    })
+                    vue.state = vue.gpInfo.state;
+                    setTimeout("location.reload();", 1500);
+                    vue.state = vue.gpInfo.state;
                 })
                 .fail(function () {
-                    alert("Failed to add ship");
+                    swal({
+                        title: "Failed to add ship",
+                        icon: "error",
+                    })
                 })
         },
         addSalvos: function () {
@@ -276,12 +291,17 @@ var vue = new Vue({
                     contentType: "application/json"
                 })
                 .done(function () {
-                    alert("Salvos fired!")
-                    location.reload();
-
+                    swal({
+                        title: "Salvos fired!",
+                        icon: "success",
+                    })
+                    setTimeout("location.reload();", 1500);
                 })
                 .fail(function () {
-                    alert("Opponent turn!");
+                    swal({
+                        title: "Opponent turn",
+                        icon: "error",
+                    })
                 })
         },
         shipsImagen: function () {
@@ -298,6 +318,21 @@ var vue = new Vue({
             for (var i = 0; i < allShips.length; i++) {
                 vue.allShips.push(allShips[i].type);
             }
+        },
+        shipsImagenOpp: function () {
+            if ( vue.opponentType == 'VEGETARIAN') {
+             vue.allShipsOpp.push('choclo', 'pepino', 'lechuga', 'morron','papa');  
+            } else {
+             vue.allShipsOpp.push('costillar', 'pernil', 'churrasco', 'pollo','chorizo');   
+            }
+
+       /*     allShipsOpp.sort((a, b) =>
+                a.locations.length - b.locations.length
+            )
+
+            for (var i = 0; i < allShipsOpp.length; i++) {
+                vue.allShipsOpp.push(allShipsOpp[i].type);
+            }*/
         },
         historyTablePlayer: function () {
             var salvos = vue.gpInfo.salvos.filter(salvo => salvo.playerId == vue.player.id);
@@ -469,7 +504,10 @@ function saveShips() {
         vue.addShips();
 
     } else {
-        alert("Please place all ships before saving");
+        swal({
+            title: "Please place all ships before saving",
+            icon: "warning",
+        })
     };
 }
 
@@ -531,9 +569,15 @@ function alreadySavedShips() {
 /*Marcar los Salvos en la Grilla*/
 function salvoLocation(id) {
     if (vue.state == "Place Ships") {
-        alert('First need an Opponent');
+        swal({
+            title: 'Need an Opponent',
+            icon: "warning",
+        });
     } else if (vue.state == "Wait for an Opponent") {
-        alert('First need an Opponent');
+        swal({
+            title: 'First need an Opponent',
+            icon: "warning",
+        });
     } else if (vue.state == "Your Turn") {
         if (vue.newSalvosLocations.length < 5) {
             if (vue.newSalvosLocations.includes(id) == false) {
@@ -546,7 +590,10 @@ function salvoLocation(id) {
                             if (vue.newSalvosLocations.includes(y) == true) {
                                 document.getElementById(y).classList.remove("shot");
                                 quitarSalvoLocation(id);
-                                alert("You already select this cell before");
+                                swal({
+                                    title: "You already select this cell before",
+                                    icon: "warning",
+                                });
                             }
                         })
                     }
@@ -561,9 +608,15 @@ function salvoLocation(id) {
             quitarSalvoLocation(id);
         }
     } else if (vue.state == "Opponent Turn") {
-        alert('Opponent Turn');
+        swal({
+            title: 'Opponent Turn',
+            icon: "warning",
+        });
     } else {
-        alert('GAME OVER');
+        swal({
+            title: 'GAME OVER',
+            icon: "warning",
+        });
     }
 };
 
@@ -578,9 +631,15 @@ function quitarSalvoLocation(id) {
 /*Salvar los salvos en la Grilla*/
 function saveSalvoLocations() {
     if (vue.state == "Place Ships") {
-        alert('First need an Opponent');
+        swal({
+            title: 'First need an Opponent',
+            icon: "warning",
+        });
     } else if (vue.state == "Wait for an Opponent") {
-        alert('First need an Opponent');
+        swal({
+            title: 'First need an Opponent',
+            icon: "warning",
+        });
     } else if (vue.state == "Your Turn") {
         var turn = 0;
         if (vue.newSalvosLocations.length < 5) {
@@ -590,9 +649,15 @@ function saveSalvoLocations() {
             document.getElementById("buttonSaveSalvo").disabled = true;
         }
     } else if (vue.state == "Opponent Turn") {
-        alert('Opponent Turn');
+        swal({
+            title: 'Opponent Turn',
+            icon: "warning",
+        });
     } else {
-        alert('GAME OVER');
+        swal({
+            title: 'Game Over',
+            icon: "warning",
+        });
     }
 };
 

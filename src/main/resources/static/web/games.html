@@ -199,27 +199,27 @@
                                                         </ul>
                                                     </div>
                                                     <div class="col-1 link" v-for="gamePlayer in games.gamePlayers">
-                                                        <a v-on:click="joinGame(games.id)" v-if="userN !== null && userN !== gamePlayer.player.userName && games.gamePlayers.length == 1"><button type="button" class="btn btn-circle btn-xl"></button></a>
+                                                        <a v-if="userN !== null && userN !== gamePlayer.player.userName && games.gamePlayers.length == 1"><button type="button"  data-toggle="modal" data-target="#modalFoodJoin" class="btn btn-circle btn-xl" v-on:click="joinGame(games.id)"></button></a>
                                                     </div>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
+                                    
                                     <div class=" col-12 tab-pane" id="continue" role="tabpanel" aria-labelledby="continue-tab">
                                         <ul class="row listContent">
                                             <li class="continueList col-12" v-for="game in returnGameList">
                                                 <div class="row justify-content-between">
-                                                    <div class="col-10 title  align-self-center">
+                                                    <div class="col-10 continuetitle  align-self-center">
                                                         <ul class="row justify-content-between" v-for="gamePlayer in game.gamePlayers">
-                                                            <li class="col-6" v-if="userN !== null && userN !== gamePlayer.player.userName"><span>Game {{game.id}}:</span> &nbsp; {{game.creationDate | date}}</li>
-                                                            <li class="col-6" v-if="userN !== null && userN !== gamePlayer.player.userName"><span> Opponent:</span>&nbsp;{{gamePlayer.player.userName}}</li>
+                                                            <li class="col-6" ><span>Game {{game.id}}:</span> &nbsp; {{game.creationDate | date}}</li>
+                                                            <li class="col-6"><span> Opponent:</span>&nbsp;{{gamePlayer.player.userName}}</li>
 
                                                         </ul>
                                                     </div>
-                                                    <div class="col-1 link">
-                                                        <a v-for="gamePlayer in game.gamePlayers" v-if="userN !== null && userN == gamePlayer.player.userName" v-bind:href="'/web/game.html?gp='+gamePlayer.id" target="_blank"><button type="button" class="btn btn-circle btn-xl"></button></a>
+                                                    <div class="col-1 continuelink">
+                                                        <a v-for="gamePlayer in game.gamePlayers" v-if="userN !== null && userN == gamePlayer.player.userName" v-bind:href="'/web/game.html?gp='+gamePlayer.id" target="_blank"><button type="button" class="btn btn-circle btn-xl" ></button></a>
                                                     </div>
-
                                                 </div>
                                             </li>
                                         </ul>
@@ -242,16 +242,34 @@
         <!--SIGN - LOG UP-->
         <div class="modal fade" id="modalFood" tabindex="-1" role="dialog" aria-labelledby="modalFood" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div id="modalFoodContent" class="modal-content">
-                    <div id="modalFoodHeader" class="row modal-header">
-                        <h5 class="modal-title col-12" id="modalFoodTitle">CHOOSE YOUR MENU</h5>
+                <div class="modal-content modalFoodContent">
+                    <div class="row modal-header modalFoodHeader">
+                        <h5 class="modal-title col-12 modalFoodTitle" >CHOOSE YOUR MENU</h5>
                         <button type="button" class="close col-2" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div id="modalFoodBody" class="modal-body row">
-                        <button id="btnMea" type="button" class="btn btn-danger col-5" data-dismiss="modal" v-on:click="createGameMeat">MEAT</button>
-                        <button id="btnVeg" type="button" class="btn btn-primary col-5" data-dismiss="modal" v-on:click="createGameVegetables">VEGETABLES</button>
+                    <div class="modal-body row modalFoodBody">
+                        <button type="button" class="btn btn-danger col-5 btnMea" data-dismiss="modal" v-on:click="createGameMeat">MEAT</button>
+                        <button type="button" class="btn btn-primary col-5 btnVeg" data-dismiss="modal" v-on:click="createGameVegetables">VEGETABLES</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--JOIN GAME-->
+        <div class="modal fade" id="modalFoodJoin" tabindex="-1" role="dialog" aria-labelledby="modalFoodJoin" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modalFoodContent">
+                    <div class="row modal-header modalFoodHeader">
+                        <h5 class="modal-title col-12 modalFoodTitle" >CHOOSE YOUR MENU</h5>
+                        <button type="button" class="close col-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body row modalFoodBody">
+                        <button id="btnMea" type="button" class="btn btn-danger col-5" data-dismiss="modal" v-on:click="joinGameMeat(joinID)">MEAT</button>
+                        <button id="btnVeg" type="button" class="btn btn-primary col-5" data-dismiss="modal" v-on:click="joinGameVegetarian(joinID)">VEGETABLES</button>
                     </div>
                 </div>
             </div>

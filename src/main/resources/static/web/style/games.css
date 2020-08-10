@@ -555,9 +555,6 @@ h1 {
     margin: 0%;
 }
 
-/*.btn-circle.btn-xl:hover {
-    border-color: red;
-}*/
 .continueList {
     font-family:fantasy;
     font-weight: lighter;
@@ -568,15 +565,15 @@ h1 {
     margin-bottom: 2%;
 }
 
-.continueList  li span {
+.continueList li span {
     color: darkred;
 }
 
-.continueList div .title {
+.continueList div .continuetitle {
     padding-right: 0%;
 }
 
-.continueList div .link {
+.continueList div .continuelink {
     padding-left: 0%;
 }
 
@@ -616,13 +613,13 @@ h1 {
 }
 
 /*MODAL LOG*/
-#modalFoodContent {
+.modalFoodContent {
     background-image: url(../imagenes/mesaOne.jfif);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
-#modalFoodTitle {
+.modalFoodTitle {
    /* text-align: center;*/
     font-family: Rocks;
     font-size: 50px;
@@ -630,15 +627,15 @@ h1 {
     color: white;
 }
 
-#modalFoodHeader {
+.modalFoodHeader {
     margin: 0%;
 }
 
-#modalFoodHeader button {
+.modalFoodHeader button {
     margin-left:  -20%;
     margin-right: 0%;
 }
 
-#modalFoodBody {
+.modalFoodBody {
     justify-content: space-around;
 }

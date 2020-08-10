@@ -308,7 +308,9 @@ div p {
 
 #salvoGrid tbody td:hover {
     background-image: url(../imagenes/mira.png);
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .salvosSelect {
@@ -325,22 +327,30 @@ div p {
 
 .shot {
     background-image: url(../imagenes/mira.png);
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .sunk {
-    background-image: url(../imagenes/vaca.png);
-    background-size: cover;
+    background-image: url(../imagenes/caravera.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .hit {
     background-image: url(../imagenes/humohit.png);
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .miss {
     background-image: url(../imagenes/agua.png);
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /*STATUS TABLES*/
@@ -393,6 +403,8 @@ tr th {
     margin: 2%;
     font-family: 'Oswald', sans-serif;
 }
+
+/*vegetables*/
 #choclo_ {
     background-image: url('../grilla/style/choclohorOne.png');
     background-size: contain;
@@ -423,6 +435,42 @@ tr th {
 
 #papa_ {
     background-image: url('../grilla/style/papahorOne.png');
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+    }
+
+/*meat*/
+#costillar_ {
+    background-image: url('../grilla/style/costillarhorOne.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#pernil_ {
+    background-image: url('../grilla/style/pernilhorOne.png');
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#pollo_ {
+    background-image: url('../grilla/style/pollohorOne.png');
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#churrasco_ {
+    background-image: url('../grilla/style/churrascohorOne.png');
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#chorizo_ {
+    background-image: url('../grilla/style/choclohorOne.png');
     background-size: 90%;
     background-repeat: no-repeat;
     background-position: center;

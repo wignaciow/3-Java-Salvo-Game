@@ -33,7 +33,7 @@
                         <div class="row justify-content-center">
                             <img class="col-8" src="imagenes/cuchillo.png" alt="playerBox">
                             <h2 id="player" v-if="newGame"> {{player.nickname}}: <span>{{state}} !</span></h2>
-                            <h2 id="player2" v-else="newGame">{{state}}</h2>
+                            <h2 id="player2" class="col-12" v-else="newGame">{{state}}</h2>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
                         <div class="row justify-content-center ">
                             <img class="col-8" src="imagenes/cuchillo.png" alt="playerBox">
                             <h2 id="playerM" v-if="newGame"> {{player.nickname}}: <span> {{state}}</span> </h2>
-                            <h2 id="player2M" v-else="newGame">{{state}}</h2>
+                            <h2 id="player2M" class="col-12" v-else="newGame">{{state}}</h2>
                         </div>
                     </div>
                     <div id="prepare" class="col-12">
@@ -149,7 +149,8 @@
                             <div class="col-3" v-if="newGame">
                                 Place all your vegetables on the grid before saving. After you save positions, the opponent grid will be display beside your grid and the game will be ready to start!
                                 <div class="row justify-content-center">
-                                    <img id="vegano" src="imagenes/vegano.png" alt="p" class="col-12">
+                                    <img v-show="playerType === 'VEGETARIAN'" id="vegano" src="imagenes/vegano.png" alt="p" class="col-12">
+                                    <img v-show="playerType === 'MEATLOVER'" id="carnicero" src="imagenes/carnicero.png" alt="p" class="col-12">
                                 </div>
                             </div>
 
@@ -241,16 +242,16 @@
                                         <tbody>
                                             <tr>
                                                 <td class="statusPlayerGeneral">TURN</td>
-                                                <td v-show="playerType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
-                                                <td v-show="playerType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
+                                                <td v-show="opponentType === 'VEGETARIAN'" class="statusPlayerGeneral" colspan="5">OPPONENT VEGETABLES</td>
+                                                <td v-show="opponentType === 'MEATLOVER'" class="statusPlayerGeneral" colspan="5">OPPONENT MEAT</td>
                                             </tr>
                                             <tr class="historyShips">
                                                 <td style="width: 5%" class="tdnumber">{{opponentHistory.length}}</td>
-                                                <td style="width: 10%" v-bind:id="allShips[0] + '_'"></td>
-                                                <td style="width: 15%" v-bind:id="allShips[1]+ '_'"></td>
-                                                <td style="width: 15%" v-bind:id="allShips[2]+ '_'"></td>
-                                                <td style="width: 25%" v-bind:id="allShips[3]+ '_'"></td>
-                                                <td style="width: 30%" v-bind:id="allShips[4]+ '_'"></td>
+                                                <td style="width: 10%" v-bind:id="allShipsOpp[0] + '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShipsOpp[1]+ '_'"></td>
+                                                <td style="width: 15%" v-bind:id="allShipsOpp[2]+ '_'"></td>
+                                                <td style="width: 25%" v-bind:id="allShipsOpp[3]+ '_'"></td>
+                                                <td style="width: 30%" v-bind:id="allShipsOpp[4]+ '_'"></td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -2,10 +2,7 @@ package com.codeoftheweb.salvo;
 
 
 import com.codeoftheweb.salvo.models.*;
-import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
-import com.codeoftheweb.salvo.repositories.GameRepository;
-import com.codeoftheweb.salvo.repositories.PlayerRepository;
-import com.codeoftheweb.salvo.repositories.ScoreRepository;
+import com.codeoftheweb.salvo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -48,7 +45,7 @@ public class SalvoApplication {
 	public CommandLineRunner initData(PlayerRepository repository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ScoreRepository scoreRepository) {
 		return (args) -> {
 
-			Player player1 = new Player( "Jack", "j.bauer@ctu.gov", passwordEncoder.encode("24"));
+			/*Player player1 = new Player( "Jack", "j.bauer@ctu.gov", passwordEncoder.encode("24"));
 			repository.save (player1);
 			Player player2 = new Player( "Carl","c.obrian@ctu.gov", passwordEncoder.encode("42"));
 			repository.save(player2);
@@ -208,9 +205,10 @@ public class SalvoApplication {
 			gamePlayer15.addShip ( ship25);
 			gamePlayerRepository.save( gamePlayer15);
 			GamePlayer gamePlayer16 = new GamePlayer( player4, game8, Food.VEGETARIAN);
+
 			gamePlayer16.addShip ( ship26);
 			gamePlayer16.addShip ( ship27);
-			gamePlayerRepository.save( gamePlayer16);
+			gamePlayerRepository.save( gamePlayer16);*/
 
 			/*Score score1 = new Score(1, LocalDateTime.now().plusMinutes(30), player1, game1);
 			scoreRepository.save(score1);

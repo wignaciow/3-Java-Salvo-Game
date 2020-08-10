@@ -5,6 +5,7 @@ var vue = new Vue({
         gamesInfo: [],
         returnGameList: [],
         joinGameList: [],
+        joinID: 0,
         gamePlayersInfo: [],
         gameFinish: [],
         players: [],
@@ -185,10 +186,20 @@ var vue = new Vue({
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
                 })
         },
-
         joinGame: function (gameID) {
+            vue.joinID = gameID;    
+        },
+        joinGameMeat: function (gameID) {
             $.post("/api/games/" + gameID + "/player", {
-                    food: "Carnivoro"
+                    food: "MEATLOVER"
+                })
+                .done(function (data) {
+                    window.open("game.html?gp=" + data.gamePlayerId, "_blank");
+                })
+        },
+        joinGameVegetarian: function (gameID) {
+            $.post("/api/games/" + gameID + "/player", {
+                    food: "VEGETARIAN"
                 })
                 .done(function (data) {
                     window.open("game.html?gp=" + data.gamePlayerId, "_blank");
